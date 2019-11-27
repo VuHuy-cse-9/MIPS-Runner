@@ -1,0 +1,6 @@
+R add
+R sub
+I addi
+I slti
+J jal
+J j

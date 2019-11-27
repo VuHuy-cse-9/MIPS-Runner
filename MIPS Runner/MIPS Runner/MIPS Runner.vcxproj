@@ -18,6 +18,19 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Add_Instruction.cpp" />
+    <ClCompile Include="Register.cpp" />
+    <ClCompile Include="Runner.cpp" />
+    <ClCompile Include="R_Instruction.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Add_Instruction.h" />
+    <ClInclude Include="Instruction.h" />
+    <ClInclude Include="Register.h" />
+    <ClInclude Include="Runner.h" />
+    <ClInclude Include="R_Instruction.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{65951DAA-4216-43DA-BDE4-1A460AC1584C}</ProjectGuid>
@@ -150,9 +163,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="MIPS Runner.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

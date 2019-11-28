@@ -19,16 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Add_Instruction.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Register.cpp" />
-    <ClCompile Include="Runner.cpp" />
+    <ClCompile Include="Processor.cpp" />
     <ClCompile Include="R_Instruction.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Add_Instruction.h" />
     <ClInclude Include="Instruction.h" />
     <ClInclude Include="Register.h" />
-    <ClInclude Include="Runner.h" />
+    <ClInclude Include="Processor.h" />
     <ClInclude Include="R_Instruction.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

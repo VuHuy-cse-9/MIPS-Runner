@@ -21,14 +21,14 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Register.cpp" />
-    <ClCompile Include="Processor.cpp" />
-    <ClCompile Include="R_Instruction.cpp" />
+    <ClCompile Include="TextProcessor.cpp" />
+    <ClCompile Include="ThreeArgInstruction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Instruction.h" />
     <ClInclude Include="Register.h" />
-    <ClInclude Include="Processor.h" />
-    <ClInclude Include="R_Instruction.h" />
+    <ClInclude Include="TextProcessor.h" />
+    <ClInclude Include="ThreeArgInstruction.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

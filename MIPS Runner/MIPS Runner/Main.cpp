@@ -1,6 +1,7 @@
-#include "Processor.h"
+#include "TextProcessor.h"
 
 int main() {
-	Processor processor;
-	processor.readSourceFile();
+	TextProcessor textProcessor;
+	textProcessor.readSourceFile();
+	textProcessor.parseSourceToInstruction();
 }

@@ -6,6 +6,7 @@
 
 #include "Instruction.h"
 #include "ThreeArgInstruction.h"
+#include "TokenList.h"
 
 class TextProcessor
 {
@@ -23,7 +24,7 @@ public:
 
 	void readSourceFile();
 	bool isIgnoreCharacter(char);
-	void extractToken(char*, std::vector<char*>&);
+	void extractToken(char*, TokenList&);
 	Instruction* parseTextToInstruction(char*);
 	void parseSourceToInstruction();
 	

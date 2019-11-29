@@ -14,7 +14,7 @@ bool TextProcessor::isIgnoreCharacter(char c) {
 }
 
 //Remember to delete elements in listOfToken.
-void TextProcessor::extractToken(char* line, std::vector<char*>& listOfToken) {
+void TextProcessor::extractToken(char* line, TokenList& listOfToken) {
 	int i = 0;
 	while (line[i] != 0) {
 		if (!isIgnoreCharacter(line[i])) {
@@ -28,8 +28,9 @@ void TextProcessor::extractToken(char* line, std::vector<char*>& listOfToken) {
 				token[j] = line[i + j];
 			}
 			token[run - i] = 0;
-			listOfToken.push_back(token);
+			listOfToken.pushBack(token);
 			i = run;
+			delete[] token;
 		}
 		else
 			++i;
@@ -40,7 +41,7 @@ void TextProcessor::extractToken(char* line, std::vector<char*>& listOfToken) {
 Instruction* TextProcessor::parseTextToInstruction(char* line) {
 	Instruction* instruction = nullptr;	
 	
-	std::vector<char*> listOfToken;
+	TokenList listOfToken;
 	extractToken(line, listOfToken);
 
 	int numberOfArgument = listOfToken.size() - 1;
@@ -57,10 +58,6 @@ Instruction* TextProcessor::parseTextToInstruction(char* line) {
 	}
 	for (int i = 0; i < listOfToken.size(); ++i) {
 		std::cout << listOfToken[i] << '\n';
-	}
-
-	for (int i = 0; i < listOfToken.size(); ++i) {
-		delete[] listOfToken[i];
 	}
 
 	return instruction;

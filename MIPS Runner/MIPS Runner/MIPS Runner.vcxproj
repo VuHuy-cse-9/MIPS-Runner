@@ -23,12 +23,14 @@
     <ClCompile Include="Register.cpp" />
     <ClCompile Include="TextProcessor.cpp" />
     <ClCompile Include="ThreeArgInstruction.cpp" />
+    <ClCompile Include="TokenList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Instruction.h" />
     <ClInclude Include="Register.h" />
     <ClInclude Include="TextProcessor.h" />
     <ClInclude Include="ThreeArgInstruction.h" />
+    <ClInclude Include="TokenList.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

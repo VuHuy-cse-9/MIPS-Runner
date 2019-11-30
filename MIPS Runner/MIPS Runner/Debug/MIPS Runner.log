@@ -1,7 +1,2 @@
 ﻿  Register.cpp
-  TextProcessor.cpp
-D:\Minh Huy\TickLab.Work\Project.MIPS\MIPS-Runner\MIPS-Runner\MIPS Runner\MIPS Runner\TextProcessor.cpp(98,37): warning C4244: '=': conversion from 'std::streamoff' to 'int', possible loss of data
-  TokenList.cpp
-  Generating Code...
-D:\Minh Huy\TickLab.Work\Project.MIPS\MIPS-Runner\MIPS-Runner\MIPS Runner\MIPS Runner\TextProcessor.cpp(106,26): warning C4244: '+=': conversion from 'std::streamsize' to 'int', possible loss of data
   MIPS Runner.vcxproj -> D:\Minh Huy\TickLab.Work\Project.MIPS\MIPS-Runner\MIPS-Runner\MIPS Runner\Debug\MIPS Runner.exe

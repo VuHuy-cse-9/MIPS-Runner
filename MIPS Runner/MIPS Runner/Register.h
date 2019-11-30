@@ -1,12 +1,26 @@
 #pragma once
+
+#include <cstring>
+
 class Register
 {
 private:
-	int value;
+	static const char* NAME_OF_REGISTER[];
+	static const char* DIGIT_OF_REGISTER[];
+	static const int NAME_OF_REGISTER_SIZE;
+	static int memoryOfRegister[];
+
+	int* valuePtr;
+	bool haveToDeleteMemory;
 public:
 	Register();
 	Register(int);
+	Register(const char*);
+	~Register();
 
-	operator int&();
+	Register operator+(Register);
+	Register operator-(Register);
 };
+
+
 

@@ -1,6 +1,6 @@
 	lab:
 	addi $at, $zero, 31
-	addi $s0, $zero, 10
+	addi $s0, $0, 10
 	lw $s1, x
 	lb $t1, y
 	add $s2, $s1, $s0

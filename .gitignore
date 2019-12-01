@@ -1,0 +1,4 @@
+*.exe
+MIPS Runner/Debug/
+MIPS Runner/MIPS Runner/Debug/
+MIPS Runner/.vs/

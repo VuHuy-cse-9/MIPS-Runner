@@ -23,6 +23,8 @@ public:
 	Register operator-(Register);
 	Register operator&(Register);
 	Register operator|(Register);
+	Register operator<<(Register);
+	Register operator>>(Register);
 };
 
 

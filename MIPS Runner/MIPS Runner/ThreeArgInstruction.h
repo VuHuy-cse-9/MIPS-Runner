@@ -25,4 +25,7 @@ public:
 	static void sub(Register, Register, Register);
 	static void And(Register, Register, Register); // and is now allow
 	static void Or(Register, Register, Register);
+	static void sll(Register, Register, Register);
+	static void srl(Register, Register, Register);
+	//static void 
 };

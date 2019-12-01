@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <cstring>
 
 class Register
@@ -20,6 +21,8 @@ public:
 
 	Register operator+(Register);
 	Register operator-(Register);
+	Register operator&(Register);
+	Register operator|(Register);
 };
 
 

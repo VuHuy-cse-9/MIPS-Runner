@@ -1,8 +1,0 @@
-﻿  Main.cpp
-  Register.cpp
-  TextProcessor.cpp
-E:\Dev\MIPS-Runner\MIPS Runner\MIPS Runner\TextProcessor.cpp(98,37): warning C4244: '=': conversion from 'std::streamoff' to 'int', possible loss of data
-  ThreeArgInstruction.cpp
-  Generating Code...
-E:\Dev\MIPS-Runner\MIPS Runner\MIPS Runner\TextProcessor.cpp(106,26): warning C4244: '+=': conversion from 'std::streamsize' to 'int', possible loss of data
-  MIPS Runner.vcxproj -> E:\Dev\MIPS-Runner\MIPS Runner\Debug\MIPS Runner.exe

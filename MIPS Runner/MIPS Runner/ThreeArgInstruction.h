@@ -23,6 +23,6 @@ public:
 
 	static void add(Register, Register, Register);
 	static void sub(Register, Register, Register);
-
-	void log();
+	static void And(Register, Register, Register); // and is now allow
+	static void Or(Register, Register, Register);
 };

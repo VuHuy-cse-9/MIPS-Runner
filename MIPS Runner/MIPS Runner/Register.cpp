@@ -1,63 +1,30 @@
 #include "Register.h"
 
+using namespace std;
+
 const char* Register::NAME_OF_REGISTER[] = { "$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3", "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$s0", "$s1", "$s2", "$s3", "$s4", "$s5", "$s6", "$s7", "$t8", "$t9", "$k0", "$k1", "$gp", "$sp", "$fp", "$ra", "$hi", "$lo", "$pc" };
 const char* Register::DIGIT_OF_REGISTER[] = { "$0", "$1", "$2", "$3", "$4", "$5", "$6", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$16", "$17", "$18", "$19", "$20", "$21", "$22", "$23", "$24", "$25", "$26", "$27", "$28", "$29", "$30", "$31" };
 const int Register::NAME_OF_REGISTER_SIZE = 32;
 int Register::memoryOfRegister[35];
 
-#include <iostream>
-using namespace std;
 /*******************************************/
 /***********Implement toInt method**********/
 /*******************************************/
-int size(const char* token) {
-	int i = 0;
-	while (token[i] != 0) i++;
-	return i; // not include /0
-}
-
-int numb(const char* token, int length) {
-	int* valueOfUnit = new int[length];
-	for (int i = 0; i < length; ++i) {
-		valueOfUnit[i] = 0;
-	}
-	//I want to know how many unit of the literal
-	int unit = 1;
-	for (int i = 0; i < length - 1; ++i) {
-		unit = unit * 10;
-	}
-	//I creat a integer by detect that digit and mulitiple 10^(level of unit)
-	int result = 0;
-	for (int i = 0; i < length; ++i) {
-		while (valueOfUnit[i] != (int)(token[i] - 48)) {
-			++valueOfUnit[i]; // now j would be same value as digit level i;
-		}
-		result += valueOfUnit[i] * unit;
-		unit = unit / 10;
-	}
-	delete[] valueOfUnit;
-	return result;
-}
 
 int toInt(const char* token) {
-	int length = size(token);
-	int result;
-
-	if (token[0] == '-') {  // negative number
-		char* takePositiveNumber = new char[length];
-		for (int i = 1; i <= length; ++i) {
-			takePositiveNumber[i - 1] = token[i]; // My new char don't have substract's sign.
-		}
-
-		result = numb(takePositiveNumber, length - 1) * -1;
-		delete[] takePositiveNumber;
-		takePositiveNumber = nullptr;
-		return result;
+	int length = strlen(token) - 1; // eliminate \0.
+	int result = 0;
+	int begin = 0;
+	int sign = 1;
+	if (token[0] == '-') {
+		begin = 1;
+		sign = -1;
 	}
-	else {//positive number
-		result = numb(token, length);
-		return result;
+	for (int i = begin; i < length; ++i) {
+		result = result * 10 + (token[i] - '0');
 	}
+	return result * sign;
+
 }
 /****************************************************************/
 
@@ -81,8 +48,6 @@ Register::Register(const char* token) {
 			return;
 		}
 	}
-
-	//Finish toInt
 	int value = toInt(token);
 	this->valuePtr = new int;
 	*valuePtr = value;
@@ -105,3 +70,17 @@ Register Register::operator-(Register operand) {
 	Register result(dif);
 	return result;
 }
+
+Register Register::operator&(Register operand) {
+	int a = *(this->valuePtr) & *(operand.valuePtr);
+	Register result(a);
+	return result;
+}
+
+Register Register::operator|(Register operand) {
+	int a = *(this->valuePtr) | *(operand.valuePtr);
+	Register result(a);
+	return result;
+}
+
+

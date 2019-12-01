@@ -20,3 +20,11 @@ void ThreeArgInstruction::add(Register rd, Register rs, Register rt) {
 void ThreeArgInstruction::sub(Register rd, Register rs, Register rt) {
 	rd = rs - rt;
 }
+
+void ThreeArgInstruction::And(Register rd, Register rs, Register rt) {
+	rd = rs & rt;
+}
+
+void ThreeArgInstruction::Or(Register rd, Register rs, Register rt) {
+	rd = rs | rt;
+}

@@ -54,7 +54,7 @@ Register::Register(const char* token) {
 	this->haveToDeleteMemory = true;
 }
 
-// NEVER pass a Register contain memory for real Register by value.
+// NEVER pass a (Register contain memory for real Register) by value.
 Register::Register(const Register& source) {
 	this->valuePtr = new int(*source.valuePtr);
 	this->haveToDeleteMemory = true;

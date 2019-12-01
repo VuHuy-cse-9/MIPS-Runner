@@ -4,16 +4,12 @@
 int main() {
 	TextProcessor textProcessor;
 	textProcessor.readSourceFile();
-	textProcessor.parseSourceToInstruction();
 
-	/* for testing
-	TokenList tokenlist;
-	tokenlist.pushBack((char*)"sub");
-	tokenlist.pushBack((char*)"$s0");
-	tokenlist.pushBack((char*)"$zero");
-	tokenlist.pushBack((char*)"2");
-	ThreeArgInstruction ins(tokenlist);
-	ins.execute();
-	*/
+	int numberOfInstruction = 0;
+	Instruction** instructionList = nullptr;
+	textProcessor.parseSourceToInstruction(instructionList, numberOfInstruction);
+
+	for (int i = 0; i < numberOfInstruction; ++i)
+		instructionList[i]->execute();
 	return 0;
 }

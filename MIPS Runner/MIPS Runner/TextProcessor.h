@@ -16,16 +16,14 @@ private:
 	char* sourceCode;
 	int numberOfCharacter;
 
-	Instruction** instructionList;
-	int numberOfInstruction;
+	bool isIgnoreCharacter(char);
+	void extractToken(char*, TokenList&);
+	Instruction* parseTextToInstruction(char*);
 
 public:
 	~TextProcessor();
 
 	void readSourceFile();
-	bool isIgnoreCharacter(char);
-	void extractToken(char*, TokenList&);
-	Instruction* parseTextToInstruction(char*);
-	void parseSourceToInstruction();
+	void parseSourceToInstruction(Instruction**&, int&);
 	
 };

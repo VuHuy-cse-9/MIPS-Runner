@@ -64,7 +64,7 @@ Instruction* TextProcessor::parseTextToInstruction(char* line) {
 }
 
 
-void TextProcessor::parseSourceToInstruction() {
+void TextProcessor::parseSourceToInstruction(Instruction**& instructionList, int& numberOfInstruction) {
 	// Count the number of instructions and allocate memory for them.
 	numberOfInstruction = 0;
 	for (int i = 0; i < numberOfCharacter; ++i) 
@@ -107,9 +107,9 @@ void TextProcessor::readSourceFile() {
 		if (sourceCode[i - 1] == 0) sourceCode[i - 1] = '\n';
 	}
 
-	numberOfCharacter = i;
-	sourceCode[numberOfCharacter] = '\n';
-	sourceCode[numberOfCharacter + 1] = 0;
+	numberOfCharacter = i + 1;
+	sourceCode[numberOfCharacter - 1] = '\n';
+	sourceCode[numberOfCharacter] = 0;
 
 	for (int i = 0; i < numberOfCharacter; ++i)
 		if (sourceCode[i] == ':') 

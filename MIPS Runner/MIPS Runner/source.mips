@@ -1,7 +1,5 @@
-	lab:
-	addi $at, $zero, -31
-	and $s0, $0, 10
-	lw $s1, x
-	lb $t1, y
-	add $s2, $s1, $s0
-	j lab
+addi $t0, $zero, 15
+addi $t1, $0, 24
+sub $s0, $t0, $t1
+	sll $s1, $t1, 2
+srl $s2  ,   $t1,   1

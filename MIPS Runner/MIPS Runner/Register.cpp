@@ -12,7 +12,7 @@ int Register::memoryOfRegister[35];
 /*******************************************/
 
 int toInt(const char* token) {
-	int length = strlen(token) - 1; // eliminate \0.
+	int length = strlen(token);
 	int result = 0;
 	int begin = 0;
 	int sign = 1;
@@ -82,5 +82,21 @@ Register Register::operator|(Register operand) {
 	Register result(a);
 	return result;
 }
+
+Register Register::operator<<(Register operand) {
+	int a = *(this->valuePtr) << *(operand.valuePtr);
+	Register result(a);
+	return a;
+}
+
+Register Register::operator>>(Register operand) {
+	int a = *(this->valuePtr) >> *(operand.valuePtr);
+	Register result(a);
+	return a;
+}
+
+
+
+
 
 

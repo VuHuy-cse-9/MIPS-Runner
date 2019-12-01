@@ -5,6 +5,8 @@ const char* Register::DIGIT_OF_REGISTER[] = { "$0", "$1", "$2", "$3", "$4", "$5"
 const int Register::NAME_OF_REGISTER_SIZE = 32;
 int Register::memoryOfRegister[35];
 
+#include <iostream>
+using namespace std;
 /*******************************************/
 /***********Implement toInt method**********/
 /*******************************************/
@@ -19,20 +21,20 @@ int numb(const char* token, int length) {
 	for (int i = 0; i < length; ++i) {
 		valueOfUnit[i] = 0;
 	}
-//I want to know how many unit of the literal
+	//I want to know how many unit of the literal
 	int unit = 1;
-	for( int i = 0; i < length - 1; ++i ) {
+	for (int i = 0; i < length - 1; ++i) {
 		unit = unit * 10;
 	}
-//I creat a integer by detect that digit and mulitiple 10^(level of unit)
+	//I creat a integer by detect that digit and mulitiple 10^(level of unit)
 	int result = 0;
 	for (int i = 0; i < length; ++i) {
-		while (valueOfUnit[i] != (int)(token[i] + 48)) {
+		while (valueOfUnit[i] != (int)(token[i] - 48)) {
 			++valueOfUnit[i]; // now j would be same value as digit level i;
 		}
 		result += valueOfUnit[i] * unit;
 		unit = unit / 10;
-	} 
+	}
 	delete[] valueOfUnit;
 	return result;
 }
@@ -41,13 +43,13 @@ int toInt(const char* token) {
 	int length = size(token);
 	int result;
 
-	if(token[0] == '-'){  // negative number
-		char* takePositiveNumber = new char[length - 1];
-		for (int i = 1; i < length; ++i) {
+	if (token[0] == '-') {  // negative number
+		char* takePositiveNumber = new char[length];
+		for (int i = 1; i <= length; ++i) {
 			takePositiveNumber[i - 1] = token[i]; // My new char don't have substract's sign.
 		}
 
-		result = numb(takePositiveNumber, length) * -1;
+		result = numb(takePositiveNumber, length - 1) * -1;
 		delete[] takePositiveNumber;
 		takePositiveNumber = nullptr;
 		return result;

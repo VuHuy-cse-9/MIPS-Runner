@@ -53,12 +53,12 @@ Instruction* TextProcessor::parseTextToInstruction(char* line) {
 		case 2:
 			break;
 		case 3:
-			//instruction = new ThreeArgInstruction(listOfToken);
+			instruction = new ThreeArgInstruction(listOfToken);
 			break;
 	}
-	for (int i = 0; i < listOfToken.size(); ++i) {
+	/*for (int i = 0; i < listOfToken.size(); ++i) {
 		std::cout << listOfToken[i] << '\n';
-	}
+	}*/
 
 	return instruction;
 }

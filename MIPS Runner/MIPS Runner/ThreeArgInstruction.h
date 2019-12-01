@@ -11,7 +11,7 @@
 class ThreeArgInstruction : public Instruction {
 protected:
 	Register rd, rs, rt;
-	void (*function)(Register, Register, Register);
+	void (*function)(Register&, Register&, Register&);
 public:
 	
 	static const char* THREE_ARG_INSTRUCTION_LIST[];
@@ -21,11 +21,11 @@ public:
 
 	void execute() override;
 
-	static void add(Register, Register, Register);
-	static void sub(Register, Register, Register);
-	static void And(Register, Register, Register); // and is now allow
-	static void Or(Register, Register, Register);
-	static void sll(Register, Register, Register);
-	static void srl(Register, Register, Register);
+	static void add(Register&, Register&, Register&);
+	static void sub(Register&, Register&, Register&);
+	static void And(Register&, Register&, Register&); // and is now allow
+	static void Or(Register&, Register&, Register&);
+	static void sll(Register&, Register&, Register&);
+	static void srl(Register&, Register&, Register&);
 	//static void 
 };

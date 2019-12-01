@@ -54,49 +54,42 @@ Register::Register(const char* token) {
 	this->haveToDeleteMemory = true;
 }
 
+// NEVER pass a Register contain memory for real Register by value.
+Register::Register(const Register& source) {
+	this->valuePtr = new int(*source.valuePtr);
+	this->haveToDeleteMemory = true;
+}
+
 Register::~Register() {
 	if (this->haveToDeleteMemory)
 		delete this->valuePtr;
 }
 
-Register Register::operator+(Register operand) {
-	int sum = *(this->valuePtr) + *operand.valuePtr;
-	Register result(sum);
-	return result;
+Register& Register::operator=(const Register& operand) & {
+	*(this->valuePtr) = *operand.valuePtr;
+	return *this;
 }
 
-Register Register::operator-(Register operand) {
-	int dif = *(this->valuePtr) - *(operand.valuePtr);
-	Register result(dif);
-	return result;
+Register Register::operator+(const Register& operand) const & {
+	return Register(*(this->valuePtr) + *operand.valuePtr);
 }
 
-Register Register::operator&(Register operand) {
-	int a = *(this->valuePtr) & *(operand.valuePtr);
-	Register result(a);
-	return result;
+Register Register::operator-(const Register& operand) const & {
+	return Register(*(this->valuePtr) - *operand.valuePtr);
 }
 
-Register Register::operator|(Register operand) {
-	int a = *(this->valuePtr) | *(operand.valuePtr);
-	Register result(a);
-	return result;
+Register Register::operator&(const Register& operand) const & {
+	return Register(*(this->valuePtr) & *operand.valuePtr);
 }
 
-Register Register::operator<<(Register operand) {
-	int a = *(this->valuePtr) << *(operand.valuePtr);
-	Register result(a);
-	return a;
+Register Register::operator|(const Register& operand) const & {
+	return Register(*(this->valuePtr) | *operand.valuePtr);
 }
 
-Register Register::operator>>(Register operand) {
-	int a = *(this->valuePtr) >> *(operand.valuePtr);
-	Register result(a);
-	return a;
+Register Register::operator<<(const Register& operand) const & {
+	return Register(*(this->valuePtr) << *operand.valuePtr);
 }
 
-
-
-
-
-
+Register Register::operator>>(const Register& operand) const & {
+	return Register(*(this->valuePtr) >> *operand.valuePtr);
+}

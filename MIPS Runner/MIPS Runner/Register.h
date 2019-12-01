@@ -17,14 +17,16 @@ public:
 	Register();
 	Register(int);
 	Register(const char*);
+	Register(const Register&);
 	~Register();
 
-	Register operator+(Register);
-	Register operator-(Register);
-	Register operator&(Register);
-	Register operator|(Register);
-	Register operator<<(Register);
-	Register operator>>(Register);
+	Register& operator=(const Register&) &;
+	Register operator+(const Register&) const &;
+	Register operator-(const Register&) const &;
+	Register operator&(const Register&) const &;
+	Register operator|(const Register&) const &;
+	Register operator<<(const Register&) const &;
+	Register operator>>(const Register&) const &;
 };
 
 

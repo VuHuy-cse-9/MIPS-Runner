@@ -18,6 +18,7 @@ public:
 	Register(int);
 	Register(const char*);
 	Register(const Register&);
+	void getRegister();
 	~Register();
 
 	Register& operator=(const Register&) &;
@@ -27,8 +28,8 @@ public:
 	Register operator|(const Register&) const &;
 	Register operator<<(const Register&) const &;
 	Register operator>>(const Register&) const &;
-	Register operator+=(const Register&) const&;// addu
-	Register operator-=(const Register&) const&;//subu
+	Register addu(const Register&) const&;// addu
+	Register subu(const Register&) const&;//subu
 	Register operator*(const Register&) const&;
 	Register operator<(const Register&) const&;
 };

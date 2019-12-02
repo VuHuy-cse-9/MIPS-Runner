@@ -1,7 +1,7 @@
 #include "TokenList.h"
 
 
-const int TokenList::MAX_SIZE = 4;
+const int TokenList::MAX_SIZE = 5;
 
 TokenList::TokenList() {
 	numberOfToken = 0;

@@ -67,12 +67,6 @@ Register::~Register() {
 		delete this->valuePtr;
 }
 
-void Register::getRegister() {
-	for (int i = 0; i < NAME_OF_REGISTER_SIZE; ++i) {
-		cout << NAME_OF_REGISTER[i] << ": " << memoryOfRegister[i] << '\n';
-	}
-}
-
 Register& Register::operator=(const Register& operand) & {
 	*(this->valuePtr) = *operand.valuePtr;
 	return *this;

@@ -4,6 +4,7 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& listOfToken)
 	: rd(listOfToken[1]), rs(listOfToken[2]), rt(listOfToken[3]) {
 
 	function = nullptr;
+//we neeed 3 three instruction here
 	if (strcmp(listOfToken[0], "add") == 0) this->function = add;
 	if (strcmp(listOfToken[0], "sub") == 0) this->function = sub;
 	if (strcmp(listOfToken[0], "mul") == 0) this->function = mul;
@@ -13,6 +14,7 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& listOfToken)
 	if (strcmp(listOfToken[0], "or") == 0) this->function = Or;
 	if (strcmp(listOfToken[0], "and") == 0) this->function = And;
 
+//separate i for what?we need 2 instruction and 1 literal
 	if (strcmp(listOfToken[0], "addi") == 0)this->function = add;
 	if (strcmp(listOfToken[0], "addiu") == 0) this->function = addu;
 	if (strcmp(listOfToken[0], "subiu") == 0) this->function = sub;
@@ -22,7 +24,13 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& listOfToken)
 	if (strcmp(listOfToken[0], "srl") == 0) this->function = srl;
 	if (strcmp(listOfToken[0], "subi") == 0) this->function = sub;
 	if (strcmp(listOfToken[0], "slti") == 0) this->function = slt;
-	//rd.getRegister();
+	
+	if (strcmp(listOfToken[0], "beq") == 0) this->function = beq;
+	if (strcmp(listOfToken[0], "bne") == 0) this->function = bne;
+	if (strcmp(listOfToken[0], "bgt") == 0) this->function = bgt;
+	if (strcmp(listOfToken[0], "bge") == 0) this->function = bge;
+	if (strcmp(listOfToken[0], "blt") == 0) this->function = blt;
+	if (strcmp(listOfToken[0], "ble") == 0) this->function = ble;
 } 
 
 void ThreeArgInstruction::execute() {
@@ -69,3 +77,29 @@ void ThreeArgInstruction::mul(Register& rd, Register& rs, Register& rt) {
 void ThreeArgInstruction::slt(Register& rd, Register& rs, Register& rt) {
 	rd = rs < rt;
 }
+
+//problem with this function
+void ThreeArgInstruction::beq(Register& rd, Register& rs, Register& rt) {
+	if (rd == rs) rt.pc = rt.advance(4);
+}
+
+void ThreeArgInstruction::bne(Register& rd, Register& rs, Register& rt) {
+	if (rd != rs) rt.pc = rt.advance(4);
+}
+
+void ThreeArgInstruction::bgt(Register& rd, Register& rs, Register& rt) {
+	if (rd > rs) rt.pc = rt.advance(4);
+}
+
+void ThreeArgInstruction::bge(Register& rd, Register& rs, Register& rt) {
+	if (rd >= rs) rt.pc = rt.advance(4);
+}
+
+void ThreeArgInstruction::blt(Register& rd, Register& rs, Register& rt) {
+	if (rd < rs) rt.pc = rt.advance(4);
+}
+
+void ThreeArgInstruction::ble(Register& rd, Register& rs, Register& rt) {
+	if (rd <= rs)  rt.pc = rt.advance(4);
+}
+

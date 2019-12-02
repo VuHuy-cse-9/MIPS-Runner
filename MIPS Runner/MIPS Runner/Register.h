@@ -45,9 +45,15 @@ public:
 	Register operator<(const Register&) const &;
 	Register addUnsigned(const Register&) const &;
 	Register subtractUnsigned(const Register&) const &;
-
+	bool operator>(const Register&) const &;
+	bool operator==(const Register&) const &;
+	bool operator!=(const Register&) const&;
+	bool operator>= (const Register&) const&;
+	bool operator< (Register&);
+	bool operator<= (const Register&) const &;
+	operator int();
 	int getValue();
-	void advance(int);
+	int advance(int);
 };
 
 

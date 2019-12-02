@@ -122,6 +122,38 @@ int Register::getValue() {
 	return *valuePtr;
 }
 
-void Register::advance(int amount) {
+int Register::advance(int amount) {
 	*valuePtr += amount;
+	return *valuePtr;
 }
+
+bool Register::operator==(const Register& operand) const& {
+	return *(this->valuePtr) == *(operand.valuePtr);
+}
+
+bool Register::operator!=(const Register& operand) const& {
+	return *(this->valuePtr) != *(operand.valuePtr);
+}
+
+Register::operator int() {
+	return *(this->valuePtr);
+}
+
+bool Register ::operator>(const Register& operand) const& {
+	return *(this->valuePtr) > * (operand.valuePtr);
+}
+
+bool Register ::operator>=(const Register& operand) const& {
+	return *(this->valuePtr) >= * (operand.valuePtr);
+}
+
+bool Register ::operator<(Register& operand) {
+	return *(this->valuePtr) < * (operand.valuePtr);
+}
+
+bool Register ::operator<=(const Register& operand) const& {
+	return *(this->valuePtr)  <= *(operand.valuePtr);
+}
+
+
+

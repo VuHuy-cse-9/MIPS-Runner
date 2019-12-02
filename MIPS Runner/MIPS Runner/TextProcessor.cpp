@@ -81,7 +81,6 @@ void TextProcessor::parseSourceToInstruction(Instruction**& instructionList, int
 			for (int j = 0; j < i - begin; ++j) 
 				line[j] = sourceCode[begin + j];
 			line[i - begin] = 0;
-
 			instructionList[instructionCount] = parseTextToInstruction(line);
 			++instructionCount;
 			begin = i + 1;

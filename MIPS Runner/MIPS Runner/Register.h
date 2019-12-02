@@ -28,10 +28,10 @@ public:
 	Register operator|(const Register&) const &;
 	Register operator<<(const Register&) const &;
 	Register operator>>(const Register&) const &;
-	Register addu(const Register&) const&;// addu
-	Register subu(const Register&) const&;//subu
-	Register operator*(const Register&) const&;
-	Register operator<(const Register&) const&;
+	Register addu(const Register&) const &;// addu
+	Register subu(const Register&) const &;//subu
+	Register operator*(const Register&) const &;
+	Register operator<(const Register&) const &;
 };
 
 

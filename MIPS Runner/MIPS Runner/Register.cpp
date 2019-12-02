@@ -93,3 +93,15 @@ Register Register::operator<<(const Register& operand) const & {
 Register Register::operator>>(const Register& operand) const & {
 	return Register(*(this->valuePtr) >> *operand.valuePtr);
 }
+
+Register Register::operator+=(const Register& operand) const& {
+	return Register((unsigned int)*(this->valuePtr) + (unsigned int)*operand.valuePtr);
+}
+
+Register Register::operator-=(const Register& operand) const& {
+	return Register((unsigned int) * (this->valuePtr) - (unsigned int)*operand.valuePtr);
+}
+
+Register Register::operator*(const Register& operand) const& {
+	return Register(* (this->valuePtr) * *(operand.valuePtr));
+}

@@ -27,6 +27,10 @@ public:
 	Register operator|(const Register&) const &;
 	Register operator<<(const Register&) const &;
 	Register operator>>(const Register&) const &;
+	Register operator+=(const Register&) const&;
+	Register operator-=(const Register&) const&;
+	Register operator*(const Register&) const&;
+	
 };
 
 

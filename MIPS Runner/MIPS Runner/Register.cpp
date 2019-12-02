@@ -65,6 +65,12 @@ Register::~Register() {
 		delete this->valuePtr;
 }
 
+void Register::getRegister() {
+	for (int i = 0; i < 35; ++i) {
+		cout << NAME_OF_REGISTER[i] << ": " << memoryOfRegister[i] << '\n';
+	}
+}
+
 Register& Register::operator=(const Register& operand) & {
 	*(this->valuePtr) = *operand.valuePtr;
 	return *this;
@@ -94,11 +100,11 @@ Register Register::operator>>(const Register& operand) const & {
 	return Register(*(this->valuePtr) >> *operand.valuePtr);
 }
 
-Register Register::operator+=(const Register& operand) const& {
+Register Register::addu(const Register& operand) const& {
 	return Register((unsigned int)*(this->valuePtr) + (unsigned int)*operand.valuePtr);
 }
 
-Register Register::operator-=(const Register& operand) const& {
+Register Register::subu(const Register& operand) const& {
 	return Register((unsigned int) * (this->valuePtr) - (unsigned int)*operand.valuePtr);
 }
 

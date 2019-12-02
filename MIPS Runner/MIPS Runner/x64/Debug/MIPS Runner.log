@@ -4,7 +4,6 @@
 D:\Minh Huy\TickLab.Work\Project.MIPS\MIPS-Runner\MIPS-Runner\MIPS Runner\MIPS Runner\Register.cpp(15,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Minh Huy\TickLab.Work\Project.MIPS\MIPS-Runner\MIPS-Runner\MIPS Runner\MIPS Runner\TextProcessor.cpp(98,37): warning C4244: '=': conversion from 'std::streamoff' to 'int', possible loss of data
   ThreeArgInstruction.cpp
-  TokenList.cpp
   Generating Code...
 D:\Minh Huy\TickLab.Work\Project.MIPS\MIPS-Runner\MIPS-Runner\MIPS Runner\MIPS Runner\TextProcessor.cpp(106,26): warning C4244: '+=': conversion from 'std::streamsize' to 'int', possible loss of data
   MIPS Runner.vcxproj -> D:\Minh Huy\TickLab.Work\Project.MIPS\MIPS-Runner\MIPS-Runner\MIPS Runner\x64\Debug\MIPS Runner.exe

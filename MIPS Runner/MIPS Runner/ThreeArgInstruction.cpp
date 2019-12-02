@@ -23,6 +23,7 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& listOfToken)
 	if (strcmp(listOfToken[0], "mul") == 0) this->function = mul;
 	if (strcmp(listOfToken[0], "slt") == 0) this->function = slt;
 	if (strcmp(listOfToken[0], "slti") == 0) this->function = slt;
+	//rd.getRegister();
 } 
 
 void ThreeArgInstruction::execute() {
@@ -34,16 +35,16 @@ void ThreeArgInstruction::add(Register& rd, Register& rs, Register& rt) {
 	rd = rs + rt;
 }
 
-void ThreeArgInstruction::addu(Register& rd, Register& rs, Register& rt) {
-	rd = rs += rt;
+void ThreeArgInstruction::addu(Register& rd, Register& rs, Register& rt) { // 
+	rd = rs.addu(rt);
 }
 
 void ThreeArgInstruction::sub(Register& rd, Register& rs, Register& rt) {
 	rd = rs - rt;
 }
 
-void ThreeArgInstruction::subu(Register& rd, Register& rs, Register& rt) {
-	rd = rs -= rt;
+void ThreeArgInstruction::subu(Register& rd, Register& rs, Register& rt) { // 
+	rd = rs.subu(rt);
 }
 
 void ThreeArgInstruction::And(Register& rd, Register& rs, Register& rt) {

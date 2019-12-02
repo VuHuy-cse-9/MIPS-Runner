@@ -25,10 +25,6 @@ protected:
 	static void slt(Register&, Register&, Register&);
 	
 public:
-	
-	static const char* THREE_ARG_INSTRUCTION_LIST[];
-	static const int THREE_ARG_INSTRUCTION_LIST_SIZE;
-
 	ThreeArgInstruction(TokenList&);
 
 	void execute() override;

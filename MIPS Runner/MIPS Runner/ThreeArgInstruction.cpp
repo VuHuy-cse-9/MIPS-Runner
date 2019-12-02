@@ -35,7 +35,7 @@ void ThreeArgInstruction::add(Register& rd, Register& rs, Register& rt) {
 }
 
 void ThreeArgInstruction::addu(Register& rd, Register& rs, Register& rt) { // 
-	rd = rs.addu(rt);
+	rd = rs.addUnsigned(rt);
 }
 
 void ThreeArgInstruction::sub(Register& rd, Register& rs, Register& rt) {
@@ -43,7 +43,7 @@ void ThreeArgInstruction::sub(Register& rd, Register& rs, Register& rt) {
 }
 
 void ThreeArgInstruction::subu(Register& rd, Register& rs, Register& rt) { // 
-	rd = rs.subu(rt);
+	rd = rs.subtractUnsigned(rt);
 }
 
 void ThreeArgInstruction::And(Register& rd, Register& rs, Register& rt) {

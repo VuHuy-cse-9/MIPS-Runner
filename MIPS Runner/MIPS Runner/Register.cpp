@@ -2,9 +2,9 @@
 
 using namespace std;
 
-const char* Register::NAME_OF_REGISTER[] = { "$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3", "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$s0", "$s1", "$s2", "$s3", "$s4", "$s5", "$s6", "$s7", "$t8", "$t9", "$k0", "$k1", "$gp", "$sp", "$fp", "$ra", "$hi", "$lo", "$pc" };
-const char* Register::DIGIT_OF_REGISTER[] = { "$0", "$1", "$2", "$3", "$4", "$5", "$6", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$16", "$17", "$18", "$19", "$20", "$21", "$22", "$23", "$24", "$25", "$26", "$27", "$28", "$29", "$30", "$31" };
-const int Register::NAME_OF_REGISTER_SIZE = 32;
+const char* Register::NAME_OF_REGISTER[] = { "$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3", "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$s0", "$s1", "$s2", "$s3", "$s4", "$s5", "$s6", "$s7", "$t8", "$t9", "$k0", "$k1", "$gp", "$sp", "$fp", "$ra", "$hi", "$lo", "$pc"};
+const char* Register::DIGIT_OF_REGISTER[] = { "$0", "$1", "$2", "$3", "$4", "$5", "$6", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$16", "$17", "$18", "$19", "$20", "$21", "$22", "$23", "$24", "$25", "$26", "$27", "$28", "$29", "$30", "$31", "$32", "$33", "$34"};
+const int Register::NAME_OF_REGISTER_SIZE = 35;
 int Register::memoryOfRegister[Register::NAME_OF_REGISTER_SIZE];
 int Register::hi, Register::lo;
 int Register::pc;
@@ -39,13 +39,17 @@ Register::Register(int _value) {
 // Classify token as register, variable, label, constant.
 // TODO: implement variable and label part.
 Register::Register(const char* token) {
+	// TODO: give compile error when source code try to access $hi, $lo, $pc.
 	for (int i = 0; i < NAME_OF_REGISTER_SIZE; ++i) {
 		if (strcmp(NAME_OF_REGISTER[i], token) == 0 || strcmp(DIGIT_OF_REGISTER[i], token) == 0) {
 			this->valuePtr = memoryOfRegister + i;
+			*(this->valuePtr) = 0;
 			this->haveToDeleteMemory = false;
 			return;
 		}
 	}
+
+	// TODO: implement case that token is a real number.
 	int value = toInt(token);
 	this->valuePtr = new int;
 	*valuePtr = value;
@@ -114,4 +118,10 @@ Register Register::operator<(const Register& operand) const & {
 	return Register(*(this->valuePtr) < *(operand.valuePtr));
 }
 
+int Register::getValue() {
+	return *valuePtr;
+}
 
+void Register::advance(int amount) {
+	*valuePtr += amount;
+}

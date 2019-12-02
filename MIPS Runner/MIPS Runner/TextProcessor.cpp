@@ -56,6 +56,7 @@ Instruction* TextProcessor::parseTextToInstruction(char* line) {
 			instruction = new ThreeArgInstruction(listOfToken);
 			break;
 	}
+
 	/*for (int i = 0; i < listOfToken.size(); ++i) {
 		std::cout << listOfToken[i] << '\n';
 	}*/

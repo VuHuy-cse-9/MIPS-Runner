@@ -1,5 +1,5 @@
 #include "TextProcessor.h"
-#include "ThreeArgInstruction.h"
+#include "Processor.h"
 
 int main() {
 	TextProcessor textProcessor;
@@ -8,8 +8,7 @@ int main() {
 	int numberOfInstruction = 0;
 	Instruction** instructionList = nullptr;
 	textProcessor.parseSourceToInstruction(instructionList, numberOfInstruction);
-
-	for (int i = 0; i < numberOfInstruction; ++i)
-		instructionList[i]->execute();
-	return 0;
+	
+	Processor processor(instructionList, numberOfInstruction);
+	processor.run();
 }

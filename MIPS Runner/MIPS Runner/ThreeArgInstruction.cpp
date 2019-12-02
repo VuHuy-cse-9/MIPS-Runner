@@ -22,7 +22,7 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& listOfToken)
 	if (strcmp(listOfToken[0], "srl") == 0) this->function = srl;
 	if (strcmp(listOfToken[0], "subi") == 0) this->function = sub;
 	if (strcmp(listOfToken[0], "slti") == 0) this->function = slt;
-	rd.getRegister();
+	//rd.getRegister();
 } 
 
 void ThreeArgInstruction::execute() {

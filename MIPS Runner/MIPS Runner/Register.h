@@ -45,6 +45,9 @@ public:
 	Register operator<(const Register&) const &;
 	Register addUnsigned(const Register&) const &;
 	Register subtractUnsigned(const Register&) const &;
+
+	int getValue();
+	void advance(int);
 };
 
 

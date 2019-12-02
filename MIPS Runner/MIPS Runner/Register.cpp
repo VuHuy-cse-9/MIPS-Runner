@@ -105,3 +105,9 @@ Register Register::operator-=(const Register& operand) const& {
 Register Register::operator*(const Register& operand) const& {
 	return Register(* (this->valuePtr) * *(operand.valuePtr));
 }
+
+Register Register::operator<(const Register& operand) const& {
+	return Register(*(this->valuePtr) < *(operand.valuePtr));
+}
+
+

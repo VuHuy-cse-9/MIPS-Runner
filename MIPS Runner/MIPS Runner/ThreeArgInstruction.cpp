@@ -15,10 +15,14 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& listOfToken)
 	if (strcmp(listOfToken[0], "subu") == 0) this->function = subu;
 	if (strcmp(listOfToken[0], "subiu") == 0) this->function = sub;
 	if (strcmp(listOfToken[0], "and") == 0) this->function = And;
+	if (strcmp(listOfToken[0], "andi") == 0) this->function = And;
 	if (strcmp(listOfToken[0], "or") == 0) this->function = Or;
+	if (strcmp(listOfToken[0], "ori") == 0) this->function = Or;
 	if (strcmp(listOfToken[0], "sll") == 0) this->function = sll;
 	if (strcmp(listOfToken[0], "srl") == 0) this->function = srl;
 	if (strcmp(listOfToken[0], "mul") == 0) this->function = mul;
+	if (strcmp(listOfToken[0], "slt") == 0) this->function = slt;
+	if (strcmp(listOfToken[0], "slti") == 0) this->function = slt;
 } 
 
 void ThreeArgInstruction::execute() {
@@ -56,4 +60,12 @@ void ThreeArgInstruction::sll(Register& rd, Register& rs, Register& rt) {
 
 void ThreeArgInstruction::srl(Register& rd, Register& rs, Register& rt) {
 	rd = rs >> rt;
+}
+
+void ThreeArgInstruction::mul(Register& rd, Register& rs, Register& rt) {
+	rd = rs * rt;
+}
+
+void ThreeArgInstruction::slt(Register& rd, Register& rs, Register& rt) {
+	rd = rs < rt;
 }

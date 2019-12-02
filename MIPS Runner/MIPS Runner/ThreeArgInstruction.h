@@ -22,6 +22,7 @@ protected:
 	static void sll(Register&, Register&, Register&);
 	static void srl(Register&, Register&, Register&);
 	static void mul(Register&, Register&, Register&);
+	static void slt(Register&, Register&, Register&);
 	
 public:
 	

@@ -31,7 +31,6 @@ public:
 	Register(int);
 	Register(const char*);
 	Register(const Register&);
-	void getRegister();
 	~Register();
 
 	Register& operator=(const Register&) &;

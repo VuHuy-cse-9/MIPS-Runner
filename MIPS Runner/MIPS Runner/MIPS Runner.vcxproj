@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LabelManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="OneArgInstruction.cpp" />
     <ClCompile Include="Processor.cpp" />
@@ -32,7 +31,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Instruction.h" />
-    <ClInclude Include="LabelManager.h" />
     <ClInclude Include="OneArgInstruction.h" />
     <ClInclude Include="Processor.h" />
     <ClInclude Include="Register.h" />

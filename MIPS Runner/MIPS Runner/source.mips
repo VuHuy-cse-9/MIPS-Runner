@@ -1,6 +1,9 @@
-lab: j lab
-addi $t0, $zero, 15
-addi $t1, $0, 24
-sub $s0, $t0, $t1
-	sll $s1, $t1, 2
-srl $s2  ,   $t1,   1
+lab: 
+addi $s1,$zero,10
+addi $s2,$zero,20
+beq $s1,$s2,20
+bgt $s1,$s2,20
+bge $s1,$s2,20
+blt $s1,$s2,20
+ble $s1,$s2,20
+j lab

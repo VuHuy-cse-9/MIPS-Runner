@@ -20,6 +20,7 @@ TokenList::TokenList (char* line) {
 	tokenListSize = 0;
 	tokenList = new char* [MAX_SIZE];
 	int i = 0;
+	//We need to update here
 	while (line[i] != 0) {
 		if (!isDelimiter(line[i])) {
 			int run = i;

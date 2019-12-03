@@ -7,6 +7,11 @@ const char* Register::DIGIT_OF_REGISTER[] = { "$0", "$1", "$2", "$3", "$4", "$5"
 const int Register::NAME_OF_REGISTER_SIZE = 35;
 int Register::memoryOfRegister[Register::NAME_OF_REGISTER_SIZE];
 
+void* Register::getAddress(const char* token) { // This token have been eliminated space
+	//TODO:
+	
+}
+
 int toInt(const char* token) {
 	int length = strlen(token);
 	int result = 0;
@@ -53,6 +58,16 @@ Register::Register(const char* token) {
 			return;
 		}
 	}
+	//check if token is a Address e.g List+4($s1)
+	//TODO:We need to give valuePtr a address right ?
+	for (int i = 0; i < strlen(token); ++i) {
+		//I need to add name of Label,which is saved?
+		if (token[i] == '(')
+			this->valuePtr = (int*)getAddress(token);
+		this->haveToDeleteMemory = true; // because this store a immediate value;
+	}
+
+
 	// Check if token is a label.
 	this->valuePtr = (int*) LabelManager::getLabel(token);
 	if (this->valuePtr) {

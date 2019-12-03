@@ -8,10 +8,11 @@ class TokenList
 {
 private:
 	static const int MAX_SIZE;
-	int numberOfToken;
+	int tokenListSize;
 	char** tokenList;
+	bool isDelimiter(char);
 public:
-	TokenList();
+	TokenList(char* line);
 	~TokenList();
 	int size();
 	void pushBack(char*);

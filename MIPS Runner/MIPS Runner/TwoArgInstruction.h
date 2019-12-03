@@ -7,7 +7,6 @@
 class TwoArgInstruction : public Instruction {
 protected:
 	Register rs, rt;
-	int* jumpByte;
 	void (*function)(Register&, Register&);
 
 	static void mult(Register&, Register&);

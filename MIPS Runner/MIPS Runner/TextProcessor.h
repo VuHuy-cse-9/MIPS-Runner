@@ -18,12 +18,10 @@ private:
 	// For storing source code data.
 	char* sourceCode;
 	int numberOfCharacter;
-
-	bool isIgnoreCharacter(char);
-	void extractToken(char*, TokenList&);
 	Instruction* parseTextToInstruction(char*);
 
 public:
+	
 	~TextProcessor();
 
 	void readSourceFile();

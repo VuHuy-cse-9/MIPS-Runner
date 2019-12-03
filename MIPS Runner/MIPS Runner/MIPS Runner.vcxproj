@@ -27,6 +27,7 @@
     <ClCompile Include="TextProcessor.cpp" />
     <ClCompile Include="ThreeArgInstruction.cpp" />
     <ClCompile Include="TokenList.cpp" />
+    <ClCompile Include="TwoArgInstruction.cpp" />
     <ClCompile Include="ZeroArgInstruction.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -38,6 +39,7 @@
     <ClInclude Include="TextProcessor.h" />
     <ClInclude Include="ThreeArgInstruction.h" />
     <ClInclude Include="TokenList.h" />
+    <ClInclude Include="TwoArgInstruction.h" />
     <ClInclude Include="ZeroArgInstruction.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

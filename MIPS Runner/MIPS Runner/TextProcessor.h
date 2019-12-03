@@ -7,6 +7,7 @@
 #include "Instruction.h"
 #include "ZeroArgInstruction.h"
 #include "OneArgInstruction.h"
+#include "TwoArgInstruction.h"
 #include "ThreeArgInstruction.h"
 #include "TokenList.h"
 

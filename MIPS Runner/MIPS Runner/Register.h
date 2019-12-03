@@ -51,6 +51,10 @@ public:
 	bool operator>=(const Register&) const &;
 	bool operator<(const Register&) const &;
 	bool operator<=(const Register&) const &;
+
+	void mult(const Register&) const&;
+	void div(const Register&) const&;
+	Register lui(const int) const&;
 	
 	int getValue();
 	int advance(int);

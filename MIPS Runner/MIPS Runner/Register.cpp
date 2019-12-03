@@ -154,3 +154,23 @@ bool Register::operator<(const Register& operand) const & {
 bool Register::operator<=(const Register& operand) const & {
 	return *(this->valuePtr)  <= *(operand.valuePtr);
 }
+
+void Register::mult(const Register& operand) const& {
+	Register hi("$hi");
+	Register lo("$lo");
+	long long result = (long long)*(this->valuePtr) * (long long)*(operand.valuePtr);
+	long long* ptr = &result;
+	*(hi.valuePtr) = ((int*)ptr)[1];
+	*(lo.valuePtr) = ((int*)ptr)[0];
+}
+
+void Register::div(const Register& operand) const& {
+	Register hi("$hi");
+	Register lo("$lo");
+	*(hi.valuePtr) = *(this->valuePtr) % *(operand.valuePtr);
+	*(lo.valuePtr) = *(this->valuePtr) / *(operand.valuePtr);
+}
+
+Register Register::lui(const int digit) const& {
+	return Register(*(this->valuePtr) << 16);
+}

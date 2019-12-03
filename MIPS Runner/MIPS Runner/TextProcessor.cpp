@@ -57,6 +57,7 @@ Instruction* TextProcessor::parseTextToInstruction(char* line) {
 		instruction = new OneArgInstruction(tokenList);
 		break;
 	case 2:
+		instruction = new TwoArgInstruction(tokenList);
 		break;
 	case 3:
 		instruction = new ThreeArgInstruction(tokenList);

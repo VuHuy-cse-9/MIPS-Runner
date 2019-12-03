@@ -1,13 +1,13 @@
 #include "TwoArgInstruction.h"
 
-TwoArgInstruction::TwoArgInstruction(TokenList& listOfToken) :
-	rs( listOfToken[1]),rt(listOfToken[2]) {
+TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
+	rs( tokenList[1]),rt(tokenList[2]) {
 	function = nullptr;
-	if (strcmp(listOfToken[0], "mult") == 0) this->function = mult;
-	if (strcmp(listOfToken[0], "div") == 0) this->function = div;
-	if (strcmp(listOfToken[0], "move") == 0) this->function = move;
-	if (strcmp(listOfToken[0], "lui") == 0) this->function = lui;
-	if (strcmp(listOfToken[0], "li") == 0) this->function = move;
+	if (strcmp(tokenList[0], "mult") == 0) this->function = mult;
+	if (strcmp(tokenList[0], "div") == 0) this->function = div;
+	if (strcmp(tokenList[0], "move") == 0) this->function = move;
+	if (strcmp(tokenList[0], "lui") == 0) this->function = lui;
+	if (strcmp(tokenList[0], "li") == 0) this->function = move;
 }
 
 void TwoArgInstruction::execute() {

@@ -1,48 +1,12 @@
 #include "TextProcessor.h"
 
-bool TextProcessor::isIgnoreCharacter(char c) {
-	switch (c) {
-	case ' ':
-	case ',':
-	case '\t':
-	case '\n':
-	case '\0':
-		return 1;
-	default:
-		return 0;
-	}
-}
 
 //Remember to delete elements in tokenList.
-void TextProcessor::extractToken(char* line, TokenList& tokenList) {
-	int i = 0;
-	while (line[i] != 0) {
-		if (!isIgnoreCharacter(line[i])) {
-			int run = i;
-			while (!isIgnoreCharacter(line[run])) {
-				++run;
-			}
-
-			char* token = new char[run - i + 1];
-			for (int j = 0; j < run - i; ++j) {
-				token[j] = line[i + j];
-			}
-			token[run - i] = 0;
-			tokenList.pushBack(token);
-			i = run;
-			delete[] token;
-		}
-		else
-			++i;
-	}
-
-}
 
 Instruction* TextProcessor::parseTextToInstruction(char* line) {
 	Instruction* instruction = nullptr;	
 	
-	TokenList tokenList;
-	extractToken(line, tokenList);
+	TokenList tokenList(line);
 
 	int numberOfArgument = tokenList.size() - 1;
 	switch (numberOfArgument) {

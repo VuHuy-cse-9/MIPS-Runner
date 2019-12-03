@@ -4,9 +4,12 @@
 #include "Register.h"
 #include "TokenList.h"
 
+// Not tested yet.
+// One argument instruction is jump type instruction.
+
 class OneArgInstruction : public Instruction {
 private:
-	Register rd;
+	Register address;
 	void (*function)(Register&);
 
 	static void j(Register&);

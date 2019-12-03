@@ -1,27 +1,27 @@
 #include "OneArgInstruction.h"
 
-OneArgInstruction::OneArgInstruction(TokenList& ListOfToken) 
-	:rd(ListOfToken[1]) {
+OneArgInstruction::OneArgInstruction(TokenList& tokenList) 
+	: address(tokenList[1]) {
 	function = nullptr;
-	if (strcmp("j", ListOfToken[0]) == 0) function = j;
-	if (strcmp("jr", ListOfToken[0]) == 0) function = j;
-	if (strcmp("jal", ListOfToken[0]) == 0) function = jal;
+	if (strcmp("j", tokenList[0]) == 0) function = j;
+	if (strcmp("jr", tokenList[0]) == 0) function = j;
+	if (strcmp("jal", tokenList[0]) == 0) function = jal;
 }
 
 void OneArgInstruction::execute() {
 	if (function)
-		function(rd);
+		function(address);
 }
 
-void OneArgInstruction::j(Register& rd) {
+void OneArgInstruction::j(Register& address) {
 	Register pc("$pc");
-	pc = rd;
+	pc = address;
 }
 
-void OneArgInstruction::jal(Register& rd) {
+void OneArgInstruction::jal(Register& address) {
 	Register pc("$pc");
 	Register ra("$ra");
 	ra = pc;
 	ra.advance(1);
-	pc = rd;
+	pc = address;
 }

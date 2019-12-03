@@ -6,8 +6,6 @@ const char* Register::NAME_OF_REGISTER[] = { "$zero", "$at", "$v0", "$v1", "$a0"
 const char* Register::DIGIT_OF_REGISTER[] = { "$0", "$1", "$2", "$3", "$4", "$5", "$6", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$16", "$17", "$18", "$19", "$20", "$21", "$22", "$23", "$24", "$25", "$26", "$27", "$28", "$29", "$30", "$31", "$32", "$33", "$34"};
 const int Register::NAME_OF_REGISTER_SIZE = 35;
 int Register::memoryOfRegister[Register::NAME_OF_REGISTER_SIZE];
-int Register::hi, Register::lo;
-int Register::pc;
 
 int toInt(const char* token) {
 	int length = strlen(token);
@@ -36,19 +34,35 @@ Register::Register(int _value) {
 	this->haveToDeleteMemory = true;
 }
 
+// For storing label adress.
+Register::Register(void* source) {
+	this->valuePtr = (int*)source;
+	this->haveToDeleteMemory = false;
+}
+
 // Classify token as register, variable, label, constant.
-// TODO: implement variable and label part.
 Register::Register(const char* token) {
 	// TODO: give compile error when source code try to access $hi, $lo, $pc.
+	// TODO: give compile error when try to access undeclared label or unknow register.
+
+	// Check if token is a register.
 	for (int i = 0; i < NAME_OF_REGISTER_SIZE; ++i) {
 		if (strcmp(NAME_OF_REGISTER[i], token) == 0 || strcmp(DIGIT_OF_REGISTER[i], token) == 0) {
 			this->valuePtr = memoryOfRegister + i;
-			*(this->valuePtr) = 0;
 			this->haveToDeleteMemory = false;
 			return;
 		}
 	}
 
+	// Check if token is a label.
+	this->valuePtr = (int*) LabelManager::getLabel(token);
+	if (this->valuePtr) {
+		this->haveToDeleteMemory = false;
+		return;
+	}
+
+	// token is constant.
+	// TODO: if token is not a number, give compile error.
 	// TODO: implement case that token is a real number.
 	int value = toInt(token);
 	this->valuePtr = new int;
@@ -105,7 +119,7 @@ Register Register::subtractUnsigned(const Register& operand) const & {
 }
 
 Register Register::operator*(const Register& operand) const & {
-	return Register(* (this->valuePtr) * *(operand.valuePtr));
+	return Register(*(this->valuePtr) * *(operand.valuePtr));
 }
 
 Register Register::operator<(const Register& operand) const & {

@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <cstring>
+
+#include "LabelManager.h"
+
 /*
 Register store:
 	real memory
@@ -20,16 +23,15 @@ private:
 	static const char* DIGIT_OF_REGISTER[];
 	static const int NAME_OF_REGISTER_SIZE;
 	static int memoryOfRegister[];
-	static int hi, lo;
 
 	int* valuePtr;
 	bool haveToDeleteMemory;
 public:
-	static int pc;
 
 	Register();
 	Register(int);
 	Register(const char*);
+	Register(void*);
 	Register(const Register&);
 	~Register();
 

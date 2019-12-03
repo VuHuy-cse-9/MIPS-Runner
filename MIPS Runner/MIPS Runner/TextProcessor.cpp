@@ -13,8 +13,8 @@ bool TextProcessor::isIgnoreCharacter(char c) {
 	}
 }
 
-//Remember to delete elements in listOfToken.
-void TextProcessor::extractToken(char* line, TokenList& listOfToken) {
+//Remember to delete elements in tokenList.
+void TextProcessor::extractToken(char* line, TokenList& tokenList) {
 	int i = 0;
 	while (line[i] != 0) {
 		if (!isIgnoreCharacter(line[i])) {
@@ -28,7 +28,7 @@ void TextProcessor::extractToken(char* line, TokenList& listOfToken) {
 				token[j] = line[i + j];
 			}
 			token[run - i] = 0;
-			listOfToken.pushBack(token);
+			tokenList.pushBack(token);
 			i = run;
 			delete[] token;
 		}
@@ -41,25 +41,30 @@ void TextProcessor::extractToken(char* line, TokenList& listOfToken) {
 Instruction* TextProcessor::parseTextToInstruction(char* line) {
 	Instruction* instruction = nullptr;	
 	
-	TokenList listOfToken;
-	extractToken(line, listOfToken);
+	TokenList tokenList;
+	extractToken(line, tokenList);
 
-	int numberOfArgument = listOfToken.size() - 1;
+	int numberOfArgument = tokenList.size() - 1;
 	switch (numberOfArgument) {
-		case 0:
-			break;
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			instruction = new ThreeArgInstruction(listOfToken);
-			break;
+	case -1:
+		// a empty line.
+		instruction = nullptr;
+		break;
+	case 0:
+		instruction = new ZeroArgInstruction(tokenList);
+		break;
+	case 1:
+		instruction = new OneArgInstruction(tokenList);
+		break;
+	case 2:
+		break;
+	case 3:
+		instruction = new ThreeArgInstruction(tokenList);
+		break;
+	default:
+		// TODO: give complie error.
+		break;
 	}
-
-	/*for (int i = 0; i < listOfToken.size(); ++i) {
-		std::cout << listOfToken[i] << '\n';
-	}*/
 
 	return instruction;
 }
@@ -82,8 +87,11 @@ void TextProcessor::parseSourceToInstruction(Instruction**& instructionList, int
 			for (int j = 0; j < i - begin; ++j) 
 				line[j] = sourceCode[begin + j];
 			line[i - begin] = 0;
+
 			instructionList[instructionCount] = parseTextToInstruction(line);
-			++instructionCount;
+			if (instructionList[instructionCount])
+				++instructionCount;
+
 			begin = i + 1;
 		}
 	

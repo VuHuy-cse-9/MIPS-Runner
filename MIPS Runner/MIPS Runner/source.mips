@@ -1,3 +1,4 @@
+lab: j lab
 addi $t0, $zero, 15
 addi $t1, $0, 24
 sub $s0, $t0, $t1

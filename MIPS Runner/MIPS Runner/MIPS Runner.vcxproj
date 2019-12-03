@@ -19,20 +19,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="LabelManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="OneArgInstruction.cpp" />
     <ClCompile Include="Processor.cpp" />
     <ClCompile Include="Register.cpp" />
     <ClCompile Include="TextProcessor.cpp" />
     <ClCompile Include="ThreeArgInstruction.cpp" />
     <ClCompile Include="TokenList.cpp" />
+    <ClCompile Include="ZeroArgInstruction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Instruction.h" />
+    <ClInclude Include="LabelManager.h" />
+    <ClInclude Include="OneArgInstruction.h" />
     <ClInclude Include="Processor.h" />
     <ClInclude Include="Register.h" />
     <ClInclude Include="TextProcessor.h" />
     <ClInclude Include="ThreeArgInstruction.h" />
     <ClInclude Include="TokenList.h" />
+    <ClInclude Include="ZeroArgInstruction.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

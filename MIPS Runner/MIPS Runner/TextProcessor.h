@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "Instruction.h"
+#include "ZeroArgInstruction.h"
+#include "OneArgInstruction.h"
 #include "ThreeArgInstruction.h"
 #include "TokenList.h"
 

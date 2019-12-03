@@ -4,7 +4,6 @@
 #include <cstring>
 
 #include "LabelManager.h"
-#include "TwoArgInstruction.h"
 
 /*
 Register store:

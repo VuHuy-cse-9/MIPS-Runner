@@ -14,9 +14,9 @@ protected:
 	static void move(Register&, Register&);
 	static void lui(Register&, Register&);
 	static void div(Register&, Register&);
-	static void lw(Register&, Register&);
+	// static void lw(Register&, Register&);
 public:
-	static void* getArray(const char* token);
+
 	TwoArgInstruction(TokenList&);
 	void execute() override;
 };

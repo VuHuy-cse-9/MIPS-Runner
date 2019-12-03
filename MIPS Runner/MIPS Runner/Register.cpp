@@ -53,13 +53,6 @@ Register::Register(const char* token) {
 			return;
 		}
 	}
-	//check if token is a array e.g 100($s1)
-	this->valuePtr = (int*)TwoArgInstruction::getArray(token);
-	if (this->valuePtr) {
-		this->haveToDeleteMemory = false;
-		return;
-	}
-
 	// Check if token is a label.
 	this->valuePtr = (int*) LabelManager::getLabel(token);
 	if (this->valuePtr) {
@@ -161,7 +154,7 @@ bool Register::operator<=(const Register& operand) const & {
 	return *(this->valuePtr)  <= *(operand.valuePtr);
 }
 
-void Register::mult(const Register& operand) const& {
+void Register::mult(const Register& operand) const & {
 	Register hi("$hi");
 	Register lo("$lo");
 	long long result = (long long)*(this->valuePtr) * (long long)*(operand.valuePtr);

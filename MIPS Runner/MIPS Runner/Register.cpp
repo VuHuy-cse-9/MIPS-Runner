@@ -53,6 +53,12 @@ Register::Register(const char* token) {
 			return;
 		}
 	}
+	//check if token is a array e.g 100($s1)
+	this->valuePtr = (int*)TwoArgInstruction::getArray(token);
+	if (this->valuePtr) {
+		this->haveToDeleteMemory = false;
+		return;
+	}
 
 	// Check if token is a label.
 	this->valuePtr = (int*) LabelManager::getLabel(token);

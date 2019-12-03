@@ -15,6 +15,11 @@ void TwoArgInstruction::execute() {
 		function(this->rs, this->rt);
 }
 
+//Todo here
+void* TwoArgInstruction::getArray(const char* token) {
+	
+}
+
 void TwoArgInstruction::mult(Register& rs, Register& rt) {
 	rs.mult(rt);
 }

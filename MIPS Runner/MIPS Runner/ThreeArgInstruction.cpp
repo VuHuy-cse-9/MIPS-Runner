@@ -27,10 +27,6 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& listOfToken)
 	
 	if (strcmp(listOfToken[0], "beq") == 0) this->function = beq;
 	if (strcmp(listOfToken[0], "bne") == 0) this->function = bne;
-	if (strcmp(listOfToken[0], "bgt") == 0) this->function = bgt;
-	if (strcmp(listOfToken[0], "bge") == 0) this->function = bge;
-	if (strcmp(listOfToken[0], "blt") == 0) this->function = blt;
-	if (strcmp(listOfToken[0], "ble") == 0) this->function = ble;
 } 
 
 void ThreeArgInstruction::execute() {
@@ -80,26 +76,14 @@ void ThreeArgInstruction::slt(Register& rd, Register& rs, Register& rt) {
 
 //problem with this function
 void ThreeArgInstruction::beq(Register& rd, Register& rs, Register& rt) {
-	if (rd == rs) rt.pc = rt.advance(4);
+	Register pc("$pc");
+	if (rd == rs)
+		pc = rt;
 }
 
 void ThreeArgInstruction::bne(Register& rd, Register& rs, Register& rt) {
-	if (rd != rs) rt.pc = rt.advance(4);
-}
-
-void ThreeArgInstruction::bgt(Register& rd, Register& rs, Register& rt) {
-	if (rd > rs) rt.pc = rt.advance(4);
-}
-
-void ThreeArgInstruction::bge(Register& rd, Register& rs, Register& rt) {
-	if (rd >= rs) rt.pc = rt.advance(4);
-}
-
-void ThreeArgInstruction::blt(Register& rd, Register& rs, Register& rt) {
-	if (rd < rs) rt.pc = rt.advance(4);
-}
-
-void ThreeArgInstruction::ble(Register& rd, Register& rs, Register& rt) {
-	if (rd <= rs)  rt.pc = rt.advance(4);
+	Register pc("$pc");
+	if (rd != rs)
+		pc = rt;
 }
 

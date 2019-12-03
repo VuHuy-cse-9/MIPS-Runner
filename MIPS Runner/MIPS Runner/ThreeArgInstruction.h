@@ -25,10 +25,6 @@ protected:
 	static void slt(Register&, Register&, Register&);
 	static void beq(Register&, Register&, Register&);
 	static void bne(Register&, Register&, Register&);
-	static void bgt(Register&, Register&, Register&);
-	static void bge(Register&, Register&, Register&);
-	static void blt(Register&, Register&, Register&);
-	static void ble(Register&, Register&, Register&);
 	
 public:
 	ThreeArgInstruction(TokenList&);

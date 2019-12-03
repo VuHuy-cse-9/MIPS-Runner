@@ -94,7 +94,7 @@ void TextProcessor::parseSourceToInstruction(Instruction**& instructionList, int
 
 			begin = i + 1;
 		}
-	
+	numberOfInstruction = instructionCount;
 	delete[] line;
 }
 

@@ -4,7 +4,7 @@
 #include "Register.h"
 #include "TokenList.h"
 
-// Zero argument instruction is infact label declaration.
+// Zero argument instruction is infact label declaration or a system call.
 class ZeroArgInstruction : public Instruction {
 private:
 	Register address;

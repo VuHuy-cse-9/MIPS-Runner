@@ -5,10 +5,10 @@ int main() {
 	TextProcessor textProcessor;
 	textProcessor.readSourceFile();
 
-	int numberOfInstruction = 0;
+	int instructionListSize = 0;
 	Instruction** instructionList = nullptr;
-	textProcessor.parseSourceToInstruction(instructionList, numberOfInstruction);
+	textProcessor.parseSourceToInstruction(instructionList, instructionListSize);
 	
-	Processor processor(instructionList, numberOfInstruction);
+	Processor processor(instructionList, instructionListSize);
 	processor.run();
 }

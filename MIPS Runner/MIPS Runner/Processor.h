@@ -1,11 +1,12 @@
 #pragma once
+
 #include"TextProcessor.h"
 #include"Instruction.h"
 
 class Processor
 {
 private:
-	int numberOfInstruction;
+	int instructionListSize;
 	Instruction** instructionList;
 	Register pc;
 

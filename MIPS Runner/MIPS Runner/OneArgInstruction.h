@@ -1,18 +1,18 @@
 #pragma once
 
 #include "Instruction.h"
-#include "Register.h"
 #include "TokenList.h"
+#include "InstructionOperand.h"
 
 // One argument instruction is jump type instruction.
 
 class OneArgInstruction : public Instruction {
 private:
-	Register address;
-	void (*function)(Register&);
+	InstructionOperand address;
+	void (*function)(InstructionOperand&);
 
-	static void j(Register&);
-	static void jal(Register&);
+	static void j(InstructionOperand&);
+	static void jal(InstructionOperand&);
 public:
 
 	OneArgInstruction(TokenList&);

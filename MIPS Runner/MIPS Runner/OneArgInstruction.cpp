@@ -13,15 +13,15 @@ void OneArgInstruction::execute() {
 		function(address);
 }
 
-void OneArgInstruction::j(Register& address) {
-	Register pc("$pc");
-	pc = address;
+void OneArgInstruction::j(InstructionOperand& address) {
+	InstructionOperand pc("$pc");
+	*(pc.memoryPtr) = *(address.memoryPtr);
 }
 
-void OneArgInstruction::jal(Register& address) {
-	Register pc("$pc");
-	Register ra("$ra");
-	ra = pc;
-	ra.advance(1);
-	pc = address;
+void OneArgInstruction::jal(InstructionOperand& address) {
+	InstructionOperand pc("$pc");
+	InstructionOperand ra("$ra");
+	*(ra.memoryPtr) = *(pc.memoryPtr);
+	*(ra.memoryPtr) += 1;
+	*(pc.memoryPtr) = *(address.memoryPtr);
 }

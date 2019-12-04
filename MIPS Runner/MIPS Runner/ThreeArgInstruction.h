@@ -7,24 +7,25 @@
 #include "Instruction.h"
 #include "TokenList.h"
 #include "Register.h"
+#include "InstructionOperand.h"
 
 class ThreeArgInstruction : public Instruction {
 protected:
-	Register rd, rs, rt;
-	void (*function)(Register&, Register&, Register&);
+	InstructionOperand rd, rs, rt;
+	void (*function)(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 
-	static void add(Register&, Register&, Register&);
-	static void addu(Register&, Register&, Register&);
-	static void sub(Register&, Register&, Register&);
-	static void subu(Register&, Register&, Register&);
-	static void And(Register&, Register&, Register&); // and is now allow
-	static void Or(Register&, Register&, Register&);
-	static void sll(Register&, Register&, Register&);
-	static void srl(Register&, Register&, Register&);
-	static void mul(Register&, Register&, Register&);
-	static void slt(Register&, Register&, Register&);
-	static void beq(Register&, Register&, Register&);
-	static void bne(Register&, Register&, Register&);
+	static void add(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void addu(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void sub(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void subu(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void And(InstructionOperand&, InstructionOperand&, InstructionOperand&); // and is now allow
+	static void Or(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void sll(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void srl(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void mul(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void slt(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void beq(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void bne(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	
 public:
 	ThreeArgInstruction(TokenList&);

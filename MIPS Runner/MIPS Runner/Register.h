@@ -35,6 +35,7 @@ public:
 	Register(const Register&);
 	~Register();
 
+
 	Register& operator=(const Register&) &;
 	Register operator+(const Register&) const &;
 	Register operator-(const Register&) const &;
@@ -57,6 +58,7 @@ public:
 	Register lui(const int) const&;
 	
 	int getValue();
+	void* getAddress(const char* token);
 	int advance(int);
 };
 

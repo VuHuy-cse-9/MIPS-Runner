@@ -19,25 +19,6 @@ bool TokenList::isDelimiter(char c) {
 TokenList::TokenList (char* line) {
 	tokenListSize = 0;
 	tokenList = new char* [MAX_SIZE];
-	//We need to update here
-	/*while (line[i] != 0) {
-		if (!isDelimiter(line[i])) {
-			int run = i;
-			while (!isDelimiter(line[run])) {
-				++run;
-			}
-			char* token = new char[run - i + 1];
-			for (int j = 0; j < run - i; ++j) {
-				token[j] = line[i + j];
-			}
-			token[run - i] = 0;
-			pushBack(token);
-			i = run;
-			delete[] token;
-		}
-		else
-			++i;
-	}*/
 
 	int i = 0;
 	int run = 0;

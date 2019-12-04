@@ -30,6 +30,10 @@ Instruction* TextProcessor::parseTextToInstruction(char* line) {
 		// TODO: give complie error.
 		break;
 	}
+	for (int i = 0; i < numberOfArgument + 1; ++i) {
+		std::cout << tokenList[i] << " ";
+	}
+	std::cout << std::endl;
 
 	return instruction;
 }

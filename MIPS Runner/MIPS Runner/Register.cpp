@@ -9,7 +9,8 @@ int Register::memoryOfRegister[Register::NAME_OF_REGISTER_SIZE];
 
 void* Register::getAddress(const char* token) { // This token have been eliminated space
 	//TODO:
-	
+	void* ptr = NULL;
+	return ptr;
 }
 
 int toInt(const char* token) {

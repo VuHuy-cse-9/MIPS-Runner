@@ -1,4 +1,1 @@
-li $t0,2
-li $t1,1
-lui $s1, 2
-mult $t1,$t0
+lw $t1 ,       10($s3)

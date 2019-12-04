@@ -8,6 +8,7 @@ TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
 	if (strcmp(tokenList[0], "move") == 0) this->function = move;
 	if (strcmp(tokenList[0], "lui") == 0) this->function = lui;
 	if (strcmp(tokenList[0], "li") == 0) this->function = move;
+	if (strcmp(tokenList[0], "lw") == 0) this->function = lw;
 }
 
 void TwoArgInstruction::execute() {
@@ -29,5 +30,9 @@ void TwoArgInstruction::lui(Register& rs, Register& rt) {
 }
 
 void TwoArgInstruction::move(Register& rs, Register& rt) {
+	rs = rt;
+}
+
+void TwoArgInstruction::lw(Register& rs, Register& rt ) {
 	rs = rt;
 }

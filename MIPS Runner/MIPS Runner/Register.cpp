@@ -7,13 +7,8 @@ const char* Register::DIGIT_OF_REGISTER[] = { "$0", "$1", "$2", "$3", "$4", "$5"
 const int Register::NAME_OF_REGISTER_SIZE = 35;
 int Register::memoryOfRegister[Register::NAME_OF_REGISTER_SIZE];
 
-void* Register::getAddress(const char* token) { // This token have been eliminated space
-	//TODO:
-	void* ptr = NULL;
-	return ptr;
-}
 
-int toInt(const char* token) {
+int Register::toInt(const char* token) {
 	int length = strlen(token);
 	int result = 0;
 	int begin = 0;
@@ -31,6 +26,44 @@ int toInt(const char* token) {
 Register::Register() {
 	this->valuePtr = nullptr;
 	this->haveToDeleteMemory = false;
+}
+
+//PART OF THIS CODE IS COMPILED
+int* Register::getAddress(const char* token) { // This token have been eliminated space
+	//TODO:
+	int* ptr = nullptr;
+	bool isOffset = true;
+	int offSet;
+	int valueRegister;
+	int result;
+	int beginToken = 0;
+	for (int i = 0; i < strlen(token); ++i) {
+		if (token[i] == '(' || token[i] == ')') {
+			char* arg = new char[i - beginToken + 1];
+			for (int k = 0; k < i - beginToken; ++k) {
+				arg[k] = token[beginToken + k];
+			}
+			arg[i - beginToken] = 0;
+			//do some thing
+			if (isOffset) {
+				offSet = toInt(arg);
+				isOffset = false;
+			}
+			else
+				for (int k = 0; k < NAME_OF_REGISTER_SIZE; ++k) {
+					if (strcmp(NAME_OF_REGISTER[k], arg) == 0 || strcmp(DIGIT_OF_REGISTER[k], arg) == 0) {
+						valueRegister = memoryOfRegister[k];
+						break;
+					}
+				}
+			delete[]arg;
+			arg = nullptr;
+			beginToken = i + 1;
+		}
+	}
+	result = valueRegister + offSet;
+	ptr = &result;
+	return ptr;
 }
 
 // constructor for storing data not in memoryOfRegister
@@ -57,15 +90,15 @@ Register::Register(const char* token) {
 			this->valuePtr = memoryOfRegister + i;
 			this->haveToDeleteMemory = false;
 			return;
-		}
+		}	
 	}
 	//check if token is a Address e.g List+4($s1)
-	//TODO:We need to give valuePtr a address right ?
 	for (int i = 0; i < strlen(token); ++i) {
-		//I need to add name of Label,which is saved?
-		if (token[i] == '(')
+		if (token[i] == '(') {
 			this->valuePtr = (int*)getAddress(token);
-		this->haveToDeleteMemory = true; // because this store a immediate value;
+			this->haveToDeleteMemory = true;
+			return;
+		}
 	}
 
 

@@ -57,8 +57,9 @@ public:
 	void div(const Register&) const&;
 	Register lui(const int) const&;
 	
+	int toInt(const char* token);
 	int getValue();
-	void* getAddress(const char* token);
+	int* getAddress(const char* token);
 	int advance(int);
 };
 

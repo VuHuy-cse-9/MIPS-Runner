@@ -17,22 +17,31 @@ void TwoArgInstruction::execute() {
 }
 
 
-void TwoArgInstruction::mult(Register& rs, Register& rt) {
-	rs.mult(rt);
+void TwoArgInstruction::mult(InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand hi("$hi");
+	InstructionOperand lo("$lo");
+	long long result = (long long) *(rs.memoryPtr) * (long long) * (rt.memoryPtr);
+	long long* ptr = &result;
+	*(hi.memoryPtr) = ((int*)ptr)[1];
+	*(lo.memoryPtr) = ((int*)ptr)[0];
 }
 
-void TwoArgInstruction::div(Register& rs, Register& rt) {
-	rs.div(rt);
+void TwoArgInstruction::div(InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand hi("$hi");
+	InstructionOperand lo("$lo");
+	*(hi.memoryPtr) = *(rs.memoryPtr) % *(rt.memoryPtr);
+	*(lo.memoryPtr) = *(rs.memoryPtr) / *(rt.memoryPtr);
 }
 
-void TwoArgInstruction::lui(Register& rs, Register& rt) {
-	rs = rt.lui(16);
+void TwoArgInstruction::lui(InstructionOperand& rs, InstructionOperand& rt) {
+	*(rs.memoryPtr) = *(rt.memoryPtr) << 16;
 }
 
-void TwoArgInstruction::move(Register& rs, Register& rt) {
-	rs = rt;
+void TwoArgInstruction::move(InstructionOperand& rs, InstructionOperand& rt) {
+	*(rs.memoryPtr) = *(rt.memoryPtr);
 }
 
-void TwoArgInstruction::lw(Register& rs, Register& rt ) {
-	rs = rt;
+//Bug here
+void TwoArgInstruction::lw(InstructionOperand& rs, InstructionOperand& rt) {
+	*(rs.memoryPtr) = *(rt.memoryPtr);
 }

@@ -1,21 +1,21 @@
 #pragma once
 
 #include "Instruction.h"
-#include "Register.h"
 #include "TokenList.h"
+#include "InstructionOperand.h"
 
 
 // PROBLEM: sw require address of rt.
 class TwoArgInstruction : public Instruction {
 protected:
-	Register rs, rt;
-	void (*function)(Register&, Register&);
+	InstructionOperand rs, rt;
+	void (*function)(InstructionOperand&, InstructionOperand&);
 
-	static void mult(Register&, Register&);
-	static void move(Register&, Register&);
-	static void lui(Register&, Register&);
-	static void div(Register&, Register&);
-	static void lw(Register&, Register&);
+	static void mult(InstructionOperand&, InstructionOperand&);
+	static void move(InstructionOperand&, InstructionOperand&);
+	static void lui(InstructionOperand&, InstructionOperand&);
+	static void div(InstructionOperand&, InstructionOperand&);
+	static void lw(InstructionOperand&, InstructionOperand&);
 public:
 
 	TwoArgInstruction(TokenList&);

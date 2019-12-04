@@ -6,7 +6,6 @@
 
 #include "Instruction.h"
 #include "TokenList.h"
-#include "Register.h"
 #include "InstructionOperand.h"
 
 class ThreeArgInstruction : public Instruction {

@@ -1,0 +1,23 @@
+x: .word 1, 2, 3
+y: .float 3.4, 4.2
+z: .asciiz "adb"
+	.ascii "xx"
+m: .space 10
+	.space 20
+
+-------------------------------------
+x: 
+.word 1
+.word 2
+.word 3
+y:
+.space 3.4
+.space 5.2
+z:
+.ascii "adb\0"
+.ascii "xx"
+m:
+.space 10
+.space 20
+---------------------------------------
+declare a label -> getting current memory pointer.

@@ -4,6 +4,8 @@
 #include "Register.h"
 #include "TokenList.h"
 
+
+// PROBLEM: sw require address of rt.
 class TwoArgInstruction : public Instruction {
 protected:
 	Register rs, rt;

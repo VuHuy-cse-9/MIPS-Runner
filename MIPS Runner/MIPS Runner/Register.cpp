@@ -55,7 +55,7 @@ Register::Register(const char* token) {
 	}
 	// Check if token is a label.
 	// there will be fundamental changes, no need to correct now.
-	this->valuePtr = (int*) LabelManager::getLabel(token);
+	this->valuePtr = (int*) (LabelManager::getInstance())->getMemory(token);
 	if (this->valuePtr) {
 		this->haveToDeleteMemory = false;
 		return;

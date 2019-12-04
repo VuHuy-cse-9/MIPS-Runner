@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cstring>
 
+#include "LabelManager.h"
+
 /*
 Register store:
 	real memory

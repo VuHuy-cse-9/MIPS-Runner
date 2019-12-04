@@ -19,7 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="InstructionOperand.cpp" />
+    <ClCompile Include="LabelManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="OneArgInstruction.cpp" />
     <ClCompile Include="Processor.cpp" />
     <ClCompile Include="Register.cpp" />
@@ -31,9 +34,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Instruction.h" />
+    <ClInclude Include="InstructionOperand.h" />
+    <ClInclude Include="LabelManager.h" />
+    <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="OneArgInstruction.h" />
     <ClInclude Include="Processor.h" />
     <ClInclude Include="Register.h" />
+    <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="TextProcessor.h" />
     <ClInclude Include="ThreeArgInstruction.h" />
     <ClInclude Include="TokenList.h" />

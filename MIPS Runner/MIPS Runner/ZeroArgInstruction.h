@@ -3,6 +3,7 @@
 #include "Instruction.h"
 #include "Register.h"
 #include "TokenList.h"
+#include "LabelManager.h"
 
 // Zero argument instruction is infact label declaration or a system call.
 class ZeroArgInstruction : public Instruction {

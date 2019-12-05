@@ -13,11 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Test Data">
+      <UniqueIdentifier>{a80227ed-56d3-482d-bb4c-5da863698ad9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Register.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -56,9 +56,6 @@
     <ClInclude Include="Instruction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Register.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TextProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -92,5 +89,10 @@
     <ClInclude Include="SmartPointer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source.mips">
+      <Filter>Test Data</Filter>
+    </None>
   </ItemGroup>
 </Project>

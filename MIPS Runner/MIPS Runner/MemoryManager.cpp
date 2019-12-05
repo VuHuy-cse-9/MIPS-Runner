@@ -1,4 +1,5 @@
 #include "MemoryManager.h"
+#include <iostream>
 
 const int MemoryManager::VARIABLE_MEMORY_SIZE = 1 << 20;
 
@@ -17,9 +18,13 @@ MemoryManager::MemoryManager() {
 	this->stackMemory = new char[STACK_MEMORY_SIZE];
 	this->stackMemoryPointer = STACK_MEMORY_SIZE - 1;
 
+	// $sp actually does not represent stack pointer, the one present stack pointer is stackMemory + stackMemoryPointer
 	this->registerMemory = new int[REGISTER_MEMORY_SIZE];
+	for (int i = 0; i < REGISTER_MEMORY_SIZE; ++i)
+		registerMemory[i] = 0;
 }
 
+// A bug appear when trying to stackMemory.
 MemoryManager::~MemoryManager() {
 	delete[] this->variableMemory;
 	delete[] this->stackMemory;
@@ -27,14 +32,14 @@ MemoryManager::~MemoryManager() {
 }
 
 MemoryManager* MemoryManager::getInstance() {
-	if (!instance) 
+	if (!instance)
 		instance = new MemoryManager;
 	return instance;
 }
 
 template<typename Type>
 Type* MemoryManager::allocateVariableMemory(int _size, Type _value) {
-	Type* returnPointer = (Type*) this->variableMemory[this->variableMemoryPointer];
+	Type* returnPointer = (Type*)this->variableMemory[this->variableMemoryPointer];
 	this->variableMemoryPointer += _size;
 
 	memcpy(returnPointer, &_value, sizeof(Type));
@@ -45,8 +50,22 @@ void* MemoryManager::getMemoryPointer() {
 	return this->variableMemory + this->variableMemoryPointer;
 }
 
+
 int* MemoryManager::getRegister(const char* _name) {
+	if (strcmp(_name, REGISTER_NAME[29]) == 0 || strcmp(_name, REGISTER_BASIC_NAME[29]) == 0)
+		return (int*)(this->stackMemory + this->stackMemoryPointer);
+
 	for (int i = 0; i < REGISTER_MEMORY_SIZE; ++i)
 		if (strcmp(_name, REGISTER_NAME[i]) == 0 || strcmp(_name, REGISTER_BASIC_NAME[i]) == 0)
 			return this->registerMemory + i;
+
+	return nullptr;
+}
+
+void MemoryManager::log() {
+	for (int i = 0; i < REGISTER_MEMORY_SIZE; ++i)
+		if (i != 29)
+			std::cout << REGISTER_BASIC_NAME[i] << "\t\t" << REGISTER_NAME[i] << "\t\t" << registerMemory[i] << '\n';
+		else 
+			std::cout << REGISTER_BASIC_NAME[i] << "\t\t" << REGISTER_NAME[i] << "\t\t" << *(int*)(this->stackMemory + this->stackMemoryPointer) << '\n';
 }

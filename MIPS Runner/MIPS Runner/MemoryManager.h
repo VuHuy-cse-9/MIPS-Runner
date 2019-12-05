@@ -21,6 +21,7 @@ private:
 
 	MemoryManager();
 	MemoryManager(const MemoryManager&) = delete;
+	MemoryManager& operator=(const MemoryManager&) = delete;
 
 public:
 	static const int REGISTER_MEMORY_SIZE;
@@ -35,5 +36,6 @@ public:
 	Type* allocateVariableMemory(int, Type);
 
 	int* getRegister(const char*);
-};
 
+	void log();
+};

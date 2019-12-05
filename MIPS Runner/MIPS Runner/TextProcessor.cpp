@@ -1,8 +1,5 @@
 #include "TextProcessor.h"
 
-
-//Remember to delete elements in tokenList.
-
 Instruction* TextProcessor::parseTextToInstruction(char* line) {
 	Instruction* instruction = nullptr;	
 	
@@ -30,40 +27,39 @@ Instruction* TextProcessor::parseTextToInstruction(char* line) {
 		// TODO: give complie error.
 		break;
 	}
-	for (int i = 0; i < numberOfArgument + 1; ++i) {
-		std::cout << tokenList[i] << " ";
-	}
-	std::cout << std::endl;
 
 	return instruction;
 }
 
 
-void TextProcessor::parseSourceToInstruction(Instruction**& instructionList, int& numberOfInstruction) {
+void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, int& _instructionListSize) {
+	for (int i = 0; i < sourceCodeSize; ++i)
+		if (sourceCode[i] == ':')
+			sourceCode[i] = '\n';
 	// Count the number of instructions and allocate memory for them.
-	numberOfInstruction = 0;
-	for (int i = 0; i < numberOfCharacter; ++i) 
+	_instructionListSize = 0;
+	for (int i = 0; i < sourceCodeSize; ++i) 
 		if (sourceCode[i] == '\n')
-			++numberOfInstruction;
-	instructionList = new Instruction*[numberOfInstruction];
+			++_instructionListSize;
+	_instructionList = new Instruction*[_instructionListSize];
 
 	//  Extract line from source code to parse it.
 	char* line = new char[MAX_LINE_LENGTH];
 	int begin = 0;
 	int instructionCount = 0;
-	for (int i = 0; i < numberOfCharacter; ++i) 
+	for (int i = 0; i < sourceCodeSize; ++i) 
 		if (sourceCode[i] == '\n') {
 			for (int j = 0; j < i - begin; ++j) 
 				line[j] = sourceCode[begin + j];
 			line[i - begin] = 0;
 
-			instructionList[instructionCount] = parseTextToInstruction(line);
-			if (instructionList[instructionCount])
+			_instructionList[instructionCount] = parseTextToInstruction(line);
+			if (_instructionList[instructionCount])
 				++instructionCount;
 
 			begin = i + 1;
 		}
-	numberOfInstruction = instructionCount;
+	_instructionListSize = instructionCount;
 	delete[] line;
 }
 
@@ -72,26 +68,21 @@ void TextProcessor::readSourceFile() {
 	std::ifstream inputFile("source.mips");
 	
 	inputFile.seekg(0, inputFile.end);
-	numberOfCharacter = inputFile.tellg();
+	sourceCodeSize = inputFile.tellg();
 	inputFile.seekg(0, inputFile.beg);
 
-	sourceCode = new char[numberOfCharacter + 2];
+	sourceCode = new char[sourceCodeSize + 2];
 
 	int i = 0;
 	while (!inputFile.eof()) {
-		inputFile.getline(sourceCode + i, numberOfCharacter + 2);
+		inputFile.getline(sourceCode + i, sourceCodeSize + 2);
 		i += inputFile.gcount();
 		if (sourceCode[i - 1] == 0) sourceCode[i - 1] = '\n';
 	}
 
-	numberOfCharacter = i + 1;
-	sourceCode[numberOfCharacter - 1] = '\n';
-	sourceCode[numberOfCharacter] = 0;
-
-	for (int i = 0; i < numberOfCharacter; ++i)
-		if (sourceCode[i] == ':') 
-			sourceCode[i] = '\n';
-	//std::cout << sourceCode;
+	sourceCodeSize = i + 1;
+	sourceCode[sourceCodeSize - 1] = '\n';
+	sourceCode[sourceCodeSize] = 0;
 }
 
 TextProcessor::~TextProcessor() {

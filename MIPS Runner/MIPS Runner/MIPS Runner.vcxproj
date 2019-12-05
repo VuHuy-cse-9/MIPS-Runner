@@ -25,7 +25,6 @@
     <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="OneArgInstruction.cpp" />
     <ClCompile Include="Processor.cpp" />
-    <ClCompile Include="Register.cpp" />
     <ClCompile Include="TextProcessor.cpp" />
     <ClCompile Include="ThreeArgInstruction.cpp" />
     <ClCompile Include="TokenList.cpp" />
@@ -39,13 +38,15 @@
     <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="OneArgInstruction.h" />
     <ClInclude Include="Processor.h" />
-    <ClInclude Include="Register.h" />
     <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="TextProcessor.h" />
     <ClInclude Include="ThreeArgInstruction.h" />
     <ClInclude Include="TokenList.h" />
     <ClInclude Include="TwoArgInstruction.h" />
     <ClInclude Include="ZeroArgInstruction.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source.mips" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

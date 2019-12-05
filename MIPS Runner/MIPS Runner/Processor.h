@@ -2,13 +2,14 @@
 
 #include"TextProcessor.h"
 #include"Instruction.h"
+#include "InstructionOperand.h"
 
 class Processor
 {
 private:
 	int instructionListSize;
 	Instruction** instructionList;
-	Register pc;
+	InstructionOperand pc;
 
 public:
 	Processor(Instruction**&, const int&);

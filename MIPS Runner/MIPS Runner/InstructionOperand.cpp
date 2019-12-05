@@ -14,6 +14,7 @@ int InstructionOperand::toInt(const char* _token) {
 	}
 	return result * sign;
 }
+
 //TODO:need to update ($s3)
 void InstructionOperand::parseRegisterWithOffSet(const char* _token) {
 	bool isOffset = true;
@@ -39,10 +40,15 @@ void InstructionOperand::parseRegisterWithOffSet(const char* _token) {
 	}
 }
 
+InstructionOperand::InstructionOperand(int* _memory, int _offset) 
+	: memoryPtr(_memory), offset(_offset), haveToDeleteMemory(false) {
+}
+
 InstructionOperand::InstructionOperand(const char* _token) {
 	this->memoryPtr = nullptr;
 	this->offset = 0;
 	this->haveToDeleteMemory = false;
+
 
 	this->memoryPtr = MemoryManager::getInstance()->getRegister(_token);
 	if (this->memoryPtr) return;

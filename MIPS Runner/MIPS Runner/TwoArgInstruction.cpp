@@ -8,6 +8,7 @@ TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
 	if (strcmp(tokenList[0], "move") == 0) this->function = move;
 	if (strcmp(tokenList[0], "lui") == 0) this->function = lui;
 	if (strcmp(tokenList[0], "li") == 0) this->function = move;
+	if (strcmp(tokenList[0], "sw") == 0) this->function = sw;
 	if (strcmp(tokenList[0], "lw") == 0) this->function = lw;
 }
 
@@ -41,7 +42,10 @@ void TwoArgInstruction::move(InstructionOperand& rs, InstructionOperand& rt) {
 	*(rs.memoryPtr) = *(rt.memoryPtr);
 }
 
-//Bug here
+void TwoArgInstruction::sw(InstructionOperand& rs, InstructionOperand& rt) {
+	*(rt.memoryPtr + rt.offset) = *rs.memoryPtr;
+}
+
 void TwoArgInstruction::lw(InstructionOperand& rs, InstructionOperand& rt) {
-	*(rs.memoryPtr) = *(rt.memoryPtr);
+	*(rs.memoryPtr) = *(rt.memoryPtr + rt.offset);
 }

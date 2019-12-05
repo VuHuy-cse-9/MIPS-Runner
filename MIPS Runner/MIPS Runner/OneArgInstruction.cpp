@@ -21,7 +21,6 @@ void OneArgInstruction::j(InstructionOperand& address) {
 void OneArgInstruction::jal(InstructionOperand& address) {
 	InstructionOperand pc("$pc");
 	InstructionOperand ra("$ra");
-	*(ra.memoryPtr) = *(pc.memoryPtr);
-	*(ra.memoryPtr) += 1;
+	*(ra.memoryPtr) = *(pc.memoryPtr) + 1;
 	*(pc.memoryPtr) = *(address.memoryPtr);
 }

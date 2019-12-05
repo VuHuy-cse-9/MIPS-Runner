@@ -17,11 +17,11 @@ private:
 	const int MAX_LINE_LENGTH = 255;
 	// For storing source code data.
 	char* sourceCode;
-	int numberOfCharacter;
+	int sourceCodeSize;
+
 	Instruction* parseTextToInstruction(char*);
 
 public:
-	
 	~TextProcessor();
 
 	void readSourceFile();

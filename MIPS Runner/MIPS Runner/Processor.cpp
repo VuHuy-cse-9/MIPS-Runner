@@ -5,15 +5,16 @@ Processor::Processor(Instruction**& _instructionList, const int& _instructionLis
 }
 
 int Processor::runNextInstruction() {
-	instructionList[pc.getValue()]->execute();
-	pc.advance(1);
+	instructionList[*pc.memoryPtr]->execute();
+	++* pc.memoryPtr;
+	MemoryManager::getInstance()->log();
 	return 0;
 }
 
 int Processor::run() { // 0 => no bugs,1 bugs // run all code 
 	// have 1 instructionlist;
 	// no chay chuong trinh
-	while (pc.getValue() < instructionListSize) {
+	while (*pc.memoryPtr < instructionListSize) {
 		int exitcode = runNextInstruction();
 		if (exitcode != 0) return exitcode;
 	}

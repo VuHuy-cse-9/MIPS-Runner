@@ -1,2 +1,3 @@
-addi $s3,$zero,100
-lw $t1 , 10($s3)
+addi $t0, $0, 12
+sw $t0, 0($sp)
+lw $t1, 0($sp)

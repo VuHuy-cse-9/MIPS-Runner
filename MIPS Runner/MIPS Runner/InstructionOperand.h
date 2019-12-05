@@ -14,6 +14,7 @@ public:
 	int* memoryPtr;
 	int offset;
 
+	InstructionOperand(int*, int);
 	InstructionOperand(const char*);
 	~InstructionOperand();
 };

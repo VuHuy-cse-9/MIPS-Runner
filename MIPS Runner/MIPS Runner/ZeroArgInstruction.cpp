@@ -2,11 +2,10 @@
 
 // fuck error, big change awaiting.
 ZeroArgInstruction::ZeroArgInstruction(TokenList& tokenList) 
-: address(LabelManager::getInstance()->addInstructionLabel(tokenList[0])) {
+: address((int*)LabelManager::getInstance()->addInstructionLabel(tokenList[0]), 0) {
 }
 
 void ZeroArgInstruction::execute() {
-	Register pc("$pc");
-	address = pc;
-	address.advance(1);
+	InstructionOperand pc("$pc");
+	*(address.memoryPtr) = *(pc.memoryPtr) + 1;
 }

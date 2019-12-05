@@ -15,6 +15,7 @@ protected:
 	static void move(InstructionOperand&, InstructionOperand&);
 	static void lui(InstructionOperand&, InstructionOperand&);
 	static void div(InstructionOperand&, InstructionOperand&);
+	static void sw(InstructionOperand&, InstructionOperand&);
 	static void lw(InstructionOperand&, InstructionOperand&);
 public:
 

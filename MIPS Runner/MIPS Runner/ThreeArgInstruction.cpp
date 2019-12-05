@@ -7,18 +7,17 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& tokenList)
 //we neeed 3 three instruction here
 	if (strcmp(tokenList[0], "add") == 0) this->function = add;
 	if (strcmp(tokenList[0], "sub") == 0) this->function = sub;
-	//if (strcmp(tokenList[0], "mul") == 0) this->function = mul;
+	if (strcmp(tokenList[0], "mul") == 0) this->function = mul;
 	if (strcmp(tokenList[0], "addu") == 0) this->function = addu;
 	if (strcmp(tokenList[0], "subu") == 0) this->function = subu;
-	/*if (strcmp(tokenList[0], "slt") == 0) this->function = slt;
+	if (strcmp(tokenList[0], "slt") == 0) this->function = slt;
 	if (strcmp(tokenList[0], "or") == 0) this->function = Or;
-	if (strcmp(tokenList[0], "and") == 0) this->function = And;*/
+	if (strcmp(tokenList[0], "and") == 0) this->function = And;
 
-//separate i for what?we need 2 instruction and 1 literal
 	if (strcmp(tokenList[0], "addi") == 0)this->function = add;
 	if (strcmp(tokenList[0], "addiu") == 0) this->function = addu;
 	if (strcmp(tokenList[0], "subiu") == 0) this->function = sub;
-	/*if (strcmp(tokenList[0], "andi") == 0) this->function = And;
+	if (strcmp(tokenList[0], "andi") == 0) this->function = And;
 	if (strcmp(tokenList[0], "ori") == 0) this->function = Or;
 	if (strcmp(tokenList[0], "sll") == 0) this->function = sll;
 	if (strcmp(tokenList[0], "srl") == 0) this->function = srl;
@@ -26,7 +25,7 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& tokenList)
 	if (strcmp(tokenList[0], "slti") == 0) this->function = slt;
 	
 	if (strcmp(tokenList[0], "beq") == 0) this->function = beq;
-	if (strcmp(tokenList[0], "bne") == 0) this->function = bne;*/
+	if (strcmp(tokenList[0], "bne") == 0) this->function = bne;
 } 
 
 void ThreeArgInstruction::execute() {
@@ -38,7 +37,7 @@ void ThreeArgInstruction::add(InstructionOperand& rd, InstructionOperand& rs, In
 	*(rd.memoryPtr) = *(rs.memoryPtr) + *(rt.memoryPtr);
 }
 
-void ThreeArgInstruction::addu(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) { // 
+void ThreeArgInstruction::addu(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) { 
 	*(rd.memoryPtr) = (unsigned int)*(rs.memoryPtr) + (unsigned int)*(rt.memoryPtr);
 }
 
@@ -74,7 +73,6 @@ void ThreeArgInstruction::slt(InstructionOperand& rd, InstructionOperand& rs, In
 	*(rd.memoryPtr) = *(rs.memoryPtr) < *(rt.memoryPtr);
 }
 
-////problem with this function
 void ThreeArgInstruction::beq(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
 	InstructionOperand pc("$pc");
 	if (*(rd.memoryPtr) == *(rs.memoryPtr))

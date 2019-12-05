@@ -6,30 +6,23 @@ private:
 	Type* pointer;
 
 public:
-	SmartPointer();
-	SmartPointer(Type*);
-	~SmartPointer();
+	SmartPointer() {
+		this->pointer = nullptr;
+	}
 
-	operator Type* () &;
+	SmartPointer(Type* _source) {
+		this->pointer = _source;
+	}
+	~SmartPointer() {
+		delete this->pointer;
+	}
+
+	SmartPointer& operator = (Type* _operand)& {
+		this->pointer = _operand;
+		return *this;
+	}
+
+	operator Type* ()& {
+		return this->pointer;
+	}
 };
-
-
-template<typename Type>
-SmartPointer<Type>::SmartPointer() {
-	pointer = nullptr;
-}
-
-template<typename Type>
-SmartPointer<Type>::SmartPointer(Type* _source) {
-	pointer = _source;
-}
-
-template<typename Type>
-SmartPointer<Type>::~SmartPointer() {
-	delete pointer;
-}
-
-template<typename Type>
-SmartPointer<Type>::operator Type* ()& {
-	return pointer;
-}

@@ -1,3 +1,7 @@
-addi $t0, $0, 12
-sw $t0, 0($sp)
-lw $t1, 0($sp)
+.data
+x      :    .word 1, 2
+  		 .word 23, 324, 001
+.text
+		addi                         $t0,                    $0          ,	 12
+label:           	sw		 $t0		, 		 0($sp)
+	lw $t1, 	0($sp)

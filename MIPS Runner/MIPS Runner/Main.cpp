@@ -9,6 +9,7 @@ int main() {
 	Instruction** instructionList = nullptr;
 	textProcessor.parseSourceToInstruction(instructionList, instructionListSize);
 	
+	return 0;
 	Processor processor(instructionList, instructionListSize);
 	processor.run();
 }

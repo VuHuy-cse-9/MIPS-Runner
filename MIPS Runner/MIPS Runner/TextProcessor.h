@@ -19,7 +19,10 @@ private:
 	char* sourceCode;
 	int sourceCodeSize;
 
-	Instruction* parseTextToInstruction(char*);
+	char* lineEnd(char*);
+	void standarize(char*&);
+	void standarize();
+	Instruction* parseLineToInstruction(char*);
 
 public:
 	~TextProcessor();

@@ -31,7 +31,7 @@ public:
 	~MemoryManager();
 	static MemoryManager* getInstance();
 
-	void* getMemoryPointer();
+	void* getVariableMemoryPointer();
 	template<typename Type>
 	Type* allocateVariableMemory(int, Type);
 

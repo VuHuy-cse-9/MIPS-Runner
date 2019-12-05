@@ -27,7 +27,8 @@ MemoryManager::MemoryManager() {
 // A bug appear when trying to stackMemory.
 MemoryManager::~MemoryManager() {
 	delete[] this->variableMemory;
-	delete[] this->stackMemory;
+	// TODO: A bug appear when execute this line of code, fix it.
+	//delete[] this->stackMemory;
 	delete[] this->registerMemory;
 }
 
@@ -46,7 +47,7 @@ Type* MemoryManager::allocateVariableMemory(int _size, Type _value) {
 	return returnPointer;
 }
 
-void* MemoryManager::getMemoryPointer() {
+void* MemoryManager::getVariableMemoryPointer() {
 	return this->variableMemory + this->variableMemoryPointer;
 }
 

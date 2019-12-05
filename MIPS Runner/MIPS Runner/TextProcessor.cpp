@@ -1,6 +1,6 @@
 #include "TextProcessor.h"
 
-Instruction* TextProcessor::parseTextToInstruction(char* line) {
+Instruction* TextProcessor::parseLineToInstruction(char* line) {
 	Instruction* instruction = nullptr;	
 	
 	TokenList tokenList(line); // Receive Data  -> other line we go to Datanalyse
@@ -32,6 +32,44 @@ Instruction* TextProcessor::parseTextToInstruction(char* line) {
 	return instruction;
 }
 
+char* TextProcessor::lineEnd(char* line) {
+	while (*line != '\n' || *line != '\r') ++line;
+	return line;
+}
+
+void TextProcessor::standarize(char*& line) {
+	char* formatedLine = new char[MAX_LINE_LENGTH];
+	// currentPosition is the current position of formatedLine.
+	char* currentPosition = formatedLine;
+	char* lineBegin = line;
+
+	while (*line == ' ') ++line;
+	while 
+
+	delete[] lineBegin;
+	line = formatedLine;
+}
+
+void TextProcessor::standarize() {
+	char* line = new char[MAX_LINE_LENGTH];
+	char* formatedSourceCode = new char[sourceCodeSize + 1];
+	// currentPosition is the current position of formatedSourceCode.
+	char* currentPosition = formatedSourceCode;
+	char* sourceCodeBegin = sourceCode;
+
+	while (*sourceCode) {
+		char* sourceCodeEndLine = lineEnd(sourceCode);
+		*sourceCodeEndLine = 0;
+		strcpy(line, sourceCode);
+		standarize(line);
+
+		strcpy(currentPosition, line);
+		currentPosition += strlen(line);
+	}
+
+	delete[] sourceCode;
+	sourceCode = formatedSourceCode;
+}
 
 void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, int& _instructionListSize) {
 	for (int i = 0; i < sourceCodeSize; ++i)

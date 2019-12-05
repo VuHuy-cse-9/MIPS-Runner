@@ -7,6 +7,7 @@
 #include <cstring>
 
 #include "SmartPointer.h"
+#include "MemoryManager.h"
 
 class LabelManager {
 private:
@@ -30,7 +31,7 @@ public:
 	static LabelManager* getInstance();
 
 	void* addInstructionLabel(const char*);
-	// TODO: add addVariableLabel method.
+	void* addVariableLabel(const char*);
 	void* getMemory(const char*);
 };
 

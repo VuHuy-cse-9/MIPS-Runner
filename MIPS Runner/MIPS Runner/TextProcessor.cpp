@@ -3,7 +3,8 @@
 Instruction* TextProcessor::parseTextToInstruction(char* line) {
 	Instruction* instruction = nullptr;	
 	
-	TokenList tokenList(line);
+	TokenList tokenList(line); // Receive Data  -> other line we go to Datanalyse
+	//->analyse : if it was a label? 
 
 	int numberOfArgument = tokenList.size() - 1;
 	switch (numberOfArgument) {

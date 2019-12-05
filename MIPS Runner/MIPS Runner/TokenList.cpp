@@ -16,7 +16,7 @@ bool TokenList::isDelimiter(char c) {
 	}
 }
 
-TokenList::TokenList (char* line) {
+TokenList::TokenList (const char* line) {
 	tokenListSize = 0;
 	tokenList = new char* [MAX_SIZE];
 
@@ -87,5 +87,5 @@ void TokenList::pushBack(char* token) {
 }
 
 char*& TokenList::operator[](int i) {
-	return tokenList[i];
+	return this->tokenList[i];
 }

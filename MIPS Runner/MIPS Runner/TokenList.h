@@ -13,7 +13,7 @@ private:
 	char** tokenList;
 	bool isDelimiter(char);
 public:
-	TokenList(char* line);
+	TokenList(const char* line);
 	~TokenList();
 	int size();
 	void pushBack(char*);

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DataAnalyse.cpp" />
     <ClCompile Include="InstructionOperand.cpp" />
     <ClCompile Include="LabelManager.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="ZeroArgInstruction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataAnalyse.h" />
     <ClInclude Include="Instruction.h" />
     <ClInclude Include="InstructionOperand.h" />
     <ClInclude Include="LabelManager.h" />

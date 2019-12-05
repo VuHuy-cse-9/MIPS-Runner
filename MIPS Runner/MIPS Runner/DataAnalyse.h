@@ -2,21 +2,26 @@
 #include  <iostream>
 #include "LabelManager.h"
 #include "MemoryManager.h"
+#include "TokenList.h"
 
 class DataAnalyse
 {
 private:
-	void* variablePtr;
-	char** tokenData;
 	int tokenListSize;
 	char** parseDataToToken(const char* );
-	void (*function) (const char**,int);
+	void (*function) (TokenList&,int);
 	static void* currentPtr;
 public:
+	static float toFloat(const char*);
 	static int toInt(const char*);
+	static short toShort(const char*);
 	DataAnalyse(const char*);
-	void processor(const char**);
-	static void word(const char**,int);
+	void processor(TokenList&);
+	static void word(TokenList&,int);
 	static void byte(const char**, int);
+	static void half(const char**, int);
+	static void space(const char**, int);
+	static void ascii(const char**, int);
+	static void asciiz(const char**, int);
 };
 

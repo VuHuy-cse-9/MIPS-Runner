@@ -3,6 +3,7 @@
 #include"TextProcessor.h"
 #include"Instruction.h"
 #include "InstructionOperand.h"
+#include "PrintDataRegister.h"
 
 class Processor
 {

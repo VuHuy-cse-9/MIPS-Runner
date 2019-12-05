@@ -24,6 +24,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="OneArgInstruction.cpp" />
+    <ClCompile Include="PrintDataRegister.cpp" />
     <ClCompile Include="Processor.cpp" />
     <ClCompile Include="TextProcessor.cpp" />
     <ClCompile Include="ThreeArgInstruction.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="LabelManager.h" />
     <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="OneArgInstruction.h" />
+    <ClInclude Include="PrintDataRegister.h" />
     <ClInclude Include="Processor.h" />
     <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="TextProcessor.h" />

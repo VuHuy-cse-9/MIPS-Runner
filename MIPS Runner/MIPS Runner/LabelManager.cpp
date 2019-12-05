@@ -25,6 +25,19 @@ LabelManager* LabelManager::getInstance() {
 	return instance;
 }
 
+void* LabelManager::addVariableLabel(const char* _name) {
+	LinkedListNode* newNode = new LinkedListNode;
+	newNode->name = new char[strlen(_name) + 1];
+	strcpy(newNode->name, _name);
+
+	newNode->haveToDeleteMemory = false;
+	newNode->memory = MemoryManager::getInstance()->getVariableMemoryPointer();
+	newNode->next = this->root;
+	this->root = newNode;
+
+	return newNode->memory;
+}
+
 void* LabelManager::addInstructionLabel(const char* _name) {
 	LinkedListNode* newNode = new LinkedListNode;
 	newNode->name = new char[strlen(_name) + 1];

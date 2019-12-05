@@ -7,7 +7,6 @@ Processor::Processor(Instruction**& _instructionList, const int& _instructionLis
 int Processor::runNextInstruction() {
 	instructionList[*pc.memoryPtr]->execute();
 	++* pc.memoryPtr;
-	MemoryManager::getInstance()->log();
 	return 0;
 }
 

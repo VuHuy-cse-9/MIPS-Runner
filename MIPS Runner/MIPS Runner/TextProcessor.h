@@ -1,4 +1,8 @@
 #pragma once
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 
 #include <iostream>
 #include <fstream>
@@ -19,6 +23,7 @@ private:
 	char* sourceCode;
 	int sourceCodeSize;
 
+	bool isSpacing(char);
 	char* lineEnd(char*);
 	void standarize(char*&);
 	void standarize();

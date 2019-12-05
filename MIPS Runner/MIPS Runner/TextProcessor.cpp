@@ -32,31 +32,103 @@ Instruction* TextProcessor::parseLineToInstruction(char* line) {
 	return instruction;
 }
 
+bool TextProcessor::isSpacing(char c) {
+	switch (c) {
+	case ' ':
+	case '\t':
+		return true;
+	default:
+		return false;
+	}
+}
+
 char* TextProcessor::lineEnd(char* line) {
-	while (*line != '\n' || *line != '\r') ++line;
+	while (*line != '\n' && *line != '\r') 
+		++line;
 	return line;
 }
 
 void TextProcessor::standarize(char*& line) {
+	// the end of formatedSourceCode contain "\n\0".
+	
 	char* formatedLine = new char[MAX_LINE_LENGTH];
 	// currentPosition is the current position of formatedLine.
 	char* currentPosition = formatedLine;
 	char* lineBegin = line;
 
-	while (*line == ' ') ++line;
-	while 
+	// Extract label(s).
+	bool newLine = false;
+	do
+	{
+		bool isLabel = false;
+		int i;
+		for (i = 0; line[i]; ++i)
+			if (line[i] == ':') {
+				isLabel = true;
+				break;
+			}
+		if (!isLabel) break;
+
+		char* newLineBegin = line + i + 1;
+		while (isSpacing(*line)) ++line;
+		while (isSpacing(line[i - 1])) --i;
+
+		for (int j = 0; j < i; ++j) 
+			*(currentPosition++) = line[j];
+		*(currentPosition++) = ':';
+		*(currentPosition++) = '\n';
+
+		line = newLineBegin;
+	} while (true);
+
+
+	// Extract opcode (add, addi, .word, .space, .data, .text, ...).
+	while (isSpacing(*line)) ++line;
+	if (!*line) {
+		delete[] lineBegin;
+		*(currentPosition++) = '\n';
+		*(currentPosition++) = '\0';
+		line = formatedLine;
+		return;
+	}
+	while (!isSpacing(*line) && *line)
+		*(currentPosition++) = *(line++);
+	*(currentPosition++) = ' ';
+	if (!*line) {
+		delete[] lineBegin;
+		*(currentPosition++) = '\n';
+		*(currentPosition++) = '\0';
+		line = formatedLine;
+		return;
+	}
+
+	// Extract argument(s).
+	do
+	{
+		while (isSpacing(*line)) ++line;
+
+		while (*line != ',' && *line)
+			*(currentPosition++) = *(line++);
+		while (isSpacing(*(currentPosition - 1))) currentPosition--;
+
+		if (!*line) break;
+		*(currentPosition++) = *(line++);
+
+	} while (true);
 
 	delete[] lineBegin;
+	*(currentPosition++) = '\n';
+	*(currentPosition++) = '\0';
 	line = formatedLine;
 }
 
 void TextProcessor::standarize() {
-	char* line = new char[MAX_LINE_LENGTH];
 	char* formatedSourceCode = new char[sourceCodeSize + 1];
 	// currentPosition is the current position of formatedSourceCode.
 	char* currentPosition = formatedSourceCode;
 	char* sourceCodeBegin = sourceCode;
 
+	char* line = new char[MAX_LINE_LENGTH];
 	while (*sourceCode) {
 		char* sourceCodeEndLine = lineEnd(sourceCode);
 		*sourceCodeEndLine = 0;
@@ -65,16 +137,16 @@ void TextProcessor::standarize() {
 
 		strcpy(currentPosition, line);
 		currentPosition += strlen(line);
+		sourceCode = sourceCodeEndLine + 1;
 	}
-
-	delete[] sourceCode;
+	
+	delete[] sourceCodeBegin;
 	sourceCode = formatedSourceCode;
 }
 
 void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, int& _instructionListSize) {
-	for (int i = 0; i < sourceCodeSize; ++i)
-		if (sourceCode[i] == ':')
-			sourceCode[i] = '\n';
+	standarize();
+	std::cout << sourceCode;
 	// Count the number of instructions and allocate memory for them.
 	_instructionListSize = 0;
 	for (int i = 0; i < sourceCodeSize; ++i) 
@@ -92,7 +164,7 @@ void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, in
 				line[j] = sourceCode[begin + j];
 			line[i - begin] = 0;
 
-			_instructionList[instructionCount] = parseTextToInstruction(line);
+			_instructionList[instructionCount] = parseLineToInstruction(line);
 			if (_instructionList[instructionCount])
 				++instructionCount;
 

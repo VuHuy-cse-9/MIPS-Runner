@@ -24,6 +24,7 @@ private:
 	int sourceCodeSize;
 
 	bool isSpacing(char);
+	bool isEmptyLine(const char*);
 	char* lineEnd(char*);
 	void standarize(char*&);
 	void standarize();

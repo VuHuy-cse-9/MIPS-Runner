@@ -42,6 +42,12 @@ bool TextProcessor::isSpacing(char c) {
 	}
 }
 
+bool TextProcessor::isEmptyLine(const char* line) {
+	for (int i = 0; line[i]; ++i)
+		if (!isSpacing(line[i])) return false;
+	return true;
+}
+
 char* TextProcessor::lineEnd(char* line) {
 	while (*line != '\n' && *line != '\r') 
 		++line;
@@ -50,6 +56,12 @@ char* TextProcessor::lineEnd(char* line) {
 
 void TextProcessor::standarize(char*& line) {
 	// the end of formatedSourceCode contain "\n\0".
+
+	// check if line is an empty line.
+	if (isEmptyLine(line)) {
+		line[0] = 0;
+		return;
+	}
 	
 	char* formatedLine = new char[MAX_LINE_LENGTH];
 	// currentPosition is the current position of formatedLine.
@@ -70,7 +82,7 @@ void TextProcessor::standarize(char*& line) {
 		if (!isLabel) break;
 
 		char* newLineBegin = line + i + 1;
-		while (isSpacing(*line)) ++line;
+		while (isSpacing(*line)) ++line, --i;
 		while (isSpacing(line[i - 1])) --i;
 
 		for (int j = 0; j < i; ++j) 
@@ -81,6 +93,12 @@ void TextProcessor::standarize(char*& line) {
 		line = newLineBegin;
 	} while (true);
 
+	if (isEmptyLine(line)) {
+		delete[] lineBegin;
+		*(currentPosition++) = '\0';
+		line = formatedLine;
+		return;
+	}
 
 	// Extract opcode (add, addi, .word, .space, .data, .text, ...).
 	while (isSpacing(*line)) ++line;

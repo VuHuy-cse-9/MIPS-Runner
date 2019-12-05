@@ -3,7 +3,7 @@
 
 const int MemoryManager::VARIABLE_MEMORY_SIZE = 1 << 20;
 
-const int MemoryManager::STACK_MEMORY_SIZE = 1 << 10;
+const int MemoryManager::STACK_MEMORY_SIZE = 1 << 10 + 1;
 
 const int MemoryManager::REGISTER_MEMORY_SIZE = 35;
 const char* MemoryManager::REGISTER_NAME[] = { "$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3", "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$s0", "$s1", "$s2", "$s3", "$s4", "$s5", "$s6", "$s7", "$t8", "$t9", "$k0", "$k1", "$gp", "$sp", "$fp", "$ra", "$hi", "$lo", "$pc" };
@@ -28,7 +28,7 @@ MemoryManager::MemoryManager() {
 MemoryManager::~MemoryManager() {
 	delete[] this->variableMemory;
 	// TODO: A bug appear when execute this line of code, fix it.
-	//delete[] this->stackMemory;
+	delete[] this->stackMemory;
 	delete[] this->registerMemory;
 }
 

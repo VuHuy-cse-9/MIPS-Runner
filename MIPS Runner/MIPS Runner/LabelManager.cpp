@@ -29,6 +29,8 @@ void* LabelManager::addVariableLabel(const char* _name) {
 	LinkedListNode* newNode = new LinkedListNode;
 	newNode->name = new char[strlen(_name) + 1];
 	strcpy(newNode->name, _name);
+	// replace ':' with '\0'.
+	newNode->name[strlen(_name) - 1] = '\0';
 
 	newNode->haveToDeleteMemory = false;
 	newNode->memory = MemoryManager::getInstance()->getVariableMemoryPointer();
@@ -42,6 +44,8 @@ void* LabelManager::addInstructionLabel(const char* _name) {
 	LinkedListNode* newNode = new LinkedListNode;
 	newNode->name = new char[strlen(_name) + 1];
 	strcpy(newNode->name, _name);
+	// replace ':' with '\0'.
+	newNode->name[strlen(_name) - 1] = '\0';
 
 	newNode->haveToDeleteMemory = true;
 	newNode->memory = new int;

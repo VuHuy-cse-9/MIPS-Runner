@@ -11,4 +11,4 @@
 label   :  label2  : 
 
 addi        	$t0, $0, 12
-lw $t0     ,    0($pc),jkjkd
+lw $t0     ,    0($pc),label

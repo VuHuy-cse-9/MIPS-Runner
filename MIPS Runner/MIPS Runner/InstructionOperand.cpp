@@ -65,7 +65,9 @@ InstructionOperand::InstructionOperand(const char* _token) {
 	this->memoryPtr = (int*) LabelManager::getInstance()->getMemory(_token);
 	if (this->memoryPtr) {
 		this->signature[0] = 'L';
-		// this->signature[1] = 'b' or 'w';
+		this->signature[1] = 'v';
+		if (LabelManager::getInstance()->lastestLabelIsInstruction())
+			this->signature[1] = 'i';
 		return;
 	}
 

@@ -27,4 +27,3 @@ public:
 	InstructionOperand(const char*);
 	~InstructionOperand();
 };
-

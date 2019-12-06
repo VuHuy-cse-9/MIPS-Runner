@@ -15,6 +15,7 @@ private:
 	public:
 		char* name;
 		void* memory;
+		bool isInstruction;
 		bool haveToDeleteMemory;
 
 		LinkedListNode* next;
@@ -26,6 +27,8 @@ private:
 	LabelManager(const LabelManager&) = delete;
 
 	static SmartPointer<LabelManager> instance;
+	bool latestLabelType;
+
 public:
 	~LabelManager();
 	static LabelManager* getInstance();
@@ -33,5 +36,6 @@ public:
 	void* addInstructionLabel(const char*);
 	void* addVariableLabel(const char*);
 	void* getMemory(const char*);
+	bool lastestLabelIsInstruction();
 };
 

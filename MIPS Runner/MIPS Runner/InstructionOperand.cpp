@@ -1,16 +1,14 @@
 #include "InstructionOperand.h"
 
-int InstructionOperand::toInt(const char* _token) {
+int InstructionOperand::toInt(const char* _token, bool& success) {
 	int value;
-	if (sscanf(_token, "%d", &value) == EOF)
-		throw "Not an Integer";
+	success = (sscanf(_token, "%d", &value) == 1);
 	return value;
 }
 
-float InstructionOperand::toFloat(const char* _token) {
-	float value;
-	if (sscanf(_token, "%f", &value) == EOF)
-		throw "Not a Float";
+double InstructionOperand::toDouble(const char* _token, bool& success) {
+	double value;
+	success = (sscanf(_token, "%lf", &value) == 1);
 	return value;
 }
 
@@ -26,8 +24,9 @@ void InstructionOperand::parseRegisterWithOffSet(const char* _token) {
 			}
 			arg[i - beginToken] = 0;
 			//do some thing
+			bool convertSuccess;
 			if (isOffset) {
-				offset = toInt(arg);
+				offset = toInt(arg, convertSuccess);
 				isOffset = false;
 			}
 			else
@@ -58,30 +57,37 @@ InstructionOperand::InstructionOperand(const char* _token) {
 	this->memoryPtr = (int*) LabelManager::getInstance()->getMemory(_token);
 	if (this->memoryPtr) {
 		this->signature[0] = 'L';
+		// this->signature[1] = 'b' or 'w';
 		return;
 	}
 
 	parseRegisterWithOffSet(_token);
 	if (this->memoryPtr) {
-		signature[0] = 'R';
-		signature[1] = 'w';
+		this->signature[0] = 'R';
+		this->signature[1] = 'w';
 		return;
 	}
-	
-	try {
-		this->memoryPtr = new int;
-		*(this->memoryPtr) = toInt(_token);
-		this->haveToDeleteMemory = true;
+
+	this->signature[0] = 'I';
+	bool convertSuccess = false;
+
+	this->memoryPtr = new int;
+	*(this->memoryPtr) = toInt(_token, convertSuccess);
+	if (convertSuccess) {
+		this->signature[1] = 'i';
+		return;
 	}
-	catch (...) {
-		try {
-			this->memoryPtr = (int*)new float;
-				*(float*)(this->memoryPtr) = toFloat(_token);
-		}
-		catch (...) {
-			throw std::string("cannot evaluate \"") + std::string(_token) + std::string("\"");
-		}
+	delete this->memoryPtr;
+
+	this->memoryPtr = (int*) new double;
+	*(double*)(this->memoryPtr) = toDouble(_token, convertSuccess);
+	if (convertSuccess) {
+		this->signature[1] = 'f';
+		return;
 	}
+	delete this->memoryPtr;
+
+	throw std::string("cannot evaluate ") + std::string(_token);
 }
 
 InstructionOperand::~InstructionOperand() {

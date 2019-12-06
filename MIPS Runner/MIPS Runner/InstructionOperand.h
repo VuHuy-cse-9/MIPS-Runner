@@ -14,8 +14,8 @@ class InstructionOperand
 {
 private:
 	bool haveToDeleteMemory;
-	int toInt(const char*);
-	float toFloat(const char*);
+	int toInt(const char*, bool&);
+	double toDouble(const char*, bool&);
 	void parseRegisterWithOffSet(const char*);
 public:
 

@@ -1,8 +1,11 @@
 #pragma once
-#include  <iostream>
+
+#include <cstring>
+
 #include "LabelManager.h"
 #include "MemoryManager.h"
 #include "TokenList.h"
+#include "InstructionOperand.h"
 
 class DataAnalyse
 {
@@ -10,12 +13,13 @@ private:
 	int tokenListSize;
 	char** parseDataToToken(const char* );
 	static void* currentPtr;
+	void (*function) (TokenList&, int);
 public:
+	DataAnalyse(const char*);
 	static float toFloat(const char*);
 	static int toInt(const char*);
 	static short toShort(const char*);
-	DataAnalyse(const char*);
-	void processor(TokenList&);
+	void process(TokenList&);
 	static void word(TokenList&,int);
 	static void byte(TokenList&, int);
 	static void half(TokenList&, int);

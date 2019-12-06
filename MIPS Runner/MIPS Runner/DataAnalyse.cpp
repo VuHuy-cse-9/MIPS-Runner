@@ -1,5 +1,7 @@
 #include "DataAnalyse.h"
 
+void* DataAnalyse::currentPtr = nullptr;
+
 float DataAnalyse::toFloat(const char* _token) {
 	int length = strlen(_token);
 	float result = 0;
@@ -62,14 +64,17 @@ short DataAnalyse::toShort(const char* _token) {
 
 
 
-void DataAnalyse::processor(TokenList& tokenList) {
+void DataAnalyse::process(TokenList& _tokenList) {
 	//TODO:
-	if (tokenList[0] == ".word")	word(tokenList,tokenListSize);
-	if (tokenList[0] == ".byte")	byte(tokenList, tokenListSize);
-	if (tokenList[0] == ".half")	half(tokenList, tokenListSize);
-	if (tokenList[0] == ".ascii")	ascii(tokenList, tokenListSize);
-	if (tokenList[0] == ".asciiz")	asciiz(tokenList, tokenListSize);
-	if (tokenList[0] == ".space")	space(tokenList, tokenListSize);
+	function = nullptr;
+	if (_tokenList[0] == ".word")	function = word;
+	if (_tokenList[0] == ".byte")	function = byte;
+	if (_tokenList[0] == ".half")	function = half;
+	if (_tokenList[0] == ".ascii")	function = ascii;
+	if (_tokenList[0] == ".asciiz")	function = asciiz;
+	if (_tokenList[0] == ".space")	function = space;
+	if (function)
+		function(_tokenList, tokenListSize);
 }
 
 char** DataAnalyse::parseDataToToken(const char* line) {
@@ -101,26 +106,22 @@ char** DataAnalyse::parseDataToToken(const char* line) {
 
 DataAnalyse::DataAnalyse(const char* line) {
 	TokenList tokenList(line);
-	// if it is label ? - > tokenData will have one token -> 
 	switch (tokenList.size())
 	{
 	case 1:
 		LabelManager::getInstance()->addVariableLabel(tokenList[0]);
 		break;
+
 	default:
-		processor(tokenList);
+		process(tokenList); // We have a list of token here
 		break;
 	}
 }
 
 void DataAnalyse::word(TokenList& tokenList,int tokenListSize) {
-	bool isInt = true;
 	for (int i = 1; i < tokenListSize; ++i) {
-		for (int k = 0; k < strlen(tokenList[i]); ++k) {
-			if (tokenList[i][k] == '.') isInt = false;
-		}	
-		if (isInt) currentPtr = MemoryManager::getInstance()->allocateVariableMemory <int>(4, toInt(tokenList[i]));
-		else currentPtr = MemoryManager::getInstance()->allocateVariableMemory<float>(4, toFloat(tokenList[i]));
+		InstructionOperand token(tokenList[i]);
+		currentPtr = MemoryManager::getInstance()->allocateVariableMemory<>(4, *(token.memoryPtr));
 	}
 }		
 

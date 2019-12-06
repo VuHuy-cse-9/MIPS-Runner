@@ -3,15 +3,10 @@
 Instruction* TextProcessor::parseLineToInstruction(char* line) {
 	Instruction* instruction = nullptr;	
 	
-	TokenList tokenList(line); // Receive Data  -> other line we go to Datanalyse
-	//->analyse : if it was a label? 
+	TokenList tokenList(line);
 
 	int numberOfArgument = tokenList.size() - 1;
 	switch (numberOfArgument) {
-	case -1:
-		// a empty line.
-		instruction = nullptr;
-		break;
 	case 0:
 		instruction = new ZeroArgInstruction(tokenList);
 		break;
@@ -25,7 +20,7 @@ Instruction* TextProcessor::parseLineToInstruction(char* line) {
 		instruction = new ThreeArgInstruction(tokenList);
 		break;
 	default:
-		// TODO: give complie error.
+		throw std::string("\"") + std::string(line) + std::string("\" have to many arguments");
 		break;
 	}
 

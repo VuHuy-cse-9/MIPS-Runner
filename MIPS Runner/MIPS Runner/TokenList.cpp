@@ -1,6 +1,5 @@
 #include "TokenList.h"
 
-
 const int TokenList::MAX_SIZE = 5;
 
 bool TokenList::isDelimiter(char c) {

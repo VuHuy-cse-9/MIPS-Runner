@@ -1,18 +1,17 @@
 #include "InstructionOperand.h"
 
 int InstructionOperand::toInt(const char* _token) {
-	int length = strlen(_token);
-	int result = 0;
-	int begin = 0;
-	int sign = 1;
-	if (_token[0] == '-') {
-		begin = 1;
-		sign = -1;
-	}
-	for (int i = begin; i < length; ++i) {
-		result = result * 10 + (_token[i] - '0');
-	}
-	return result * sign;
+	int value;
+	if (sscanf(_token, "%d", &value) == EOF)
+		throw "Not an Integer";
+	return value;
+}
+
+float InstructionOperand::toFloat(const char* _token) {
+	float value;
+	if (sscanf(_token, "%f", &value) == EOF)
+		throw "Not a Float";
+	return value;
 }
 
 //TODO:need to update ($s3)
@@ -49,19 +48,40 @@ InstructionOperand::InstructionOperand(const char* _token) {
 	this->offset = 0;
 	this->haveToDeleteMemory = false;
 
-
 	this->memoryPtr = MemoryManager::getInstance()->getRegister(_token);
-	if (this->memoryPtr) return;
+	if (this->memoryPtr) {
+		this->signature[0] = 'R';
+		this->signature[1] = 'b';
+		return;
+	}
 
 	this->memoryPtr = (int*) LabelManager::getInstance()->getMemory(_token);
-	if (this->memoryPtr) return;
+	if (this->memoryPtr) {
+		this->signature[0] = 'L';
+		return;
+	}
 
 	parseRegisterWithOffSet(_token);
-	if (this->memoryPtr) return;
-
-	this->memoryPtr = new int;
-	*(this->memoryPtr) = toInt(_token);
-	this->haveToDeleteMemory = true;
+	if (this->memoryPtr) {
+		signature[0] = 'R';
+		signature[1] = 'w';
+		return;
+	}
+	
+	try {
+		this->memoryPtr = new int;
+		*(this->memoryPtr) = toInt(_token);
+		this->haveToDeleteMemory = true;
+	}
+	catch (...) {
+		try {
+			this->memoryPtr = (int*)new float;
+				*(float*)(this->memoryPtr) = toFloat(_token);
+		}
+		catch (...) {
+			throw std::string("cannot evaluate \"") + std::string(_token) + std::string("\"");
+		}
+	}
 }
 
 InstructionOperand::~InstructionOperand() {

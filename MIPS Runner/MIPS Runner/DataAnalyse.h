@@ -1,5 +1,7 @@
 #pragma once
-#include  <iostream>
+
+#include <cstring>
+
 #include "LabelManager.h"
 #include "MemoryManager.h"
 

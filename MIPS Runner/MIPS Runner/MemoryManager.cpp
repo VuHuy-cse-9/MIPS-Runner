@@ -1,5 +1,4 @@
 #include "MemoryManager.h"
-#include <iostream>
 
 const int MemoryManager::VARIABLE_MEMORY_SIZE = 1 << 20;
 
@@ -36,15 +35,6 @@ MemoryManager* MemoryManager::getInstance() {
 	if (!instance)
 		instance = new MemoryManager;
 	return instance;
-}
-
-template<typename Type>
-Type* MemoryManager::allocateVariableMemory(int _size, Type _value) {
-	Type* returnPointer = (Type*)this->variableMemory[this->variableMemoryPointer];
-	this->variableMemoryPointer += _size;
-
-	memcpy(returnPointer, &_value, sizeof(Type));
-	return returnPointer;
 }
 
 void* MemoryManager::getVariableMemoryPointer() {

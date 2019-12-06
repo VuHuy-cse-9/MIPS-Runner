@@ -4,7 +4,6 @@
 #include "TokenList.h"
 #include "InstructionOperand.h"
 
-
 // PROBLEM: sw require address of rt.
 class TwoArgInstruction : public Instruction {
 protected:

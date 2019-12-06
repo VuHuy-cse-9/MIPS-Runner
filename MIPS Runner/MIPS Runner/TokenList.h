@@ -11,6 +11,7 @@ private:
 	static const int MAX_SIZE;
 	int tokenListSize;
 	char** tokenList;
+	char* signature;
 
 	bool isDelimiter(char);
 	int getTokenListSize(const char*);

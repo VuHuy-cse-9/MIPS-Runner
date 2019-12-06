@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <cstring>
 
 #include "SmartPointer.h"
@@ -33,7 +34,13 @@ public:
 
 	void* getVariableMemoryPointer();
 	template<typename Type>
-	Type* allocateVariableMemory(int, Type);
+	Type* allocateVariableMemory(int _size, Type _value) {
+		Type* returnPointer = (Type*)this->variableMemory[this->variableMemoryPointer];
+		this->variableMemoryPointer += _size;
+
+		memcpy(returnPointer, &_value, sizeof(Type));
+		return returnPointer;
+	}
 
 	int* getRegister(const char*);
 

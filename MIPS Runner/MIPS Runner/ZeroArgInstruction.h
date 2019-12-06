@@ -9,7 +9,10 @@
 class ZeroArgInstruction : public Instruction {
 private:
 	InstructionOperand address;
+	void(*function)(InstructionOperand&);
 
+	static void syscall(InstructionOperand&);
+	static void setLabelValue(InstructionOperand&);
 public:
 	ZeroArgInstruction(TokenList&);
 

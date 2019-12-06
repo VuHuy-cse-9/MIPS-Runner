@@ -4,21 +4,27 @@
 
 #include "LabelManager.h"
 #include "MemoryManager.h"
+#include "TokenList.h"
+#include "InstructionOperand.h"
 
 class DataAnalyse
 {
 private:
-	void* variablePtr;
-	char** tokenData;
 	int tokenListSize;
 	char** parseDataToToken(const char* );
-	void (*function) (const char**,int);
 	static void* currentPtr;
+	void (*function) (TokenList&, int);
 public:
-	static int toInt(const char*);
 	DataAnalyse(const char*);
-	void processor(const char**);
-	static void word(const char**,int);
-	static void byte(const char**, int);
+	static float toFloat(const char*);
+	static int toInt(const char*);
+	static short toShort(const char*);
+	void process(TokenList&);
+	static void word(TokenList&,int);
+	static void byte(TokenList&, int);
+	static void half(TokenList&, int);
+	static void space(TokenList&, int);
+	static void ascii(TokenList&, int);
+	static void asciiz(TokenList&, int);
 };
 

@@ -14,6 +14,7 @@
 #include "TwoArgInstruction.h"
 #include "ThreeArgInstruction.h"
 #include "TokenList.h"
+#include "DataAnalyse.h"
 
 class TextProcessor
 {
@@ -22,6 +23,7 @@ private:
 	// For storing source code data.
 	char* sourceCode;
 	int sourceCodeSize;
+	bool isData;
 
 	bool isSpacing(char);
 	bool isEmptyLine(const char*);
@@ -33,6 +35,7 @@ private:
 public:
 	~TextProcessor();
 
+	void recognizeDataText(Instruction**&, char*, int);
 	void readSourceFile();
 	void parseSourceToInstruction(Instruction**&, int&);
 	

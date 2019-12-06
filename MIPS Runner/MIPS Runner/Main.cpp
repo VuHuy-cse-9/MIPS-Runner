@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "DataAnalyse.h"
 
 #include "TextProcessor.h"
 #include "Processor.h"

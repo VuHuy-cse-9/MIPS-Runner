@@ -142,6 +142,7 @@ void TextProcessor::standarize() {
 	
 	delete[] sourceCodeBegin;
 	sourceCode = formatedSourceCode;
+	DataAnalyse data(sourceCode);
 }
 
 void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, int& _instructionListSize) {

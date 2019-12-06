@@ -14,6 +14,7 @@
 #include "TwoArgInstruction.h"
 #include "ThreeArgInstruction.h"
 #include "TokenList.h"
+#include "DataAnalyse.h"
 
 class TextProcessor
 {

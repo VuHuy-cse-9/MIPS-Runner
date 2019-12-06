@@ -64,16 +64,13 @@ short DataAnalyse::toShort(const char* _token) {
 
 void DataAnalyse::processor(TokenList& tokenList) {
 	//TODO:
-	if (tokenList[0] == ".word")	function = word;
-	if (tokenList[0] == ".byte")	function = byte;
-	if (tokenList[0] == ".half")	function = half;
-	if (tokenList[0] == ".ascii")	function = ascii;
-	if (tokenList[0] == ".asciiz")	function = asciiz;
-	if (tokenList[0] == ".space")	function = space;
-	function(tokenList, tokenListSize);
+	if (tokenList[0] == ".word")	word(tokenList,tokenListSize);
+	if (tokenList[0] == ".byte")	byte(tokenList, tokenListSize);
+	if (tokenList[0] == ".half")	half(tokenList, tokenListSize);
+	if (tokenList[0] == ".ascii")	ascii(tokenList, tokenListSize);
+	if (tokenList[0] == ".asciiz")	asciiz(tokenList, tokenListSize);
+	if (tokenList[0] == ".space")	space(tokenList, tokenListSize);
 }
-
-
 
 char** DataAnalyse::parseDataToToken(const char* line) {
 	// tokenListSize count token list
@@ -154,13 +151,6 @@ void DataAnalyse::ascii(TokenList& tokenList, int tokenListSize) {
 	}
 }
 
-void DataAnalyse::ascii(TokenList& tokenList, int tokenListSize) {
-	for (int i = 0; i < strlen(tokenList[1]); ++i) {
-		if (tokenList[1][i] != '"') {
-			currentPtr = MemoryManager::getInstance()->allocateVariableMemory <char>(1, tokenList[1][i]);
-		}
-	}
-}
 
 void DataAnalyse::asciiz(TokenList& tokenList, int tokenListSize) {
 	for (int i = 0; i < strlen(tokenList[1]); ++i) {

@@ -1,16 +1,19 @@
 #include "TextProcessor.h"
 
-void TextProcessor::recognizeDataText(Instruction**& _instructionList, char* line,int instructionCount) {
+void TextProcessor::recognizeDataText(Instruction**& _instructionList, char* line,int& instructionCount) {
+	if (strcmp(line, ".data:") == 0) return;
 	if (strcmp(line, ".text:") == 0) {
 		isData = false;
 		return;
 	}
-	if (strcmp(line, ".data:") == 0) return;
 	if (isData) {
 		DataAnalyse executeData(line);
 		std::cout << "access";
 	}
-	else _instructionList[instructionCount] = parseLineToInstruction(line);
+	else {
+		_instructionList[instructionCount] = parseLineToInstruction(line);
+		++instructionCount;
+	}
 }
 
 
@@ -193,8 +196,6 @@ void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, in
 			line[i - begin] = 0;
 			//seperate here
 			recognizeDataText(_instructionList, line, _instructionListSize);
-			if (_instructionList[instructionCount])
-				++instructionCount;
 			begin = i + 1;
 		}
 	_instructionListSize = instructionCount;

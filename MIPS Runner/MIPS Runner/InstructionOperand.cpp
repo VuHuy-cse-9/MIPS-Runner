@@ -18,22 +18,30 @@ void InstructionOperand::parseRegisterWithOffSet(const char* _token) {
 	int beginToken = 0;
 	for (int i = 0; i < strlen(_token); ++i) {
 		if (_token[i] == '(' || _token[i] == ')') {
-			char* arg = new char[i - beginToken + 1];
-			for (int k = 0; k < i - beginToken; ++k) {
-				arg[k] = _token[beginToken + k];
-			}
-			arg[i - beginToken] = 0;
-			//do some thing
 			bool convertSuccess;
-			if (isOffset) {
-				offset = toInt(arg, convertSuccess);
+			if (i == 0) {
 				isOffset = false;
+				beginToken = i + 1;
+				convertSuccess = true;
+				offset = 0;
 			}
-			else
-				this->memoryPtr = MemoryManager::getInstance()->getRegister(arg);
-			delete[]arg;
-			arg = nullptr;
-			beginToken = i + 1;
+			else {
+				char* arg = new char[i - beginToken + 1];
+				for (int k = 0; k < i - beginToken; ++k) {
+					arg[k] = _token[beginToken + k];
+				}
+				arg[i - beginToken] = 0;
+				//do some thing
+				if (isOffset) {
+					offset = toInt(arg, convertSuccess);
+					isOffset = false;
+				}
+				else
+					this->memoryPtr = MemoryManager::getInstance()->getRegister(arg);
+				delete[]arg;
+				arg = nullptr;
+				beginToken = i + 1;
+			}
 		}
 	}
 }

@@ -117,7 +117,7 @@ void DataAnalyse::half(TokenList& tokenList, int tokenListSize) {
 }
 
 void DataAnalyse::space(TokenList& tokenList, int tokenListSize) {
-	currentPtr = MemoryManager::getInstance()->allocateVariableMemory <char>(toInt(tokenList[1]),'0');
+	currentPtr = MemoryManager::getInstance()->allocateVariableMemory <char>(toInt(tokenList[1]),'x');
 }
 
 void DataAnalyse::ascii(TokenList& tokenList, int tokenListSize) {

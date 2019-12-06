@@ -6,7 +6,13 @@
 #include "Processor.h"
 
 int main() {
-	try {
+	char ch[] = ".space 10";
+	char* test = ch;
+	//for (int i = 0; i < 5; ++i) {
+		DataAnalyse a(test);
+	//}
+	std::cout << "Do some thing";
+	/*try {
 		TextProcessor textProcessor;
 		textProcessor.readSourceFile();
 
@@ -22,5 +28,5 @@ int main() {
 		std::cout << "ERROR: ";
 		std::cout << message << '\n';
 		std::cout << "--------------------------------------------------------------------------\n";
-	}
+	}*/
 }

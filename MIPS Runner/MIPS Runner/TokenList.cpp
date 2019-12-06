@@ -16,53 +16,33 @@ bool TokenList::isDelimiter(char c) {
 	}
 }
 
-TokenList::TokenList (const char* line) {
-	tokenListSize = 0;
-	tokenList = new char* [MAX_SIZE];
-
+int TokenList::getTokenListSize(const char* _line) {
 	int i = 0;
-	int run = 0;
-	while (line[i] != 0) {
-		if (i == 0) {
-			while (isDelimiter(line[i])) i++;
-			run = i;
-			while (!isDelimiter(line[run])) {
-				++run;
-			}
-			char* token = new char[run - i + 1];
-			for (int j = 0; j < run - i; ++j) {
-				token[j] = line[i + j];
-			}
-			token[run - i] = 0;
-			pushBack(token);
-			i = run;
-			while (isDelimiter(line[i])) i++;
-			delete[] token;
+	for (i = 0; _line[i] && _line[i] != ' '; ++i);
+	if (!_line[i]) return 1;
+
+	int size = 2;
+	for (int i = 0; _line[i]; ++i)
+		size += (_line[i] == ',');
+	return size;
+}
+
+TokenList::TokenList(const char* _line) {
+	tokenListSize = getTokenListSize(_line);
+	tokenList = new char* [tokenListSize];
+
+	int k = 0;
+	int l = 0;
+	for (int r = 0; true; ++r)
+		if ((k == 0 && _line[r] == ' ') || _line[r] == ',' || _line[r] == '\0') {
+			tokenList[k] = new char[r - l + 1];
+			for (int i = l; i < r; ++i)
+				tokenList[k][i - l] = _line[i];
+			tokenList[k][r - l] = '\0';
+			++k;
+			l = r + 1;
+			if (_line[r] == '\0') break;
 		}
-		else {
-			run = i;
-			int count = 0;
-			while (line[run] != ',' && line[run] != 0) {
-				if (line[run] != ' ') {
-					++count;
-				}
-				++run;
-			}
-			char* token = new char[count + 1];
-			token[count] = 0;
-			int j = 0;
-			for (int k = 0; k < run - i; ++k) {
-				if (line[i + k] != ' ') {
-					token[j] = line[i + k];
-					++j;
-				}
-			}
-			pushBack(token);
-			if (line[run] != 0)
-				i = run + 1;
-			else i = run;
-		}
-	}
 }
 
 TokenList::~TokenList() {
@@ -76,16 +56,6 @@ int TokenList::size() {
 	return tokenListSize;
 }
 
-void TokenList::pushBack(char* token) {
-	int i = 0;
-	while (token[i] != 0) {
-		++i;
-	}
-	tokenList[tokenListSize] = new char[i + 1];
-	strcpy(tokenList[tokenListSize], token);
-	++tokenListSize;
-}
-
-char*& TokenList::operator[](int i) {
-	return this->tokenList[i];
+char* TokenList::operator[](int i) {
+	return tokenList[i];
 }

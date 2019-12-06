@@ -11,12 +11,15 @@ private:
 	static const int MAX_SIZE;
 	int tokenListSize;
 	char** tokenList;
+
 	bool isDelimiter(char);
+	int getTokenListSize(const char*);
+
 public:
 	TokenList(const char* line);
 	~TokenList();
+
 	int size();
-	void pushBack(char*);
-	char*& operator[](int);
+	char* operator[](int);
 };
 

@@ -1,3 +1,4 @@
 .data:
+x .word 1,2,3
 .text:
 lw $s1,($s3)

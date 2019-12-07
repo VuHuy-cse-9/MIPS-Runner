@@ -24,8 +24,10 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& tokenList)
 	if (strcmp(tokenList[0], "subi") == 0) this->function = sub;
 	if (strcmp(tokenList[0], "slti") == 0) this->function = slt;
 	
-	if (strcmp(tokenList[0], "beq") == 0) this->function = beq;
-	if (strcmp(tokenList[0], "bne") == 0) this->function = bne;
+	if (strcmp(tokenList[0], "add.s") == 0) this->function = adds;
+	if (strcmp(tokenList[0], "sub.s") == 0) this->function = subs;
+	if (strcmp(tokenList[0], "mul.s") == 0) this->function = muls;
+	if (strcmp(tokenList[0], "div.s") == 0) this->function = divs;
 } 
 
 void ThreeArgInstruction::execute() {
@@ -84,4 +86,22 @@ void ThreeArgInstruction::bne(InstructionOperand& rd, InstructionOperand& rs, In
 	if (*(rd.memoryPtr) != *(rs.memoryPtr))
 		*(pc.memoryPtr) = *(rt.memoryPtr);
 }
+
+void ThreeArgInstruction::adds(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
+	//*(rd.memoryPtr) = (float)*(rs.memoryPtr) + (*float)*(rt.memoryPtr)(*float);
+}
+
+void ThreeArgInstruction::subs(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
+	*(rd.memoryPtr) = *(rs.memoryPtr) >> *(rt.memoryPtr);
+}
+
+void ThreeArgInstruction::muls(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
+	*(rd.memoryPtr) = *(rs.memoryPtr) >> *(rt.memoryPtr);
+}
+
+void ThreeArgInstruction::divs(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
+	*(rd.memoryPtr) = *(rs.memoryPtr) >> *(rt.memoryPtr);
+}
+
+
 

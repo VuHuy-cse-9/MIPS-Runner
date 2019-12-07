@@ -35,7 +35,7 @@ private:
 public:
 	~TextProcessor();
 
-	void recognizeDataText(Instruction**&, char*, int);
+	void recognizeDataText(Instruction**&, char*, int&);
 	void readSourceFile();
 	void parseSourceToInstruction(Instruction**&, int&);
 	

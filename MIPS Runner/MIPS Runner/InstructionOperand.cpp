@@ -96,3 +96,7 @@ InstructionOperand::~InstructionOperand() {
 	if (haveToDeleteMemory)
 		delete this->memoryPtr;
 }
+
+bool InstructionOperand::signatureIs(const char* _signature) {
+	return (this->signature[0] == _signature[0] && this->signature[1] == _signature[1]);
+}

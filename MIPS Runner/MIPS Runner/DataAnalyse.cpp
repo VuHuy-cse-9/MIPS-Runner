@@ -75,13 +75,12 @@ void DataAnalyse::process(TokenList& _tokenList) {
 	if (strcmp(_tokenList[0], ".space") == 0)	function = space;
 	if (function)
 		function(_tokenList, tokenListSize);
+	else
+		throw std::string("cannot evalute \"") + std::string(_tokenList[0]) + std::string("\"");
 }
 
 DataAnalyse::DataAnalyse(const char* line) {
 	TokenList tokenList(line);
-	for (int i = 0; i < tokenList.size(); ++i) {
-		std::cout << tokenList[i] << '\n';
-	}
 	switch (tokenList.size())
 	{
 	case 1:
@@ -122,7 +121,7 @@ void DataAnalyse::space(TokenList& tokenList, int tokenListSize) {
 
 void DataAnalyse::ascii(TokenList& tokenList, int tokenListSize) {
 	for (int i = 0; i < strlen(tokenList[1]); ++i) {
-		if (tokenList[1][i] != '"') {
+		if (tokenList[1][i] != '\"') {
 			currentPtr = MemoryManager::getInstance()->allocateVariableMemory <char>(1, tokenList[1][i]);
 		}
 	}
@@ -131,7 +130,7 @@ void DataAnalyse::ascii(TokenList& tokenList, int tokenListSize) {
 
 void DataAnalyse::asciiz(TokenList& tokenList, int tokenListSize) {
 	for (int i = 0; i < strlen(tokenList[1]); ++i) {
-		if (tokenList[1][i] != '"') {
+		if (tokenList[1][i] != '\"') {
 			currentPtr = MemoryManager::getInstance()->allocateVariableMemory <char>(1, tokenList[1][i]);
 		}
 	}

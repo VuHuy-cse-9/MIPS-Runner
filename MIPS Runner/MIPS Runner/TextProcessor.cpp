@@ -170,7 +170,6 @@ void TextProcessor::recognizeDataText(Instruction**& _instructionList, char* lin
 	}
 	if (recognizerMode == 0) {
 		DataAnalyse executeData(line);
-		std::cout << "access";
 	}
 	if (recognizerMode == 1) {
 		_instructionList[instructionCount] = parseLineToInstruction(line);
@@ -179,8 +178,6 @@ void TextProcessor::recognizeDataText(Instruction**& _instructionList, char* lin
 }
 
 void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, int& _instructionListSize) {
-	standarize();
-	std::cout << sourceCode;
 	// Count the number of instructions and allocate memory for them.
 	_instructionListSize = 0;
 	for (int i = 0; i < sourceCodeSize; ++i) 
@@ -192,13 +189,22 @@ void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, in
 	char* line = new char[MAX_LINE_LENGTH];
 	int begin = 0;
 	int instructionCount = 0;
+	int lineCount = 0;
 	for (int i = 0; i < sourceCodeSize; ++i) 
 		if (sourceCode[i] == '\n') {
 			for (int j = 0; j < i - begin; ++j) 
 				line[j] = sourceCode[begin + j];
 			line[i - begin] = 0;
 			//seperate here
-			recognizeDataText(_instructionList, line, instructionCount);
+
+			++lineCount;
+			try {
+				recognizeDataText(_instructionList, line, instructionCount);
+			}
+			catch (std::string message) {
+				throw std::string("line ") + std::to_string(lineCount) + std::string(":\t\t") + message;
+			}
+
 			begin = i + 1;
 		}
 	_instructionListSize = instructionCount;
@@ -225,8 +231,22 @@ void TextProcessor::readSourceFile() {
 	sourceCodeSize = i + 1;
 	sourceCode[sourceCodeSize - 1] = '\n';
 	sourceCode[sourceCodeSize] = 0;
+
+	standarize();
 }
 
 TextProcessor::~TextProcessor() {
 	delete[] sourceCode;
+}
+
+void TextProcessor::printSourceCode() {
+	int i = 0;
+	int lineCount = 1;
+	std::cout << lineCount << ":\t";
+	while (sourceCode[i]) {
+		std::cout << sourceCode[i];
+		if (sourceCode[i] == '\n' && sourceCode[i + 1])
+			std::cout << ++lineCount << ":\t";
+		++i;
+	}
 }

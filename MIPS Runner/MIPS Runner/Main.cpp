@@ -1,15 +1,15 @@
 #include <iostream>
 #include <string>
-#include "DataAnalyse.h"
 
 #include "TextProcessor.h"
 #include "Processor.h"
 
 int main() {
-	try {
-		TextProcessor textProcessor;
-		textProcessor.readSourceFile();
+	TextProcessor textProcessor;
+	textProcessor.readSourceFile();
+	textProcessor.printSourceCode();
 
+	try {
 		int instructionListSize = 0;
 		Instruction** instructionList = nullptr;
 		textProcessor.parseSourceToInstruction(instructionList, instructionListSize);
@@ -18,8 +18,7 @@ int main() {
 		processor.run();
 	}
 	catch (std::string message) {
-		std::cout << "--------------------------------------------------------------------------\n";
-		std::cout << "ERROR: ";
+		std::cout << "----------------------------------ERROR-----------------------------------\n";
 		std::cout << message << '\n';
 		std::cout << "--------------------------------------------------------------------------\n";
 	}

@@ -37,5 +37,5 @@ public:
 	void recognizeDataText(Instruction**&, char*, int&);
 	void readSourceFile();
 	void parseSourceToInstruction(Instruction**&, int&);
-	
+	void printSourceCode();
 };

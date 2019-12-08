@@ -1,20 +1,25 @@
 #pragma once
 
-#include"TextProcessor.h"
-#include"Instruction.h"
+#include "Instruction.h"
 #include "InstructionOperand.h"
-#include "PrintDataRegister.h"
+#include "SmartPointer.h"
 
 class Processor
 {
 private:
-	int instructionListSize;
-	Instruction** instructionList;
 	InstructionOperand pc;
 
+	Processor();
+	Processor(const Processor&) = delete;
+
+	static SmartPointer<Processor> instance;
+
 public:
-	Processor(Instruction**&, const int&);
-	int run(); // 0 => no bugs,1 bugs // run all code 
-	int runNextInstruction(); // 0 => no bugs,1 bugs // step code
+	int instructionListSize;
+	Instruction** instructionList;
+
+	static Processor* getInstance();
+	int run(); 
+	int runNextInstruction();
 };
 

@@ -1,5 +1,19 @@
 #include "TextProcessor.h"
 
+SmartPointer<TextProcessor> TextProcessor::instance = nullptr;
+
+TextProcessor::TextProcessor() {
+	sourceCode = nullptr;
+	sourceCodeSize = 0;
+	lineCount = 0;
+	textSegmentBeginLine = 0;
+}
+
+TextProcessor* TextProcessor::getInstance() {
+	if (!instance)
+		instance = new TextProcessor;
+	return instance;
+}
 
 Instruction* TextProcessor::parseLineToInstruction(char* line) {
 	Instruction* instruction = nullptr;	
@@ -166,6 +180,7 @@ void TextProcessor::recognizeDataText(Instruction**& _instructionList, char* lin
 	}
 	if (strcmp(line, ".text:") == 0) {
 		recognizerMode = 1;
+		textSegmentBeginLine = lineCount;
 		return;
 	}
 	if (recognizerMode == 0) {
@@ -189,7 +204,7 @@ void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, in
 	char* line = new char[MAX_LINE_LENGTH];
 	int begin = 0;
 	int instructionCount = 0;
-	int lineCount = 0;
+	lineCount = 0;
 	for (int i = 0; i < sourceCodeSize; ++i) 
 		if (sourceCode[i] == '\n') {
 			for (int j = 0; j < i - begin; ++j) 
@@ -237,16 +252,4 @@ void TextProcessor::readSourceFile() {
 
 TextProcessor::~TextProcessor() {
 	delete[] sourceCode;
-}
-
-void TextProcessor::printSourceCode() {
-	int i = 0;
-	int lineCount = 1;
-	std::cout << lineCount << ":\t";
-	while (sourceCode[i]) {
-		std::cout << sourceCode[i];
-		if (sourceCode[i] == '\n' && sourceCode[i + 1])
-			std::cout << ++lineCount << ":\t";
-		++i;
-	}
 }

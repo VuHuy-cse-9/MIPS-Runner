@@ -16,7 +16,7 @@ void ZeroArgInstruction::execute() {
 
 void ZeroArgInstruction::setLabelValue(InstructionOperand& address) {
 	InstructionOperand pc("$pc");
-	*(address.memoryPtr) = *(pc.memoryPtr) + 1;
+	*(address.memoryPtr) = *(pc.memoryPtr);
 }
 
 void ZeroArgInstruction::syscall(InstructionOperand& address) {

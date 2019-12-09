@@ -23,7 +23,6 @@ private:
 	// For storing source code data.
 	char* sourceCode;
 	int sourceCodeSize;
-	bool isData;
 
 	bool isSpacing(char);
 	bool isEmptyLine(const char*);

@@ -1,21 +1,5 @@
 #include "TextProcessor.h"
 
-void TextProcessor::recognizeDataText(Instruction**& _instructionList, char* line,int& instructionCount) {
-	if (strcmp(line, ".data:") == 0) return;
-	if (strcmp(line, ".text:") == 0) {
-		isData = false;
-		return;
-	}
-	if (isData) {
-		DataAnalyse executeData(line);
-		std::cout << "access";
-	}
-	else {
-		_instructionList[instructionCount] = parseLineToInstruction(line);
-		++instructionCount;
-	}
-}
-
 
 Instruction* TextProcessor::parseLineToInstruction(char* line) {
 	Instruction* instruction = nullptr;	
@@ -174,8 +158,27 @@ void TextProcessor::standarize() {
 	sourceCode = formatedSourceCode;
 }
 
+void TextProcessor::recognizeDataText(Instruction**& _instructionList, char* line,int& instructionCount) {
+	static int recognizerMode = -1;
+	if (strcmp(line, ".data:") == 0) {
+		recognizerMode = 0;
+		return;
+	}
+	if (strcmp(line, ".text:") == 0) {
+		recognizerMode = 1;
+		return;
+	}
+	if (recognizerMode == 0) {
+		DataAnalyse executeData(line);
+		std::cout << "access";
+	}
+	if (recognizerMode == 1) {
+		_instructionList[instructionCount] = parseLineToInstruction(line);
+		++instructionCount;
+	}
+}
+
 void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, int& _instructionListSize) {
-	isData = true;
 	standarize();
 	std::cout << sourceCode;
 	// Count the number of instructions and allocate memory for them.
@@ -195,7 +198,7 @@ void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, in
 				line[j] = sourceCode[begin + j];
 			line[i - begin] = 0;
 			//seperate here
-			recognizeDataText(_instructionList, line, _instructionListSize);
+			recognizeDataText(_instructionList, line, instructionCount);
 			begin = i + 1;
 		}
 	_instructionListSize = instructionCount;

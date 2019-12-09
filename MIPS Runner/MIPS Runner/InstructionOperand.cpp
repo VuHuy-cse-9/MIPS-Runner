@@ -1,15 +1,50 @@
 #include "InstructionOperand.h"
 
 int InstructionOperand::toInt(const char* _token, bool& success) {
-	int value;
-	success = (sscanf(_token, "%d", &value) == 1);
-	return value;
+	int begin = 0;
+	int sign = 1;
+	if (_token[0] == '-') {
+		begin = 1;
+		sign = -1;
+	}
+
+	success = false;
+	for (int i = begin; _token[i]; ++i)
+		if (_token[i] < '0' || _token[i] > '9') return 0;
+	success = true;
+
+	int result = 0;
+	for (int i = begin; _token[i]; ++i) {
+		result = result * 10 + (_token[i] - '0');
+	}
+	return result * sign;
 }
 
 double InstructionOperand::toDouble(const char* _token, bool& success) {
-	double value;
-	success = (sscanf(_token, "%lf", &value) == 1);
-	return value;
+	int begin = 0;
+	int sign = 1;
+	if (_token[0] == '-') {
+		begin = 1;
+		sign = -1;
+	}
+
+	success = false;
+	int countDot = 0;
+	int base = 1;
+	for (int i = begin; _token[i]; ++i) {
+		if ((_token[i] < '0' || _token[i] > '9') && _token[i] != '.') return 0;
+		if (countDot > 0) base *= 10;
+		countDot += (_token[i] == '.');
+	}
+	if (countDot > 1) return 0;
+	if (_token[begin] == '.') return 0;
+	success = true;
+
+	double result = 0;
+	for (int i = begin; _token[i]; ++i)
+		if (_token[i] != '.')
+			result = result * 10 + _token[i] - '0';
+	return sign * result / base;
 }
 
 //TODO:need to update ($s3)
@@ -97,10 +132,14 @@ InstructionOperand::InstructionOperand(const char* _token) {
 	}
 	delete this->memoryPtr;
 
-	throw std::string("cannot evaluate ") + std::string(_token);
+	throw std::string("cannot evaluate \"") + std::string(_token) + std::string("\"");
 }
 
 InstructionOperand::~InstructionOperand() {
 	if (haveToDeleteMemory)
 		delete this->memoryPtr;
+}
+
+bool InstructionOperand::signatureIs(const char* _signature) {
+	return (this->signature[0] == _signature[0] && this->signature[1] == _signature[1]);
 }

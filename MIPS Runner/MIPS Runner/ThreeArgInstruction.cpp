@@ -2,9 +2,12 @@
 
 ThreeArgInstruction::ThreeArgInstruction(TokenList& tokenList)
 	: rd(tokenList[1]), rs(tokenList[2]), rt(tokenList[3]) {
+	if (!rd.signatureIs("Rb"))
+		throw std::string("\"") + std::string(tokenList[1]) + std::string("\" have to be a register");
+	if (!rs.signatureIs("Rb"))
+		throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be a register");
 
 	function = nullptr;
-//we neeed 3 three instruction here
 	if (strcmp(tokenList[0], "add") == 0) this->function = add;
 	if (strcmp(tokenList[0], "sub") == 0) this->function = sub;
 	if (strcmp(tokenList[0], "mul") == 0) this->function = mul;
@@ -13,21 +16,37 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& tokenList)
 	if (strcmp(tokenList[0], "slt") == 0) this->function = slt;
 	if (strcmp(tokenList[0], "or") == 0) this->function = Or;
 	if (strcmp(tokenList[0], "and") == 0) this->function = And;
+	if (function)
+		if (!rt.signatureIs("Rb"))
+			throw std::string("\"") + std::string(tokenList[3]) + std::string("\" have to be a register");
+		else
+			return;
 
 	if (strcmp(tokenList[0], "addi") == 0)this->function = add;
 	if (strcmp(tokenList[0], "addiu") == 0) this->function = addu;
 	if (strcmp(tokenList[0], "subiu") == 0) this->function = sub;
 	if (strcmp(tokenList[0], "andi") == 0) this->function = And;
 	if (strcmp(tokenList[0], "ori") == 0) this->function = Or;
-	if (strcmp(tokenList[0], "sll") == 0) this->function = sll;
-	if (strcmp(tokenList[0], "srl") == 0) this->function = srl;
 	if (strcmp(tokenList[0], "subi") == 0) this->function = sub;
 	if (strcmp(tokenList[0], "slti") == 0) this->function = slt;
-	
-	if (strcmp(tokenList[0], "add.s") == 0) this->function = adds;
-	if (strcmp(tokenList[0], "sub.s") == 0) this->function = subs;
-	if (strcmp(tokenList[0], "mul.s") == 0) this->function = muls;
-	if (strcmp(tokenList[0], "div.s") == 0) this->function = divs;
+	if (strcmp(tokenList[0], "sll") == 0) this->function = sll;
+	if (strcmp(tokenList[0], "srl") == 0) this->function = srl;
+	if (function)
+		if (!rt.signatureIs("Ii"))
+			throw std::string("\"") + std::string(tokenList[3]) + std::string("\" have to be an integer");
+		else
+			return;
+
+	if (strcmp(tokenList[0], "beq") == 0) this->function = beq;
+	if (strcmp(tokenList[0], "bne") == 0) this->function = bne;
+	if (function)
+		if (!rt.signatureIs("Ii") && rt.signatureIs("Li"))
+			throw std::string("\"") + std::string(tokenList[3]) + std::string("\" have to be an instruction label or an integer");
+		else
+			return;
+
+	if (!function)
+		throw std::string("cannot resolve \"") + std::string(tokenList[0]) + std::string("\"");
 } 
 
 void ThreeArgInstruction::execute() {

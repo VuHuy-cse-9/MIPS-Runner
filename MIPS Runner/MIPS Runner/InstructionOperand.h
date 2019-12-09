@@ -26,4 +26,6 @@ public:
 	InstructionOperand(int*, int);
 	InstructionOperand(const char*);
 	~InstructionOperand();
+
+	bool signatureIs(const char*);
 };

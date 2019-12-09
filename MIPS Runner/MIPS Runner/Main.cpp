@@ -7,6 +7,6 @@ int main() {
 		UIManager::run();
 	}
 	catch (std::string message) {
-		UIManager::printErrorMessage(message.c_str());
+		UIManager::printCompileErrorMessage(message.c_str());
 	}
 }

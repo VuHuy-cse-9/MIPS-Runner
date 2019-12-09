@@ -18,8 +18,10 @@ void UIManager::clearScreen() {
 	system("cls");
 }
 
-void UIManager::printErrorMessage(const char* message) {
-	printWall("ERROR");
+void UIManager::printCompileErrorMessage(const char* message) {
+	clearScreen();
+	printSoureCode();
+	printWall("COMPILE ERROR");
 	std::cout << message << '\n';
 	printWall("");
 }

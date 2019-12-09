@@ -26,6 +26,6 @@ class UIManager
 
 public:
 	static void run();
-	static void printErrorMessage(const char*);
+	static void printCompileErrorMessage(const char*);
 };
 

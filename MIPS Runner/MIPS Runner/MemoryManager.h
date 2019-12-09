@@ -24,6 +24,7 @@ private:
 	MemoryManager(const MemoryManager&) = delete;
 	MemoryManager& operator=(const MemoryManager&) = delete;
 
+	friend class UIManager;
 public:
 	static const int REGISTER_MEMORY_SIZE;
 	static const char* REGISTER_NAME[];

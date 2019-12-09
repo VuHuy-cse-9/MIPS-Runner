@@ -69,6 +69,8 @@ void DataAnalyse::half(TokenList& tokenList, int tokenListSize) {
 void DataAnalyse::space(TokenList& tokenList, int tokenListSize) {
 	for (int i = 1; i < tokenList.size(); ++i) {
 		InstructionOperand operand(tokenList[i]);
+		if (!operand.signatureIs("Ii"))
+			throw std::string("the space define value have to be an integer");
 		currentPtr = MemoryManager::getInstance()->allocateVariableMemory<int>(*(operand.memoryPtr), 0);
 	}
 }

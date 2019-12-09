@@ -15,6 +15,7 @@ class UIManager
 {
 	static const int WALL_SIZE;
 	static const int NUMBER_OF_RUNNING_LINE_SHOW;
+	static const int NUMBER_OF_VARIABLE_LINE_SHOW;
 
 	static void printWall(const char*);
 	static void clearScreen();

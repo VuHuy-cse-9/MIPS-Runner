@@ -2,6 +2,7 @@
 
 const int UIManager::WALL_SIZE = 100;
 const int UIManager::NUMBER_OF_RUNNING_LINE_SHOW = 10;
+const int UIManager::NUMBER_OF_VARIABLE_LINE_SHOW = 30;
 
 
 void UIManager::printWall(const char* header) {
@@ -43,14 +44,17 @@ void UIManager::printRegisterData() {
 void UIManager::printVariableData() {
 	clearScreen();
 	printWall("VARIABLE");
-	LabelManager* labelManager = LabelManager::getInstance();
-	LabelManager::LinkedListNode* seeker = labelManager->root;
 
-	while (seeker) {
-		if (!seeker->isInstruction)
-			std::cout << seeker->name << ":\t" << seeker->memory << '\n';
-		seeker = seeker->next;
+	MemoryManager* memoryManager = MemoryManager::getInstance();
+	for (int i = 0; i < NUMBER_OF_VARIABLE_LINE_SHOW; ++i) {
+		for (int j = 0; j < WALL_SIZE / 4; ++j)
+		{
+			int val = memoryManager->variableMemory[i * WALL_SIZE / 4 + j];
+			std::cout << val << std::setfill(' ') << std::setw(4);
+		}
+		std::cout << '\n';
 	}
+
 	printWall("");
 }
 

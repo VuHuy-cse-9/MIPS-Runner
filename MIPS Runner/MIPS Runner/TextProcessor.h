@@ -32,6 +32,10 @@ private:
 	bool isSpacing(char);
 	bool isEmptyLine(const char*);
 	char* lineEnd(char*);
+	void markComment(char*&);
+	bool extractLabel(char*&, char*&);
+	bool extractOpCode(char*&, char*&);
+	bool extractArgument(char*&, char*&);
 	void standarize(char*&);
 	void standarize();
 	void recognizeDataText(Instruction**&, char*, int&);

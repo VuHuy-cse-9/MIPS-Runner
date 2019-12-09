@@ -64,93 +64,113 @@ char* TextProcessor::lineEnd(char* line) {
 	return line;
 }
 
-void TextProcessor::standarize(char*& line) {
-	// the end of formatedSourceCode contain "\n\0".
+void TextProcessor::markComment(char*& line) {
+	for (int i = 0; line[i]; ++i)
+		if (line[i] == '#') {
+			line[i] = '\0';
+			break;
+		}
+}
 
-	// check if line is an empty line.
+bool TextProcessor::extractLabel(char*& destination, char*& source) {
+	do
+	{
+		bool isLabel = false;
+		bool inQuote = false;
+		int i;
+		for (i = 0; source[i]; ++i) {
+			if (source[i] == ':' && !inQuote) {
+				isLabel = true;
+				break;
+			}
+
+			if (source[i] == '\"') 
+				inQuote = !inQuote;
+		}
+		if (!isLabel) break;
+
+		char* newLineBegin = source + i + 1;
+		while (isSpacing(*source)) ++source, --i;
+		while (isSpacing(source[i - 1])) --i;
+
+		for (int j = 0; j < i; ++j)
+			*(destination++) = source[j];
+		*(destination++) = ':';
+		*(destination++) = '\n';
+
+		source = newLineBegin;
+	} while (true);
+
+	return isEmptyLine(source);
+}
+
+bool TextProcessor::extractOpCode(char*& destination, char*& source) {
+	while (isSpacing(*source)) ++source;
+	if (!*source) return true;
+
+	while (!isSpacing(*source) && *source)
+		*(destination++) = *(source++);
+	if (isEmptyLine(source)) {
+		*(destination++) = '\n';
+		return true;
+	}
+
+	*(destination++) = ' ';
+	return false;
+}
+
+bool TextProcessor::extractArgument(char*& destination, char*& source) {
+	do
+	{
+		while (isSpacing(*source)) ++source;
+		while (*source != ',' && *source)
+			*(destination++) = *(source++);
+		while (isSpacing(*(destination - 1))) destination--;
+
+		if (isEmptyLine(source)) {
+			*(destination++) = '\n';
+			return false;
+		}
+		*(destination++) = *(source++);
+	} while (true);
+
+}
+
+void TextProcessor::standarize(char*& line) {
+	markComment(line);
 	if (isEmptyLine(line)) {
 		line[0] = 0;
 		return;
 	}
 	
 	char* formatedLine = new char[MAX_LINE_LENGTH];
-	// currentPosition is the current position of formatedLine.
-	char* currentPosition = formatedLine;
-	char* lineBegin = line;
+	char* currentFormatedLine = formatedLine;
+	char* currentLine = line;
 
-	// Extract label(s).
-	bool newLine = false;
-	do
-	{
-		bool isLabel = false;
-		int i;
-		for (i = 0; line[i]; ++i)
-			if (line[i] == ':') {
-				isLabel = true;
-				break;
-			}
-		if (!isLabel) break;
-
-		char* newLineBegin = line + i + 1;
-		while (isSpacing(*line)) ++line, --i;
-		while (isSpacing(line[i - 1])) --i;
-
-		for (int j = 0; j < i; ++j) 
-			*(currentPosition++) = line[j];
-		*(currentPosition++) = ':';
-		*(currentPosition++) = '\n';
-
-		line = newLineBegin;
-	} while (true);
-
-	if (isEmptyLine(line)) {
-		delete[] lineBegin;
-		*(currentPosition++) = '\0';
+	if (extractLabel(currentFormatedLine, currentLine)) {
+		delete[] line;
+		*(currentFormatedLine++) = '\0';
 		line = formatedLine;
 		return;
 	}
 
-	// Extract opcode (add, addi, .word, .space, .data, .text, ...).
-	while (isSpacing(*line)) ++line;
-	if (!*line) {
-		delete[] lineBegin;
-		*(currentPosition++) = '\n';
-		*(currentPosition++) = '\0';
-		line = formatedLine;
-		return;
-	}
-	while (!isSpacing(*line) && *line)
-		*(currentPosition++) = *(line++);
-	*(currentPosition++) = ' ';
-	if (!*line) {
-		delete[] lineBegin;
-		*(currentPosition++) = '\n';
-		*(currentPosition++) = '\0';
+	if (extractOpCode(currentFormatedLine, currentLine)) {
+		delete[] line;
+		*(currentFormatedLine++) = '\0';
 		line = formatedLine;
 		return;
 	}
 
-	// Extract argument(s).
-	do
-	{
-		while (isSpacing(*line)) ++line;
-
-		while (*line != ',' && *line)
-			*(currentPosition++) = *(line++);
-		while (isSpacing(*(currentPosition - 1))) currentPosition--;
-
-		if (!*line) break;
-		*(currentPosition++) = *(line++);
-
-	} while (true);
-
-	delete[] lineBegin;
-	*(currentPosition++) = '\n';
-	*(currentPosition++) = '\0';
+	extractArgument(currentFormatedLine, currentLine);
+	delete[] line;
+	*(currentFormatedLine++) = '\0';
 	line = formatedLine;
+	return;
 }
 
 void TextProcessor::standarize() {
+	// the end of formatedSourceCode contain "\n\0".
+
 	char* formatedSourceCode = new char[sourceCodeSize + 1];
 	// currentPosition is the current position of formatedSourceCode.
 	char* currentPosition = formatedSourceCode;
@@ -228,7 +248,7 @@ void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, in
 
 // TODO: replace constant "source.mips" with dynamic file name.
 void TextProcessor::readSourceFile() {
-	std::ifstream inputFile("source.mips");
+	std::ifstream inputFile("source.asm");
 	
 	inputFile.seekg(0, inputFile.end);
 	sourceCodeSize = inputFile.tellg();

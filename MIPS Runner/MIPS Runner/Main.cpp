@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "UIManager.h";
+#include "UIManager.h"
 
 int main() {
 	try {

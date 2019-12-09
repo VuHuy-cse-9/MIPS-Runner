@@ -38,5 +38,7 @@ int Processor::run() { // 0 => no bugs,1 bugs // run all code
 	return 0;
 }
 
-
+bool Processor::programEnded() {
+	return (*pc.memoryPtr == instructionListSize);
+}
 

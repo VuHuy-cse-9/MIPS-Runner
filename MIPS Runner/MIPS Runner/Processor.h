@@ -21,5 +21,6 @@ public:
 	static Processor* getInstance();
 	int run(); 
 	int runNextInstruction();
+	bool programEnded();
 };
 

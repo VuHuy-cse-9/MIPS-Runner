@@ -140,8 +140,10 @@ void UIManager::run() {
 		std::cin >> input;
 		
 		if (input.compare("next") == 0 || input.compare("n") == 0) {
-			printRunningCode();
+			if (processor->programEnded())
+				break;
 			processor->runNextInstruction();
+			printRunningCode();
 		}
 
 		if (input.compare("all") == 0 || input.compare("a") == 0) {
@@ -159,5 +161,6 @@ void UIManager::run() {
 		if (input.compare("variable") == 0 || input.compare("v") == 0)
 			printVariableData();
 	} while (true);
+
 	printRegisterData();
 }

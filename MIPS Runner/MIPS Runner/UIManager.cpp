@@ -138,7 +138,7 @@ void UIManager::run() {
 	do {
 		std::string input;
 		std::cin >> input;
-		
+
 		if (input.compare("next") == 0 || input.compare("n") == 0) {
 			if (processor->programEnded())
 				break;
@@ -149,6 +149,10 @@ void UIManager::run() {
 		if (input.compare("all") == 0 || input.compare("a") == 0) {
 			processor->run();
 			break;
+		}
+
+		if (input.compare("source") == 0 || input.compare("s") == 0) {
+			printSoureCode();
 		}
 
 		if (input.compare("running") == 0 || input.compare("u") == 0) {

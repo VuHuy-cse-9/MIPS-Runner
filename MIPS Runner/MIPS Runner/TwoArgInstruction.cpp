@@ -21,6 +21,13 @@ TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
 			throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be an integer");
 		else
 			return;
+	
+	if (strcmp(tokenList[0], "la") == 0) this->function = la;
+	if (function)
+		if (!rt.signatureIs("Lv"))
+			throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be a variable label");
+		else
+			return;
 
 	if (strcmp(tokenList[0], "sw") == 0) this->function = sw;
 	if (strcmp(tokenList[0], "lw") == 0) this->function = lw;
@@ -77,4 +84,8 @@ void TwoArgInstruction::sw(InstructionOperand& rs, InstructionOperand& rt) {
 
 void TwoArgInstruction::lw(InstructionOperand& rs, InstructionOperand& rt) {
 	*(rs.memoryPtr) = *(rt.memoryPtr + rt.offset);
+}
+
+void TwoArgInstruction::la(InstructionOperand& rs, InstructionOperand& rt) {
+	*(rs.memoryPtr) = (int) rt.memoryPtr;
 }

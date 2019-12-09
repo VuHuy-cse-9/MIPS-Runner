@@ -61,25 +61,12 @@ void MemoryManager::log() {
 			std::cout << REGISTER_BASIC_NAME[i] << "\t\t" << REGISTER_NAME[i] << "\t\t" << *(int*)(this->stackMemory + this->stackMemoryPointer) << '\n';
 }
 
-void MemoryManager::storeStringToMemory(char* _buffer) {
-	char* deletePtr;
-	bool isDeletePtr;
-	int length = strlen(_buffer);
-	char* buffer = new char[length + 1];
-	strcpy(buffer, _buffer);
-	registerMemory[5] = length;
-	for (int i = 0; i < 35; ++i) {
-		if (i != 4)
-			if (registerMemory[i] == registerMemory[4]) isDeletePtr = false;
-	}
-	if (registerMemory[4]) {
-			if (isDeletePtr) {
-			deletePtr = (char*)registerMemory[4];
-			delete[] deletePtr;
-			deletePtr = NULL;
-		}
-	}
-	registerMemory[4] = (int)&(buffer[0]);
-
-	//if $t1 left => string??
+//Fix name
+//Fix bug of user
+void MemoryManager::storeString(char* _buffer) {
+	//a0 save address from other memory
+	InstructionOperand a0("$a0");
+	char* ptr = (char*)*a0.memoryPtr;
+	strcpy(ptr, _buffer);//finish here
+	// need address
 }

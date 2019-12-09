@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cstring>
+#include "InstructionOperand.h"
 
 #include "SmartPointer.h"
 
@@ -46,5 +47,5 @@ public:
 	int* getRegister(const char*);
 
 	void log();
-	void storeStringToMemory(char* str);
+	void storeString(char*);
 };

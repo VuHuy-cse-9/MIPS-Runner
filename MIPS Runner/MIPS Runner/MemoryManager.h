@@ -46,4 +46,5 @@ public:
 	int* getRegister(const char*);
 
 	void log();
+	void storeStringToMemory(char* str);
 };

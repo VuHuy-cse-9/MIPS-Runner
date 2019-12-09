@@ -32,12 +32,35 @@ void ZeroArgInstruction::syscall(InstructionOperand& address) {
 		break;
 	case 4:
 		// PRINT_STRING
+
 		std::cout << (char*)a0.memoryPtr;
 		break;
 	case 5:
 		// READ_INT
 		std::cin >> *v0.memoryPtr;
 		break;
+	//case 8: {
+	//	//READ_STRING
+	//	std::cout << "access";
+	//	char c = 0;
+	//	int length = 0;
+	//	char* str = new char[1000];
+	//	while ( c != '\n') {
+	//		std::cin >> c;
+	//		str[length] = c;
+	//		++length;
+	//	}
+	//	char* buffer = new char[length];
+	//	for (int i = 0; i < length - 1; ++i) {
+	//		buffer[i] = str[i];
+	//	}
+	//	buffer[length - 1] = '\0';
+	//	delete[] str;
+	//	//TODO:
+	//	MemoryManager::getInstance()->storeStringToMemory(buffer);
+	//	delete[] buffer;
+	//}
+	//	break;
 	case 10:
 		// EXIT
 		throw 0;

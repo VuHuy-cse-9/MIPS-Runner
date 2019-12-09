@@ -1,4 +1,5 @@
 #include "MemoryManager.h"
+#pragma warning(disable : 4996)
 
 const int MemoryManager::VARIABLE_MEMORY_SIZE = 1 << 20;
 
@@ -7,7 +8,6 @@ const int MemoryManager::STACK_MEMORY_SIZE = 1 << 10 + 1;
 const int MemoryManager::REGISTER_MEMORY_SIZE = 35;
 const char* MemoryManager::REGISTER_NAME[] = { "$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3", "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$s0", "$s1", "$s2", "$s3", "$s4", "$s5", "$s6", "$s7", "$t8", "$t9", "$k0", "$k1", "$gp", "$sp", "$fp", "$ra", "$hi", "$lo", "$pc" };
 const char* MemoryManager::REGISTER_BASIC_NAME[] = { "$0", "$1", "$2", "$3", "$4", "$5", "$6", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$16", "$17", "$18", "$19", "$20", "$21", "$22", "$23", "$24", "$25", "$26", "$27", "$28", "$29", "$30", "$31", "$32", "$33", "$34" };
-
 SmartPointer<MemoryManager> MemoryManager::instance = nullptr;
 
 MemoryManager::MemoryManager() {
@@ -59,4 +59,27 @@ void MemoryManager::log() {
 			std::cout << REGISTER_BASIC_NAME[i] << "\t\t" << REGISTER_NAME[i] << "\t\t" << registerMemory[i] << '\n';
 		else 
 			std::cout << REGISTER_BASIC_NAME[i] << "\t\t" << REGISTER_NAME[i] << "\t\t" << *(int*)(this->stackMemory + this->stackMemoryPointer) << '\n';
+}
+
+void MemoryManager::storeStringToMemory(char* _buffer) {
+	char* deletePtr;
+	bool isDeletePtr;
+	int length = strlen(_buffer);
+	char* buffer = new char[length + 1];
+	strcpy(buffer, _buffer);
+	registerMemory[5] = length;
+	for (int i = 0; i < 35; ++i) {
+		if (i != 4)
+			if (registerMemory[i] == registerMemory[4]) isDeletePtr = false;
+	}
+	if (registerMemory[4]) {
+			if (isDeletePtr) {
+			deletePtr = (char*)registerMemory[4];
+			delete[] deletePtr;
+			deletePtr = NULL;
+		}
+	}
+	registerMemory[4] = (int)&(buffer[0]);
+
+	//if $t1 left => string??
 }

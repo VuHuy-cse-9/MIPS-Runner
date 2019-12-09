@@ -174,11 +174,11 @@ void TextProcessor::standarize() {
 
 void TextProcessor::recognizeDataText(Instruction**& _instructionList, char* line,int& instructionCount) {
 	static int recognizerMode = -1;
-	if (strcmp(line, ".data:") == 0) {
+	if (strcmp(line, ".data") == 0) {
 		recognizerMode = 0;
 		return;
 	}
-	if (strcmp(line, ".text:") == 0) {
+	if (strcmp(line, ".text") == 0) {
 		recognizerMode = 1;
 		textSegmentBeginLine = lineCount;
 		return;

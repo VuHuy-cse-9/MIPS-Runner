@@ -1,7 +1,4 @@
-.data:
-x: .word 7, 3, 4
-.text:
-lab:
-addi $t0, $0, 1
-add $t1, $0, $t0
-lw $t0, x
+.data
+.text
+addi $v0,$zero,1
+syscall

@@ -106,21 +106,21 @@ void ThreeArgInstruction::bne(InstructionOperand& rd, InstructionOperand& rs, In
 		*(pc.memoryPtr) = *(rt.memoryPtr);
 }
 
-void ThreeArgInstruction::adds(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
-	//*(rd.memoryPtr) = (float)*(rs.memoryPtr) + (*float)*(rt.memoryPtr)(*float);
-}
-
-void ThreeArgInstruction::subs(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
-	*(rd.memoryPtr) = *(rs.memoryPtr) >> *(rt.memoryPtr);
-}
-
-void ThreeArgInstruction::muls(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
-	*(rd.memoryPtr) = *(rs.memoryPtr) >> *(rt.memoryPtr);
-}
-
-void ThreeArgInstruction::divs(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
-	*(rd.memoryPtr) = *(rs.memoryPtr) >> *(rt.memoryPtr);
-}
+//void ThreeArgInstruction::adds(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
+//	//*(rd.memoryPtr) = (float)*(rs.memoryPtr) + (*float)*(rt.memoryPtr)(*float);
+//}
+//
+//void ThreeArgInstruction::subs(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
+//	*(rd.memoryPtr) = *(rs.memoryPtr) >> *(rt.memoryPtr);
+//}
+//
+//void ThreeArgInstruction::muls(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
+//	*(rd.memoryPtr) = *(rs.memoryPtr) >> *(rt.memoryPtr);
+//}
+//
+//void ThreeArgInstruction::divs(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
+//	*(rd.memoryPtr) = *(rs.memoryPtr) >> *(rt.memoryPtr);
+//}
 
 
 

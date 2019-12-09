@@ -29,6 +29,7 @@ private:
 	static SmartPointer<LabelManager> instance;
 	bool latestLabelType;
 
+	friend class UIManager;
 public:
 	~LabelManager();
 	static LabelManager* getInstance();

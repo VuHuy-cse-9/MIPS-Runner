@@ -51,10 +51,10 @@
     <ClCompile Include="LabelManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PrintDataRegister.cpp">
+    <ClCompile Include="DataAnalyse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DataAnalyse.cpp">
+    <ClCompile Include="UIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -95,10 +95,10 @@
     <ClInclude Include="SmartPointer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PrintDataRegister.h">
+    <ClInclude Include="DataAnalyse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DataAnalyse.h">
+    <ClInclude Include="UIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

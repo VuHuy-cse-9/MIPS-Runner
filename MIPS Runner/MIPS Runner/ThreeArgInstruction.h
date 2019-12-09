@@ -17,7 +17,7 @@ protected:
 	static void addu(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void sub(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void subu(InstructionOperand&, InstructionOperand&, InstructionOperand&);
-	static void And(InstructionOperand&, InstructionOperand&, InstructionOperand&); // and is now allow
+	static void And(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void Or(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void sll(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void srl(InstructionOperand&, InstructionOperand&, InstructionOperand&);
@@ -27,10 +27,10 @@ protected:
 	static void bne(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 
 	//float function
-	static void adds(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	/*static void adds(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void subs(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void muls(InstructionOperand&, InstructionOperand&, InstructionOperand&);
-	static void divs(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void divs(InstructionOperand&, InstructionOperand&, InstructionOperand&);*/
 	
 public:
 	ThreeArgInstruction(TokenList&);

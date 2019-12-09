@@ -1,12 +1,22 @@
 #include "Processor.h"
 
-Processor::Processor(Instruction**& _instructionList, const int& _instructionListSize) 
-: instructionList(_instructionList), instructionListSize(_instructionListSize), pc("$pc") {
+SmartPointer<Processor> Processor::instance = nullptr;
+
+Processor::Processor() 
+	: pc("$pc") {
+	instructionList = nullptr;
+	instructionListSize = 0;
+}
+
+Processor* Processor::getInstance() {
+	if (!instance) 
+		instance = new Processor;
+	return instance;
 }
 
 int Processor::runNextInstruction() {
 	instructionList[*pc.memoryPtr]->execute();
-	++* pc.memoryPtr;
+	++(*pc.memoryPtr);
 	return 0;
 }
 

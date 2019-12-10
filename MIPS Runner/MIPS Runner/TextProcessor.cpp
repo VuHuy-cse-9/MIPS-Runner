@@ -103,7 +103,7 @@ char** TextProcessor::processData(char** src) {
 				DataAnalyse execute(*currentLine);
 			}
 			catch (std::string message) {
-				throw std::string("line ") + std::to_string(currentLine - src + 1) + std::string(":\t\t") + message;
+				throw std::string("line ") + std::to_string(currentLine - src) + std::string(":\t\t") + message;
 			}
 			++currentLine;
 		}
@@ -130,7 +130,7 @@ void TextProcessor::processLabel(char** currentLine, Instruction**& instructionL
 			instructionList[index] = instruction;
 		}
 		catch (std::string message) {
-			throw std::string("line ") + std::to_string(currentLine - src + 1) + std::string(":\t\t") + message;
+			throw std::string("line ") + std::to_string(currentLine - src) + std::string(":\t\t") + message;
 		}
 	}
 }
@@ -147,7 +147,7 @@ void TextProcessor::processInstruction(char** currentLine, Instruction**& instru
 			instructionList[index] = parseLineToInstruction(*(currentLine - 1));
 		}
 		catch (std::string message) {
-			throw std::string("line ") + std::to_string(currentLine - src + 1) + std::string(":\t\t") + message;
+			throw std::string("line ") + std::to_string(currentLine - src) + std::string(":\t\t") + message;
 		}
 	}
 	instructionListSize = index + 1;

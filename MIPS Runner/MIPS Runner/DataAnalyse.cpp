@@ -135,7 +135,7 @@ void DataAnalyse::ascii(TokenList& tokenList, int tokenListSize) {
 	while (tokenList[1][i] != '\"' && tokenList[1][i]) ++i;
 	++i;
 
-	while (tokenList[1][i] != '\"') {
+	while (tokenList[1][i] && tokenList[1][i] != '\"') {
 		char value = ' ';
 		if (tokenList[1][i] == '\\') {
 			value = parseBackslash(tokenList[1][i + 1]);

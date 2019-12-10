@@ -3,7 +3,7 @@
 
 const int MemoryManager::VARIABLE_MEMORY_SIZE = 1 << 20;
 
-const int MemoryManager::STACK_MEMORY_SIZE = 1 << 10 + 1;
+const int MemoryManager::STACK_MEMORY_SIZE = 1 << 10;
 
 const int MemoryManager::FLOATINGPOINTREGISTER_MEMORY_SIZE = 31;
 const int MemoryManager::REGISTER_MEMORY_SIZE = 35;
@@ -28,6 +28,8 @@ MemoryManager::MemoryManager() {
 	this->floating_pointRegisterMemory = new float[REGISTER_MEMORY_SIZE];
 	for (int i = 0; i < REGISTER_MEMORY_SIZE; ++i)
 		floating_pointRegisterMemory[i] = 0.00;
+
+	this->registerMemory[29] = (int)(this->stackMemory + this->stackMemoryPointer);
 }
 
 // A bug appear when trying to stackMemory.
@@ -36,6 +38,7 @@ MemoryManager::~MemoryManager() {
 	// TODO: A bug appear when execute this line of code, fix it.
 	delete[] this->stackMemory;
 	delete[] this->registerMemory;
+	delete[] this->floating_pointRegisterMemory;
 }
 
 MemoryManager* MemoryManager::getInstance() {
@@ -49,9 +52,6 @@ void* MemoryManager::getVariableMemoryPointer() {
 }
 
 int* MemoryManager::getRegister(const char* _name) {
-	if (strcmp(_name, REGISTER_NAME[29]) == 0 || strcmp(_name, REGISTER_BASIC_NAME[29]) == 0)
-		return (int*)(this->stackMemory + this->stackMemoryPointer);
-
 	for (int i = 0; i < REGISTER_MEMORY_SIZE; ++i)
 		if (strcmp(_name, REGISTER_NAME[i]) == 0 || strcmp(_name, REGISTER_BASIC_NAME[i]) == 0)
 			return this->registerMemory + i;

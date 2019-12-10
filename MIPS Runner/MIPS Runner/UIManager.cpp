@@ -16,7 +16,7 @@ void UIManager::printWall(const char* header) {
 }
 
 void UIManager::clearScreen() {
-	system("cls");
+	//system("cls");
 }
 
 void UIManager::printCompileErrorMessage(const char* message) {
@@ -64,7 +64,7 @@ void UIManager::printSoureCode() {
 	printWall("SOURCE CODE");
 
 	for (int i = 0; textProcessor->src[i]; ++i)
-		std::cout << std::to_string(i + 1) << std::string("\t\t") << textProcessor->src[i] << '\n';
+		std::cout << std::to_string(i + 1) << std::string(":\t\t") << textProcessor->src[i] << '\n';
 
 	printWall("");
 }

@@ -47,7 +47,7 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& tokenList)
 	if (strcmp(tokenList[0], "bne") == 0) this->function = bne;
 
 	if (function)
-		if (!rt.signatureIs("Ii") && rt.signatureIs("Li"))
+		if (!rt.signatureIs("Ii") && !rt.signatureIs("Li"))
 			throw std::string("\"") + std::string(tokenList[3]) + std::string("\" have to be an instruction label or an integer");
 		else
 			return;
@@ -127,6 +127,3 @@ void ThreeArgInstruction::muls(InstructionOperand& rd, InstructionOperand& rs, I
 void ThreeArgInstruction::divs(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
 	*((float*)(rd.memoryPtr)) = *((float*)(rd.memoryPtr)) / *((float*)(rd.memoryPtr));
 }
-
-
-

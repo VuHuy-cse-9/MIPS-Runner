@@ -1,3 +1,5 @@
 .data
+x: .float 10.2
 .text
-add.s $f0, $f1, $f2
+la $t0,x
+l.s $f0,0($t0)

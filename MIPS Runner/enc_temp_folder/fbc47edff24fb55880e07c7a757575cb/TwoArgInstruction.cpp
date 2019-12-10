@@ -125,7 +125,10 @@ void TwoArgInstruction::clts(InstructionOperand& rs, InstructionOperand& rt) {
 }
 
 void TwoArgInstruction::ls(InstructionOperand& rs, InstructionOperand& rt) {
+	int i = rt.offset;
+	int a = *(rt.memoryPtr);
 	*((float*)rs.memoryPtr) = *((float*)(rt.memoryPtr + rt.offset));
+	
 }
 
 void TwoArgInstruction::ss(InstructionOperand& rs, InstructionOperand& rt) {

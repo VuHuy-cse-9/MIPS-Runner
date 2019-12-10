@@ -101,6 +101,8 @@ InstructionOperand::InstructionOperand(const char* _token) {
 	this->memoryPtr = (int*)MemoryManager::getInstance()->getFloatingPointRegister(_token);
 	if (this->memoryPtr) {
 		//TODO:For compile
+		this->signature[0] = 'R';
+		this->signature[1] = 'b';
 		return;
 	}
 

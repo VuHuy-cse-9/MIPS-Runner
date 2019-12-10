@@ -9,7 +9,6 @@ OneArgInstruction::OneArgInstruction(TokenList& tokenList)
 	if (strcmp("jal", tokenList[0]) == 0) function = jal;
 	if (strcmp("bc1f", tokenList[0]) == 0) function = bc1f;
 	if (strcmp("bc1t", tokenList[0]) == 0) function = bc1t;
-
 	
 	if (!function)
 		throw std::string("cannot resolve \"") + std::string(tokenList[0]) + std::string("\"");

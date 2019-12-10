@@ -18,7 +18,6 @@ private:
 	double toDouble(const char*, bool&);
 	void parseRegisterWithOffSet(const char*);
 public:
-
 	int* memoryPtr;
 	int offset;
 	char signature[2];

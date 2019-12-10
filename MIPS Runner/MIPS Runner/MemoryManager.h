@@ -19,6 +19,7 @@ private:
 	int stackMemoryPointer;
 
 	int* registerMemory;
+	float* floating_pointRegisterMemory;
 
 	static SmartPointer<MemoryManager> instance;
 
@@ -29,8 +30,10 @@ private:
 	friend class UIManager;
 public:
 	static const int REGISTER_MEMORY_SIZE;
+	static const int FLOATINGPOINTREGISTER_MEMORY_SIZE;
 	static const char* REGISTER_NAME[];
 	static const char* REGISTER_BASIC_NAME[];
+	static const char* FLOATING_POINT_BASIC_NAME[];
 
 	~MemoryManager();
 	static MemoryManager* getInstance();
@@ -40,13 +43,11 @@ public:
 	Type* allocateVariableMemory(int _size, Type _value) {
 		Type* returnPointer = (Type*)(this->variableMemory + this->variableMemoryPointer);
 		this->variableMemoryPointer += _size;
-
 		memcpy(returnPointer, &_value, sizeof(Type));
 		return returnPointer;
 	}
-
 	int* getRegister(const char*);
-
+	float* getFloatingPointRegister(const char*);
 	void log();
 	void storeString(char*);
 };

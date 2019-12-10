@@ -97,6 +97,13 @@ InstructionOperand::InstructionOperand(const char* _token) {
 		return;
 	}
 
+	this->memoryPtr = (int*)MemoryManager::getInstance()->getFloatingPointRegister(_token);
+	if (this->memoryPtr) {
+		//TODO:Toan do something to compile
+		return;
+	}
+
+
 	this->memoryPtr = (int*) LabelManager::getInstance()->getMemory(_token);
 	if (this->memoryPtr) {
 		this->signature[0] = 'L';

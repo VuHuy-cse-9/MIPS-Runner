@@ -4,8 +4,8 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& tokenList)
 	: rd(tokenList[1]), rs(tokenList[2]), rt(tokenList[3]) {
 	if (!rd.signatureIs("Rb"))
 		throw std::string("\"") + std::string(tokenList[1]) + std::string("\" have to be a register");
-	if (!rs.signatureIs("Rb"))
-		throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be a register");
+	//if (!rs.signatureIs("Rb"))
+		//throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be a register");
 
 	function = nullptr;
 	if (strcmp(tokenList[0], "add") == 0) this->function = add;
@@ -45,6 +45,9 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& tokenList)
 
 	if (strcmp(tokenList[0], "beq") == 0) this->function = beq;
 	if (strcmp(tokenList[0], "bne") == 0) this->function = bne;
+	if (strcmp(tokenList[0], "bge") == 0) this->function = bge;
+	if (strcmp(tokenList[0], "bgt") == 0) this->function = bgt;
+	if (strcmp(tokenList[0], "ble") == 0) this->function = ble;
 
 	if (function)
 		if (!rt.signatureIs("Ii") && !rt.signatureIs("Li"))
@@ -109,6 +112,24 @@ void ThreeArgInstruction::beq(InstructionOperand& rd, InstructionOperand& rs, In
 void ThreeArgInstruction::bne(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
 	InstructionOperand pc("$pc");
 	if (*(rd.memoryPtr) != *(rs.memoryPtr))
+		*(pc.memoryPtr) = *(rt.memoryPtr);
+}
+
+void ThreeArgInstruction::bge(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand pc("$pc");
+	if (*(rd.memoryPtr) >= *(rs.memoryPtr))
+		*(pc.memoryPtr) = *(rt.memoryPtr);
+}
+
+void ThreeArgInstruction::bgt(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand pc("$pc");
+	if (*(rd.memoryPtr) > *(rs.memoryPtr))
+		*(pc.memoryPtr) = *(rt.memoryPtr);
+}
+
+void ThreeArgInstruction::ble(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand pc("$pc");
+	if (*(rd.memoryPtr) <= *(rs.memoryPtr))
 		*(pc.memoryPtr) = *(rt.memoryPtr);
 }
 

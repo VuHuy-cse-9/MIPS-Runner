@@ -90,11 +90,17 @@ void TwoArgInstruction::move(InstructionOperand& rs, InstructionOperand& rt) {
 }
 
 void TwoArgInstruction::sw(InstructionOperand& rs, InstructionOperand& rt) {
-	*(int*)((char*)(*rt.memoryPtr) + rt.offset) = *rs.memoryPtr;
+	if (rt.signatureIs("Rw"))
+		*(int*)((char*)(*rt.memoryPtr) + rt.offset) = *rs.memoryPtr;
+	if (rt.signatureIs("Lv"))
+		*rt.memoryPtr = *rs.memoryPtr;
 }
 
 void TwoArgInstruction::lw(InstructionOperand& rs, InstructionOperand& rt) {
-	*(rs.memoryPtr) = *(int*)((char*)(*rt.memoryPtr) + rt.offset);
+	if (rt.signatureIs("Rw"))
+		*(rs.memoryPtr) = *(int*)((char*)(*rt.memoryPtr) + rt.offset);
+	if (rt.signatureIs("Lv"))
+		*rs.memoryPtr = *rt.memoryPtr;
 }
 
 void TwoArgInstruction::la(InstructionOperand& rs, InstructionOperand& rt) {

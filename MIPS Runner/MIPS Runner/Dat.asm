@@ -1,202 +1,205 @@
 .data
-	array: .word 5, 1, 50, 26, 17, 20, 9, 12, 42, 85, 99, 33, 46, 75, 80, 19, 55, 56, 57, 60, 42, 53, 44, 11, 98, 97, 69, 96, 2, 77, 66, 32, 13, 91, 89, 30, 50, 51, 76, 40, 3, 4, 6, 7, 8, 9, 10, 82, 81, 71
-	size: .word 50
-	spaceSymb: .asciiz " "
+	prompt1: .asciiz "Input first real number: \n"
+	prompt2: .asciiz "Input second real number: \n"
+	prompt3: .asciiz "Sum: "
+	prompt4: .asciiz "Sub: "
 .text
-	.globl _main
-	
-_main:
-	la $a0, array
-	add $a1, $0, $0
-	lw $a2, size
-	subi $a2, $a2, 1
-	
-	jal _quicksort
-	
-	li $v0, 10
+main:
+	# Input the data
+	la	$a0, prompt1
+	li	$v0, 4
 	syscall
-# func swap(x: int*, y: int*) {
-#	(*x, *y) = (*y, *x)
-# }
-_swap:
-	lw $t0, 0($a0)
-	lw $t1, 0($a1)
-	sw $t0, 0($a1)
-	sw $t1, 0($a0)
+	li	$v0, 6
+	syscall
 	
-	jr $ra
+	mfc1 	$t0, $f0	# t0 contain the bits of first number
 	
-# func quicksort(array: int*, start: int, end: int) {
-# 	guard start < end
-#	let position = partition(array, start, end)
-#	quicksort(array, start, position - 1)
-#	quicksort(array, position + 1, end)
-# }
-_quicksort: # array, start, end = a0, a1, a2, resp.
-	bge $a1, $a2, quicksort_returning # guard a1 < a2
-
-	subi $sp, $sp, 20 # we need to save ra, array, start, end, position
-	sw $ra, 0($sp) # push ra
-	sw $a0, 4($sp) # push array
-	sw $a1, 8($sp) # push start
-	sw $a2, 12($sp) # push end
+	la	$a0, prompt2
+	li	$v0, 4
+	syscall
+	li	$v0, 6
+	syscall
 	
-	jal print
+	mfc1 	$t1, $f0	# t1 contains the bits of second number
 	
 	
-	jal _partition # call partition, return to v0
-	sw $v0, 16($sp) # push position
+	# Add number in t0, t1 in IEEE standard
 	
-	lw $a1, 8($sp) # a1 = start
-	lw $a2, 16($sp) # a2 = position
-	subi $a2, $a2, 1 # a2 = position - 1
-	jal _quicksort # call quicksort
+	# Get the sign of those float
+	F_SIGN_CHECKING:
+		bgez	$t0, F_GREATER_ZERO
+		addi	$t2, $zero, 1
+		sll	$t2, $t2, 31
+		j	END_F_SIGN_CHECKING
+	F_GREATER_ZERO:
+		add	$t2, $zero, $zero	
+	END_F_SIGN_CHECKING:			# t2 contain the sign of the first number
+	S_SIGN_CHECKING:
+		bgez	$t1, S_GREATER_ZERO
+		addi	$t3, $zero, 1
+		sll	$t3, $t3, 31
+		j	END_S_SIGN_CHECKING
+	S_GREATER_ZERO:
+		add	$t3, $zero, $zero
+	END_S_SIGN_CHECKING:			# t3 contain the sign of the second number
 	
-	lw $a1, 16($sp) # a1 = position
-	addi $a1, $a1, 1 # a1 = position + 1
-	lw $a2, 12($sp) # a2 = end
-	jal _quicksort # call quicksort
+	# Split into two part, exponent and significand
 	
-	lw $a2, 12($sp) # pop end
-	lw $a1, 8($sp) # pop start
-	lw $a0, 4($sp) # pop array
-	lw $ra, 0($sp) # pop ra
-	addi $sp, $sp, 20 # re-align the stack
+	# Get exponent
+	F_GET_EXP:
+		sll	$t4, $t0, 1
+		srl	$t4, $t4, 24		# t4 contains exponent of first number
+	S_GET_EXP:
+		sll	$t5, $t1, 1
+		srl	$t5, $t5, 24		# t5 contains exponent of second number
 	
-	quicksort_returning:
-		jr $ra
-
-# func partition(array: int*, start: int, end: int) -> int {
-# 	let pivot = array[end]
-#	var left = start
-#	var right = end - 1
-#	while true {
-#		while left <= right and array[left] <= pivot { left += 1 }
-#		while left <= right and array[right] > pivot { right -= 1 }
-#		if left >= right { break }
-#		swap(array + left, array + right)
-#		left += 1
-#		right -= 1
-#	}
-#	swap(array + left, array + end)
-#	return left
-# }	
-
-_partition: # array, start, end = a0, a1, a2, resp.
-	subi $sp, $sp, 16 # we need to save ra, array, start, end
-	sw $ra, 0($sp) # push ra
-	sw $a0, 4($sp) # push rray
-	sw $a1, 8($sp) # push start
-	sw $a2, 12($sp) # push end
-	
-	# pivot, left, right = s0, s1, s2, resp.
-	
-	lw $s0, 12($sp) # s0 = end
-	sll $s0, $s0, 2 # s0 = 4.end
-	lw $t0, 4($sp) # t0 = array
-	add $s0, $s0, $t0 # s0 = array + 4.end
-	lw $s0, 0($s0) # pivot = s0 = array[end]
-	
-	lw $s1, 8($sp) # left = s1 = start
-	lw $s2, 12($sp) # right = s2 = end
-	subi $s2, $s2, 1 # right = end - 1
-	
-	loop1:
-		lw $a0, 4($sp) # load array from stack
-		loop2:
-			bgt $s1, $s2, end_loop2 # if left > right then break
-			
-			sll $t0, $s1, 2 # t0 = 4.left
-			add $t0, $t0, $a0 # t0 = array + 4.left
-			lw $t0, 0($t0) # t0 = array[left]
-			
-			bgt $t0, $s0, end_loop2 # if array[left] > pivot then break
-			
-			addi $s1, $s1, 1 # left += 1
-			
-			j loop2
-		end_loop2:
+	# Get significand
+	F_GET_SIG:
+		ori	$s0, $t0, 0x00800000
+		sll	$s0, $s0, 8
+		srl	$s0, $s0, 7			# Add 1 to cal
+	S_GET_SIG:
+		ori	$s1, $t1, 0x00800000
+		sll	$s1, $s1, 8
+		srl	$s1, $s1, 7			# Add 1 one cal
 		
-		loop3:
-			bgt $s1, $s2, end_loop3 # if left > right then break
-			
-			sll $t0, $s2, 2 # t0 = 4.right
-			add $t0, $t0, $a0 # t0 = array + 4.right
-			lw $t0, 0($t0) # t0 = array[right]
-			
-			ble $t0, $s0, end_loop3 # if array[right] <= pivot then break
-			
-			subi $s2, $s2, 1 # right -= 1
-			
-			j loop3
-		end_loop3:
-		
-		bge $s1, $s2, end_loop1 # if left >= right then break
-		
-		sll $t0, $s1, 2 # t0 = 4.left
-		add $a0, $a0, $t0 # a0 = array + 4.left
-		
-		lw $a1, 4($sp) # a1 = array
-		sll $t0, $s2, 2 # t0 = 4.right
-		add $a1, $a1, $t0 # a1 = array + 4.right
-		
-		jal _swap # call swap
-		
-		addi $s1, $s1, 1 # left += 1
-		subi $s2, $s2, 1 # right -= 1
+	# Set signed for SIG
+		#beqz	$t2, NEXT_NUM
+		#not	$s0, $s0
+		#addiu	$s0, $s0, 1			# 2-complement binary
+	#NEXT_NUM:
+		#beqz	$t3, WHICH_GREATER
+		#not	$s1, $s1
+		#addiu	$s1, $s1, 1			# 2-complement binary
 	
-		j loop1
-	end_loop1:
+	# Increase the exponent
+	WHICH_GREATER:
+		bgt	$t4, $t5, A_GREATER_B
+		j	B_GREATER_A
+	A_GREATER_B:
+		beq	$t5, $t4, END_A_GREATER_B
+		addi	$t5, $t5, 1
+		sra	$s1, $s1, 1
+		j	A_GREATER_B
+	END_A_GREATER_B:
+		j	CAL
+	B_GREATER_A:
+		beq	$t5, $t4, END_B_GREATER_A
+		addi	$t4, $t4, 1
+		sra	$s0, $s0, 1
+		j	B_GREATER_A
+	END_B_GREATER_A:
+	CAL:
+	# Combine those part of float
+	bne	$t2, $t3, DIFF_SIGN
+	SAME_SIGN:
+		addu	$t8, $s0, $s1		# t8 is sum
+		subu	$t9, $s0, $s1		# t9 is sub
+		# same signed -> signed of sum is signed of operand
+		# same signed -> signed of sub is signed of operand xor with signed of operand
+		srl	$t7, $t9, 31
+		sll	$t7, $t7, 31
+		xor	$t3, $t7, $t3		# 0 , 0 -> 0; 1, 1 -> 0; 1, 0 -> 1; 0, 1 -> 1
+		j	END_CAL
+		#addi	$t4, $t4, 1
+		#sll	$t8, $t8, 1		# Change the to type 0.xxxxx
+		#subi	$t5, $t5, 1
+		#sll	$t9, $t9, 1		# Change the to type 0.xxxxx
+	DIFF_SIGN:
+		subu	$t8, $s0, $s1		# t8 is sum
+		addu	$t9, $s0, $s1		# t9 is sub
+		# diff signed -> signed of sub is signed of first operand
+		add	$t3, $zero, $t2
+		# diff signed -> signed of sum is signed of t8
+		srl	$t7, $t8, 31
+		sll	$t7, $t7, 31
+		xor	$t2, $t7, $t2
+		#addi	$t5, $t5, 1
+		#sll	$t9, $t9, 1		# Change the to type 0.xxxxx
+		#subi	$t4, $t4, 1
+		#srl	$t8, $t8, 1		# Change the to type 0.xxxxx
+	END_CAL:
+		srl	$t6, $t8, 31
+		beqz	$t6, SUM_NOT_NEG
+		not	$t8, $t8
+		addi	$t8, $t8, 1
+	SUM_NOT_NEG:
+		srl	$t7, $t9, 31
+		beqz	$t7, SUB_NOT_NEG
+		not	$t9, $t9
+		addi	$t9, $t9, 1
+	SUB_NOT_NEG:
+	# Sum > 0x01000000
+	# Check Overflow
+	add	$v0, $zero, $t8
+	add	$s3, $zero, $t4
+	jal	STANDARDIZED
+	add	$t8, $zero, $v0
+	add	$t4, $zero, $s3
 	
-	lw $a0, 4($sp) # a0 = array
-	sll $t0, $s1, 2 # t0 = 4.left
-	add $a0, $a0, $t0 # a0 = array + 4.left
+	add	$v0, $zero, $t9
+	add	$s3, $zero, $t5
+	jal	STANDARDIZED
+	add	$t9, $zero, $v0
+	add	$t5, $zero, $s3
 	
-	lw $a1, 4($sp) # a1 = array
-	lw $t0, 12($sp) # t0 = end
-	sll $t0, $t0, 2 # t0 = 4.end
-	add $a1, $a1, $t0 # a1 = array = 4.end
+	COMBINE:
+	SHIFT_POS_EXP:
+	sll	$t4, $t4, 23
+	sll	$t5, $t5, 23
 	
-	jal _swap # call swap
+	SHIFT_POS_SIG:
+	sll	$t8, $t8, 8
+	srl	$t8, $t8, 9
+	sll	$t9, $t9, 8
+	srl	$t9, $t9, 9
 	
-	add $v0, $s1, $0 # return left
+	# srl	$t2, $t8, 31
+	# sll	$t2, $t2, 31			# get signed of sum
+	# srl	$t3, $t9, 31
+	# sll	$t3, $t3, 31			# get signed of sub
 	
-	lw $a2, 12($sp) # pop end
-	lw $a1, 8($sp) # pop start
-	lw $a0, 4($sp) # pop array
-	lw $ra, 0($sp) # pop ra
-	addi $sp, $sp, 16 # re-align the stack
+	ADD_SIGNED:
+	or	$t0, $t2, $t4
+	or	$t0, $t0, $t8
+	or	$t1, $t3, $t5
+	or	$t1, $t1, $t9
 	
-	partition_returning:
-		jr $ra
+	mtc1	$t0, $f12
+	la	$a0, prompt3
+	li	$v0, 4
+	syscall
+	li	$v0, 2
+	syscall
+	
+	mtc1	$t1, $f12
+	la	$a0, prompt4
+	li	$v0, 4
+	syscall
+	li	$v0, 2
+	syscall
+	j END
+	
+	STANDARDIZED:
+		blt	$v0, 0x01000000, LESS_THAN
+		GREATER_THAN:
+			subi	$v1, $v0, 0x01000000
+			blt	$v1, 0x01000000, END_STANDARDIZED
+			srl	$v0, $v0, 1
+			addi	$s3, $s3, 1
+			j	GREATER_THAN
+		LESS_THAN:
+			subi	$v1, $v0, 0x01000000
+			bge	$v1, $zero, END_STANDARDIZED
+			sll	$v0, $v0, 1
+			subi	$s3, $s3, 1
+			j	LESS_THAN
+	END_STANDARDIZED:
+	jr	$ra
+	
+	END:
+	
+	
 		
-print:
-
-	subi $sp, $sp, 4
-	sw $a0, 0($sp)
-	
-	la $t0, array
-	add $t1, $0, $0
-	for:
-		bge $t1, 50, end_for
-		li $v0, 1
-		lw $a0, 0($t0)
-		syscall
 		
-		la $a0, spaceSymb
-		li $v0, 4
-		syscall
-		
-		addi $t0, $t0, 4
-		addi $t1, $t1, 1
-		j for
-		
-	end_for:
-		addi $a0, $0, 10
-		li $v0, 11
-		syscall
-		
-		lw $a0, 0($sp)
-		addi $sp, $sp, 4
-		
-		jr $ra
+	 

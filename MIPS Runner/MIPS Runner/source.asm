@@ -1,434 +1,205 @@
 .data
-iArray: .word 45, 89, 50, 60, 84, 1, 53, -54, 71, 72, 80, 43, 30, 31, 12, 56, 90, 60, 102, 92
-input: .asciiz "=== iArray ======================================================================\n\n"
-output: .asciiz "=== Quick Sort ==================================================================\n\n"
-lurid: .asciiz "\n=================================================================================\n"
-vertical_bar: .asciiz "|"
-asterisk: .asciiz "*"
-space: .asciiz " "
-enter: .asciiz "\n"
-
+	prompt1: .asciiz "Input first real number: \n"
+	prompt2: .asciiz "Input second real number: \n"
+	prompt3: .asciiz "Sum: "
+	prompt4: .asciiz "Sub: "
 .text
-	li $v0, 4				# print input
-	la $a0, input				# print input
-	syscall					# print input
+main:
+	# Input the data
+	la	$a0, prompt1
+	li	$v0, 4
+	syscall
+	li	$v0, 6
+	syscall
 	
-	la $a0, iArray				# int* array = iArray
-	li $a1, 20				# int size = 20
-	li $a2, 20				# int swap1 = 20
-	li $a3, 20				# int swap2 = 20
-	jal printArray				# call function printArray
+	mfc1 	$t0, $f0	# t0 contain the bits of first number
 	
-	li $v0, 4				# print lurid
-	la $a0, lurid				# print lurid
-	syscall					# print lurid
+	la	$a0, prompt2
+	li	$v0, 4
+	syscall
+	li	$v0, 6
+	syscall
 	
-	la $a0, iArray				# int* array = iArray
-	li $a1, 0				# int low = 0
-	li $a2, 19				# int high = 0
-	jal quickSort				# call function quickSort
+	mfc1 	$t1, $f0	# t1 contains the bits of second number
 	
-	li $v0, 4				# print output
-	la $a0, output				# print output
-	syscall					# print output
 	
-	la $a0, iArray				# int* array = iArray
-	li $a1, 20				# int size = 20
-	li $a2, 20				# int swap1 = 20
-	li $a3, 20				# int swap2 = 20
-	jal printArray				# call function printArray
+	# Add number in t0, t1 in IEEE standard
 	
-	li $v0, 4				# print lurid
-	la $a0, lurid				# print lurid
-	syscall					# print lurid
+	# Get the sign of those float
+	F_SIGN_CHECKING:
+		bgez	$t0, F_GREATER_ZERO
+		addi	$t2, $zero, 1
+		sll	$t2, $t2, 31
+		j	END_F_SIGN_CHECKING
+	F_GREATER_ZERO:
+		add	$t2, $zero, $zero	
+	END_F_SIGN_CHECKING:			# t2 contain the sign of the first number
+	S_SIGN_CHECKING:
+		bgez	$t1, S_GREATER_ZERO
+		addi	$t3, $zero, 1
+		sll	$t3, $t3, 31
+		j	END_S_SIGN_CHECKING
+	S_GREATER_ZERO:
+		add	$t3, $zero, $zero
+	END_S_SIGN_CHECKING:			# t3 contain the sign of the second number
 	
-	j exit
+	# Split into two part, exponent and significand
 	
-#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#
-
-# function printPivot(int* array, int size, int pivot, int swap) print array with pivot
-printPivot:
-	addi $sp, $sp, -20					# decrease stack pointer 20 bytes
-	sw $a0, 16($sp)						# 16($sp) store addr of array
-	sw $a1, 12($sp)						# 12($sp) store size of array
-	sw $a2, 8($sp)						# 8($sp) store index of pivot
-	sw $a3, 4($sp)						# 4($sp) store index of swap
-	sw $zero, 0($sp)					# 0($sp) count
+	# Get exponent
+	F_GET_EXP:
+		sll	$t4, $t0, 1
+		srl	$t4, $t4, 24		# t4 contains exponent of first number
+	S_GET_EXP:
+		sll	$t5, $t1, 1
+		srl	$t5, $t5, 24		# t5 contains exponent of second number
 	
-	compare_printPivot:					# for (int count = 0; count < size; count ++)
-		lw $v0, 0($sp)				 	# $v0 = count
-		lw $v1, 12($sp)					# $v1 = size 
-		slt $v0, $v0, $v1				# $v0 = (count < size ? 1 : 0)
-		beq $v0, $zero, out_loop_printPivot		# if ($v0 == 0) -> branch
-								# if ($v0 != 0) -> continue
+	# Get significand
+	F_GET_SIG:
+		ori	$s0, $t0, 0x00800000
+		sll	$s0, $s0, 8
+		srl	$s0, $s0, 7			# Add 1 to cal
+	S_GET_SIG:
+		ori	$s1, $t1, 0x00800000
+		sll	$s1, $s1, 8
+		srl	$s1, $s1, 7			# Add 1 one cal
 		
-			lw $v0, 0($sp)				# $v0 = count
-			lw $v1, 8($sp)				# $v1 = index of pivot
-			addi $v1, $v1, 1			# $v1 = index of pivot + 1
-			bne $v0, $v1, printPivot_pivot		# if (count != index of pivot + 1) -> branch
-								# if (count == index of pivot + 1) -> continue
-			
-			lw $v0, 0($sp)				# $v0 = count
-			sll $v0, $v0, 2				# $v0 = count * 4
-			lw $v1, 16($sp)				# $v1 = addr of array
-			add $v1, $v1, $v0			# $v1 = addr of array[count]
-			lw $v0, ($v1)				# $v0 = array[count]
-			add $a0, $zero, $v0			# print array[count]
-			li $v0, 1				# print array[count]
-			syscall					# print array[count]
-			
-			li $v0, 4				# print space
-			la $a0, space				# print space
-			syscall					# print space
-			
-			j loop_printPivot
-		
-		printPivot_pivot:
-			lw $v0, 0($sp)				# $v0 = count
-			lw $v1, 8($sp)				# $v1 = index of pivot
-			bne $v0, $v1, printPivot_swap		# if (count != index of pivot) -> branch
-								# if (count == index of pivot) -> continue
-			
-			li $v0, 4				# print vertical bar
-			la $a0, vertical_bar			# print vertical bar
-			syscall					# print vertical bar
-			
-			lw $v0, 0($sp)				# $v0 = count
-			sll $v0, $v0, 2				# $v0 = count * 4
-			lw $v1, 16($sp)				# $v1 = addr of array
-			add $v1, $v1, $v0			# $v1 = addr of array[count]
-			lw $v0, ($v1)				# $v0 = array[count]
-			add $a0, $zero, $v0			# print array[count]
-			li $v0, 1				# print array[count]
-			syscall					# print array[count]
-			
-			li $v0, 4				# print asterisk
-			la $a0, asterisk			# print asterisk
-			syscall					# print asterisk
-						
-			li $v0, 4				# print vertical bar
-			la $a0, vertical_bar			# print vertical bar
-			syscall					# print vertical bar
-			
-			j loop_printPivot
-			
-		printPivot_swap:
-			lw $v0, 0($sp)				# $v0 = count
-			lw $v1, 4($sp)				# $v1 = index of swap
-			bne $v0, $v1, printPivot_no_swap	# if (count != index of swap) -> branch
-								# if (count == index of swap) -> continue
-								
-			li $v0, 4				# print vertical bar
-			la $a0, vertical_bar			# print vertical bar
-			syscall					# print vertical bar
-			
-			lw $v0, 0($sp)				# $v0 = count
-			sll $v0, $v0, 2				# $v0 = count * 4
-			lw $v1, 16($sp)				# $v1 = addr of array
-			add $v1, $v1, $v0			# $v1 = addr of array[count]
-			lw $v0, ($v1)				# $v0 = array[count]
-			add $a0, $zero, $v0			# print array[count]
-			li $v0, 1				# print array[count]
-			syscall					# print array[count]
-						
-			li $v0, 4				# print vertical bar
-			la $a0, vertical_bar			# print vertical bar
-			syscall					# print vertical bar
-			
-			j loop_printPivot
-			
-		printPivot_no_swap:
-			li $v0, 4				# print space
-			la $a0, space	   			# print space
-			syscall					# print space
+	# Set signed for SIG
+		#beqz	$t2, NEXT_NUM
+		#not	$s0, $s0
+		#addiu	$s0, $s0, 1			# 2-complement binary
+	#NEXT_NUM:
+		#beqz	$t3, WHICH_GREATER
+		#not	$s1, $s1
+		#addiu	$s1, $s1, 1			# 2-complement binary
 	
-			lw $v0, 0($sp)				# $v0 = count
-			sll $v0, $v0, 2				# $v0 = count * 4
-			lw $v1, 16($sp)				# $v1 = addr of array
-			add $v1, $v1, $v0			# $v1 = addr of array[count]
-			lw $v0, ($v1)				# $v0 = array[count]
-			add $a0, $zero, $v0			# print array[count]
-			li $v0, 1				# print array[count]
-			syscall					# print array[count]
-
-			li $v0, 4				# print space
-			la $a0, space				# print space
-			syscall
-			
-	loop_printPivot:
-		lw $v0, 0($sp)					# $v0 = count
-		addi $v0, $v0, 1				# $v0 = count + 1
-		sw $v0, 0($sp)					# 0($sp) store count = count + 1
-		
-		j compare_printPivot					
-		
-	out_loop_printPivot:
-		li $v0, 4					# print enter
-		la $a0, enter					# print enter
-		syscall						# print enter
-		
-	out_printPivot:
-		addi $sp, $sp, 20				# increase stack pointer 20 bytes
-		jr $ra						# jump back addr call function printPiovt
-		
-# function printArray(int* array, int size, int swap1, int swap2) print array
-printArray:
-	addi $sp, $sp, -20					# decrease stack pointer 20 bytes
-	sw $a0, 16($sp)						# 16($sp) store addr of array
-	sw $a1, 12($sp)						# 12($sp) store size of array
-	sw $a2, 8($sp)						# 8($sp) store index of swap 1
-	sw $a3, 4($sp)						# 4($sp) store index of swap 2
-	sw $zero, 0($sp)					# 0($sp) count
+	# Increase the exponent
+	WHICH_GREATER:
+		bgt	$t4, $t5, A_GREATER_B
+		j	B_GREATER_A
+	A_GREATER_B:
+		beq	$t5, $t4, END_A_GREATER_B
+		addi	$t5, $t5, 1
+		sra	$s1, $s1, 1
+		j	A_GREATER_B
+	END_A_GREATER_B:
+		j	CAL
+	B_GREATER_A:
+		beq	$t5, $t4, END_B_GREATER_A
+		addi	$t4, $t4, 1
+		sra	$s0, $s0, 1
+		j	B_GREATER_A
+	END_B_GREATER_A:
+	CAL:
+	# Combine those part of float
+	bne	$t2, $t3, DIFF_SIGN
+	SAME_SIGN:
+		addu	$t8, $s0, $s1		# t8 is sum
+		subu	$t9, $s0, $s1		# t9 is sub
+		# same signed -> signed of sum is signed of operand
+		# same signed -> signed of sub is signed of operand xor with signed of operand
+		srl	$t7, $t9, 31
+		sll	$t7, $t7, 31
+		xor	$t3, $t7, $t3		# 0 , 0 -> 0; 1, 1 -> 0; 1, 0 -> 1; 0, 1 -> 1
+		j	END_CAL
+		#addi	$t4, $t4, 1
+		#sll	$t8, $t8, 1		# Change the to type 0.xxxxx
+		#subi	$t5, $t5, 1
+		#sll	$t9, $t9, 1		# Change the to type 0.xxxxx
+	DIFF_SIGN:
+		subu	$t8, $s0, $s1		# t8 is sum
+		addu	$t9, $s0, $s1		# t9 is sub
+		# diff signed -> signed of sub is signed of first operand
+		add	$t3, $zero, $t2
+		# diff signed -> signed of sum is signed of t8
+		srl	$t7, $t8, 31
+		sll	$t7, $t7, 31
+		xor	$t2, $t7, $t2
+		#addi	$t5, $t5, 1
+		#sll	$t9, $t9, 1		# Change the to type 0.xxxxx
+		#subi	$t4, $t4, 1
+		#srl	$t8, $t8, 1		# Change the to type 0.xxxxx
+	END_CAL:
+		srl	$t6, $t8, 31
+		beqz	$t6, SUM_NOT_NEG
+		not	$t8, $t8
+		addi	$t8, $t8, 1
+	SUM_NOT_NEG:
+		srl	$t7, $t9, 31
+		beqz	$t7, SUB_NOT_NEG
+		not	$t9, $t9
+		addi	$t9, $t9, 1
+	SUB_NOT_NEG:
+	# Sum > 0x01000000
+	# Check Overflow
+	add	$v0, $zero, $t8
+	add	$s3, $zero, $t4
+	jal	STANDARDIZED
+	add	$t8, $zero, $v0
+	add	$t4, $zero, $s3
 	
-	compare_printArray:					# for (int count = 0; count < size; count++)
-		lw $v0, 0($sp)					# $v0 = count
-		lw $v1, 12($sp)					# $v1 = size of array
-		slt $v0, $v0, $v1				# $v0 = (count < size of array ? 1 : 0)
-		beq $v0, $zero, out_loop_printArray		# if ($v0 == 0) -> branch
-								# if ($v0 != 0) -> continue
+	add	$v0, $zero, $t9
+	add	$s3, $zero, $t5
+	jal	STANDARDIZED
+	add	$t9, $zero, $v0
+	add	$t5, $zero, $s3
+	
+	COMBINE:
+	SHIFT_POS_EXP:
+	sll	$t4, $t4, 23
+	sll	$t5, $t5, 23
+	
+	SHIFT_POS_SIG:
+	sll	$t8, $t8, 8
+	srl	$t8, $t8, 9
+	sll	$t9, $t9, 8
+	srl	$t9, $t9, 9
+	
+	# srl	$t2, $t8, 31
+	# sll	$t2, $t2, 31			# get signed of sum
+	# srl	$t3, $t9, 31
+	# sll	$t3, $t3, 31			# get signed of sub
+	
+	ADD_SIGNED:
+	or	$t0, $t2, $t4
+	or	$t0, $t0, $t8
+	or	$t1, $t3, $t5
+	or	$t1, $t1, $t9
+	
+	mtc1	$t0, $f12
+	la	$a0, prompt3
+	li	$v0, 4
+	syscall
+	li	$v0, 2
+	syscall
+	
+	mtc1	$t1, $f12
+	la	$a0, prompt4
+	li	$v0, 4
+	syscall
+	li	$v0, 2
+	syscall
+	j END
+	
+	STANDARDIZED:
+		blt	$v0, 0x01000000, LESS_THAN
+		GREATER_THAN:
+			subi	$v1, $v0, 0x01000000
+			blt	$v1, 0x01000000, END_STANDARDIZED
+			srl	$v0, $v0, 1
+			addi	$s3, $s3, 1
+			j	GREATER_THAN
+		LESS_THAN:
+			subi	$v1, $v0, 0x01000000
+			bge	$v1, $zero, END_STANDARDIZED
+			sll	$v0, $v0, 1
+			subi	$s3, $s3, 1
+			j	LESS_THAN
+	END_STANDARDIZED:
+	jr	$ra
+	
+	END:
+	
+	
 		
-		# if (count == swap1 || count == swap 2) -> branch printArray_swap
 		
-			lw $v0, 0($sp)				# $v0 = count
-			lw $v1, 8($sp)				# $v1 = index of swap1
-			beq $v0, $v1, printArray_swap		# if (count == index of swap1) -> branch
-								# if (count != index of swap1) -> continue
-			
-			lw $v0, 0($sp)				# $v0 = count
-			lw $v1, 4($sp)				# $v1 = index of swap2
-			bne $v0, $v1, printArray_no_swap	# if (count != index of swap) -> branch
-								# if (count == index of swap) -> continues
-		
-		printArray_swap:
-			li $v0, 4				# print vertical bar
-			la $a0, vertical_bar			# print vertical bar
-			syscall					# print vertical bar
-			
-			lw $v0, 0($sp)				# $v0 = count
-			sll $v0, $v0, 2				# $v0 = count * 4
-			lw $v1, 16($sp)				# $v1 = addr of array
-			add $v1, $v1, $v0			# $v1 = addr of array[count]
-			lw $v0, ($v1)				# $v0 = array[count]
-			add $a0, $zero, $v0			# print array[count]
-			li $v0, 1				# print array[count]
-			syscall					# print array[count]	
-			
-			li $v0, 4				# print vertical_bar	
-			la $a0, vertical_bar			# print vertical_bar
-			syscall					# print vertival_bar
-			
-			j loop_printArray
-			
-		printArray_no_swap:
-			li $v0, 4				# print space
-			la $a0, space				# print space
-			syscall					# print space
-			
-			lw $v0, 0($sp)				# $v0 = count
-			sll $v0, $v0, 2				# $v0 = count * 4
-			lw $v1, 16($sp)				# $v1 = addr of array
-			add $v1, $v1, $v0			# $v1 = addr of array[count]
-			lw $v0, ($v1)				# $v0 = array[count]
-			add $a0, $zero, $v0			# print array[count]
-			li $v0, 1				# print array[count]
-			syscall					# print array[count]
-			
-			li $v0, 4				# print space
-			la $a0, space				# print space
-			syscall					# print space
-			
-	loop_printArray:
-		lw $v0, 0($sp)					# $v0 = count
-		addi $v0, $v0, 1				# $v0 = count + 1
-		sw $v0, 0($sp)					#  0($sp) store count = count + 1
- 		
-		j compare_printArray
-		
-	out_loop_printArray:
-		li $v0, 4					# print enter
-		la $a0, enter					# print enter
-		syscall						# print enter
-		
-	out_printArray:
-		addi $sp, $sp, 20				# increase stack pointer 20 bytes
-		jr $ra						# jump back addr call function printArray
-		
-# function swap(int* array, int swap1, int swap2) swap iArray[swap1] iArray[swap2]
-swap:
-	addi $sp, $sp, -24
-	sw $a0, 20($sp)						# 20($sp) store addr of array
-	sw $a1, 16($sp)						# 16($sp) store index of swap1
-	sw $a2, 12($sp)						# 12($sp) store index of swap2
-								# 8($sp) store addr of array[swap1]
-								# 4($sp) store addr of array[swap2]
-	 							# 0($sp) temp
-	
-	lw $v0, 16($sp)						# $v0 = index of swap1
-	sll $v0, $v0, 2						# $v0 = index * 4
-	lw $v1, 20($sp)						# $v1 = addr of array
-	add $v0, $v0, $v1					# $v0 = addr of array[swap1]
-	sw $v0, 8($sp)						# 8($sp) store addr of array[swap1]
-	
-	lw $v0, 12($sp)						# $v0 = index of swap2		
-	sll $v0, $v0, 2						# $v0 = index * 4
-	lw $v1, 20($sp)						# $v1 = addr of array
-	add $v0, $v0, $v1					# $v0 = addr of array[swap2]
-	sw $v0, 4($sp)						# 4($sp) store addr of array[swap2]
-	
-	lw $v0, 8($sp)						# $v0 = addr of array[swap1]
-	lw $v1, ($v0)						# $v1 = array[swap1]
-	sw $v1, 0($sp)						# temp = array[swap1]
-	
-	lw $v0, 4($sp)						# $v0 = addr of array[swap2]
-	lw $v1, ($v0)						# $v1 = array[swap2]
-	lw $v0, 8($sp)						# $v0 = addr of array[swap1]
-	sw $v1, ($v0)						# array[swap 1] = array[swap2]
-	
-	lw $v0, 0($sp)						# $v0 = temp
-	lw $v1, 4($sp)						# $v1 = addr of array[swap2]
-	sw $v0, ($v1)						# array[swap2] = temp
-	
-	addi $sp, $sp, 24					# increase stack pointer 24 bytes
-	jr $ra							# jump back addr call function swap
-	
-# function partition(int* array, int low, int high) return index of partion
-partition:
-	addi $sp, $sp, -28
-	sw $ra, 24($sp)						# 24($sp) store $ra
-	sw $a0, 20($sp)						# 20($sp) store address of array
-	sw $a1, 16($sp)						# 16($sp) store low
-	sw $a2, 12($sp)						# 12($sp) store high
-								# 8($sp) store pivot
-								# 4($sp) store i
-								# 0($sp) store j
-	
-	lw $v0, 16($sp)						# $v0 = low
-	sll $v0, $v0, 2						# $v0 = low * 4
-	lw $v1, 20($sp)						# $v1 = addr of array
-	add $v1, $v1, $v0					# $v1 = addr of array[low]
-	lw $v0, ($v1)						# $v0 = array[low]
-	sw $v0, 8($sp)						# 8$(sp) store pivot = array[low] + 1
-	
-	lw $v0, 16($sp)						# $v0 = low
-	sw $v0, 4($sp)						# 4($sp) store i = low
-	
-	lw $v0, 16($sp)						# $v0 = low
-	addi $v0, $v0, 1					# $v0 = low + 1
-	sw $v0, 0($sp)						# 0($sp) store j = low + 1
-	
-	compare_partition:
-		lw $v0, 0($sp)					# $v0 = j
-		lw $v1, 12($sp)					# $v1 = high
-		slt $v0, $v1, $v0				# $v0 = (high < j ? 1 : 0)
-		bne $v0, $zero, out_loop_partition		# if ($v0 != 0) -> branch
-								# if ($v0 == 0) -> continue
-			
-			lw $v0, 0($sp)				# $v0 = j
-			sll $v0, $v0, 2				# $v0 = j * 4
-			lw $v1, 20($sp)				# $v1 = addr of array
-			add $v1, $v1, $v0			# $v1 = addr of array[j]
-			lw $v0, ($v1)				# $v0 = iArray[j]
-			lw $v1, 8($sp) 				# $v1 = pivot
-			
-			slt $v0, $v1, $v0			# $v0 = (pivot < iArray[j] ? 1 : 0)
-			bne $v0, $zero, loop_partition		# if ($v0 != 0) -> branch
-								# if ($v0 == 0) -> oontinue
-				
-				lw $v0, 4($sp)			# $v0 = i
-				addi $v0, $v0, 1		# $v0 = i + 1
-				sw $v0, 4($sp)			# 4($sp) store i = i + 1
-				
-				#lw $v0, 4($sp)			# $v0 = i
-				#lw $v1, 0($sp)			# $v1 = j
-				#beq $v0, $v1, loop_partition	# if (i == j) -> branch
-								# if (i != j) -> continue
-				
-				lw $a0, 20($sp)			# int* array = addr of array
-				lw $v0, 4($sp)			# $v0 = i
-				add $a1, $zero, $v0		# int swap1 = i
-				lw $v0, 0($sp)			# $v0 = j
-				add $a2, $zero, $v0		# int swap2 = j
-				jal swap			# call function swap
-				
-				lw $a0, 20($sp)			# int* array = addr of array
-				li $a1, 20			# int size = 20
-				lw $a2, 4($sp)			# int swap1 = i
-				lw $a3, 0($sp)			# int swap2 = j
-				jal printArray			# call function printArray
-				
-	loop_partition:
-		lw $v0, 0($sp)					# $v0 = j
-		addi $v0, $v0, 1				# $v0 = j + 1
-		sw $v0, 0($sp)					# 0($sp) store j = j + 1
-		
-		j compare_partition
-		
-	out_loop_partition:
-		#lw $v0, 4($sp)					# $v0 = i
-		#lw $v1, 16($sp)					# $v1 = low
-		#beq $v0, $v1, out_partition			# if (i == low) -> branch
-								# if (i != low) -> continue
-		
-		lw $a0, 20($sp)					# int* array = addr of array
-		lw $v0, 4($sp)					# $v0 = i
-		add $a1, $zero, $v0				# int swap1 = i
-		lw $v0, 16($sp)					# $v0 = low
-		add $a2, $zero, $v0				# int swap2 = low
-		jal swap					# call function swap
-		
-		lw $a0, 20($sp)					# int* array = addr of array
-		li $a1, 20					# int size = 20
-		lw $a2, 4($sp)					# int swap1 = i
-		lw $a3, 16($sp)					# int swap2 = low
-		jal printPivot					# call function printPivot
-		
-	out_partition:					
-		lw $v0, 4($sp)					# $v0 = i (return index of pivot)
-		
-		lw $ra, 24($sp)					# $ra = addr call function partition
-		addi $sp, $sp, 28				# increase stack pointer 28 bytes
-		
-		jr $ra						# jump back addr call function partition
-		
-# funnction quickSort(int* iArray, int low, int high)
-quickSort:
-	addi $sp, $sp, -20
-	sw $ra, 16($sp)						# 16($sp) store addr call function quickSort
-	sw $a0, 12($sp)						# 12($sp) store addr of array
-	sw $a1, 8($sp)						# 8($sp) store low
-	sw $a2, 4($sp)		 				# 4($sp) store high
-								# 0($sp) store index of pivot
-	
-	lw $v0, 8($sp)						# $v0 = low
-	lw $v1, 4($sp)						# $v1 = high
-	slt $v0, $v0, $v1					# $v0 - ($v0 < $v1 ? 1 : 0)
-	beq $v0, $zero, end_quickSort				# if ($v0 == 0) -> branch
-								# if ($v0 != 0) -> continue
-	
-	lw $a0, 12($sp)						# load address of array
-	lw $a1, 8($sp)						# load low
-	lw $a2, 4($sp)						# load high
-	jal partition
-	
-	sw $v0, 0($sp)						# 0($sp) store index of pivot
-	
-	lw $a0, 12($sp)						# int* array = addr of array
-	lw $a1, 8($sp)						# int low = low
-	lw $v0, 0($sp)						# $v0 = index of pivot
-	addi $v0, $v0, -1					# $v0 = index of pivot - 1
-	add $a2, $zero, $v0					# int high = index of pivot -1
-	jal quickSort						# call function quickSort
-	
-	lw $a0, 12($sp)						# int* array = addr of array
-	lw $v0, 0($sp)						# $v0 = index of pivot
-	addi $v0, $v0, 1					# $v0 = index of pivot + 1
-	add $a1, $zero, $v0					# int low = index of pivot + 1
-	lw $a2, 4($sp)						# int high = high
-	jal quickSort						# call function quickSort
-	
-	end_quickSort:
-		lw $ra, 16($sp)					# $ra = addr call function quickSort
-		addi $sp, $sp, 20				# increase stack pointer 20 bytes
-		jr $ra						# jump back addr call function quickSort
-		
-exit:
+	 

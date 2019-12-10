@@ -9,6 +9,7 @@ const int MemoryManager::REGISTER_MEMORY_SIZE = 35;
 const char* MemoryManager::REGISTER_NAME[] = { "$zero", "$at", "$v0", "$v1", "$a0", "$a1", "$a2", "$a3", "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$s0", "$s1", "$s2", "$s3", "$s4", "$s5", "$s6", "$s7", "$t8", "$t9", "$k0", "$k1", "$gp", "$sp", "$fp", "$ra", "$hi", "$lo", "$pc" };
 const char* MemoryManager::REGISTER_BASIC_NAME[] = { "$0", "$1", "$2", "$3", "$4", "$5", "$6", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$16", "$17", "$18", "$19", "$20", "$21", "$22", "$23", "$24", "$25", "$26", "$27", "$28", "$29", "$30", "$31", "$32", "$33", "$34" };
 SmartPointer<MemoryManager> MemoryManager::instance = nullptr;
+bool MemoryManager::isIgnoreString = false;
 
 MemoryManager::MemoryManager() {
 	this->variableMemory = new char[VARIABLE_MEMORY_SIZE];
@@ -61,12 +62,12 @@ void MemoryManager::log() {
 			std::cout << REGISTER_BASIC_NAME[i] << "\t\t" << REGISTER_NAME[i] << "\t\t" << *(int*)(this->stackMemory + this->stackMemoryPointer) << '\n';
 }
 
-//Fix name
-//Fix bug of user
+//still bug here
 void MemoryManager::storeString(char* _buffer) {
-	//a0 save address from other memory
 	InstructionOperand a0("$a0");
 	char* ptr = (char*)*a0.memoryPtr;
-	strcpy(ptr, _buffer);//finish here
-	// need address
+	strcpy(ptr, _buffer);
 }
+
+
+

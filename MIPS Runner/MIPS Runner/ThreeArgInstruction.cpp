@@ -39,6 +39,14 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& tokenList)
 
 	if (strcmp(tokenList[0], "beq") == 0) this->function = beq;
 	if (strcmp(tokenList[0], "bne") == 0) this->function = bne;
+
+	/*if(strcmp(tokenList[0], "add.s ") == 0) this->function = adds;
+	if (strcmp(tokenList[0], "sub.s") == 0) this->function = subs;
+	if (strcmp(tokenList[0], "mul.s") == 0) this->function = muls;
+	if (strcmp(tokenList[0], "div.s") == 0) this->function = divs;
+	if (strcmp(tokenList[0], "abs.s") == 0) this->function = abss;
+	if (strcmp(tokenList[0], "neg.s") == 0) this->function = negs;*/
+
 	if (function)
 		if (!rt.signatureIs("Ii") && rt.signatureIs("Li"))
 			throw std::string("\"") + std::string(tokenList[3]) + std::string("\" have to be an instruction label or an integer");
@@ -107,7 +115,7 @@ void ThreeArgInstruction::bne(InstructionOperand& rd, InstructionOperand& rs, In
 }
 
 //void ThreeArgInstruction::adds(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
-//	//*(rd.memoryPtr) = (float)*(rs.memoryPtr) + (*float)*(rt.memoryPtr)(*float);
+//	*(rd.memoryPtr) = (float)*(rs.memoryPtr) + (float)*(rt.memoryPtr);
 //}
 //
 //void ThreeArgInstruction::subs(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {

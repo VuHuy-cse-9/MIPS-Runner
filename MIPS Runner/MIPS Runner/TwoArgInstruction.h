@@ -16,6 +16,7 @@ protected:
 	static void div(InstructionOperand&, InstructionOperand&);
 	static void sw(InstructionOperand&, InstructionOperand&);
 	static void lw(InstructionOperand&, InstructionOperand&);
+	static void la(InstructionOperand&, InstructionOperand&);
 public:
 
 	TwoArgInstruction(TokenList&);

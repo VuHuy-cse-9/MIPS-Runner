@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <stdint.h>
 #include "InstructionOperand.h"
 
 #include "SmartPointer.h"
@@ -18,6 +19,8 @@ private:
 	int stackMemoryPointer;
 
 	int* registerMemory;
+
+	static bool isIgnoreString;
 
 	static SmartPointer<MemoryManager> instance;
 

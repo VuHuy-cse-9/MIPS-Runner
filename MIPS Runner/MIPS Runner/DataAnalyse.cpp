@@ -131,6 +131,7 @@ void DataAnalyse::space(TokenList& tokenList, int tokenListSize) {
 void DataAnalyse::ascii(TokenList& tokenList, int tokenListSize) {
 	int i = 0;
 	while (tokenList[1][i] != '\"' && tokenList[1][i]) ++i;
+	++i;
 
 	while (tokenList[1][i] != '\"') {
 		char value = ' ';

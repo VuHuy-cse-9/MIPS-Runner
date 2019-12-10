@@ -216,8 +216,7 @@ void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, in
 	// Count the number of instructions and allocate memory for them.
 	_instructionListSize = 0;
 	for (int i = 0; i < sourceCodeSize; ++i) 
-		if (sourceCode[i] == '\n')
-			++_instructionListSize;
+		if (sourceCode[i] == '\n') ++_instructionListSize;
 	_instructionList = new Instruction*[_instructionListSize];
 
 	//  Extract line from source code to parse it.

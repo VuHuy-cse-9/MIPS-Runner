@@ -20,8 +20,6 @@ private:
 
 	int* registerMemory;
 
-	static bool isIgnoreString;
-
 	static SmartPointer<MemoryManager> instance;
 
 	MemoryManager();

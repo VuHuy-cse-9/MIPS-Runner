@@ -32,6 +32,8 @@ void ZeroArgInstruction::syscall(InstructionOperand& address) {
 	InstructionOperand v0("$v0");
 	InstructionOperand a0("$a0");
 	InstructionOperand a1("$a1");
+	InstructionOperand f0("$f0");
+	InstructionOperand f12("$f12");
 
 	// print and read from console different than the debug one.
 	switch (*v0.memoryPtr) {
@@ -39,6 +41,9 @@ void ZeroArgInstruction::syscall(InstructionOperand& address) {
 		// PRINT_INT
 		std::cout << *a0.memoryPtr;
 		break;
+	case 2:
+		//PRINT_FLOAT
+		std::cout << *((float*)f12.memoryPtr);
 	case 4:
 		// PRINT_STRING
 
@@ -48,6 +53,9 @@ void ZeroArgInstruction::syscall(InstructionOperand& address) {
 		// READ_INT
 		std::cin >> *v0.memoryPtr;
 		break;
+	case 6:
+		//READ_FLOAT
+		std::cin >> *((float*)f0.memoryPtr);
 	case 8: 
 		//READ_STRING
 		storeToStringMemory();

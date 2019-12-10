@@ -50,7 +50,11 @@
     <ClInclude Include="ZeroArgInstruction.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="source.mips" />
+    <None Include="Dat.asm" />
+    <None Include="Khanh.asm" />
+    <None Include="Long.asm" />
+    <None Include="Soi.asm" />
+    <None Include="source.asm" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

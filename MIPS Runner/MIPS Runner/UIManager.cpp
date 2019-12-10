@@ -16,7 +16,7 @@ void UIManager::printWall(const char* header) {
 }
 
 void UIManager::clearScreen() {
-	system("cls");
+	//system("cls");
 }
 
 void UIManager::printCompileErrorMessage(const char* message) {
@@ -63,15 +63,8 @@ void UIManager::printSoureCode() {
 	TextProcessor* textProcessor = TextProcessor::getInstance();
 	printWall("SOURCE CODE");
 
-	int i = 0;
-	int lineCount = 1;
-	std::cout << lineCount << ":\t\t";
-	while (textProcessor->sourceCode[i]) {
-		std::cout << textProcessor->sourceCode[i];
-		if (textProcessor->sourceCode[i] == '\n' && textProcessor->sourceCode[i + 1])
-			std::cout << ++lineCount << ":\t\t";
-		++i;
-	}
+	for (int i = 0; textProcessor->src[i]; ++i)
+		std::cout << std::to_string(i + 1) << std::string(":\t\t") << textProcessor->src[i] << '\n';
 
 	printWall("");
 }
@@ -83,37 +76,20 @@ void UIManager::printRunningCode() {
 	clearScreen();
 	printWall("RUNNING");
 
-	int lineCurrent = *pc.memoryPtr + textProcessor->textSegmentBeginLine;
-	int lineBegin = lineCurrent - NUMBER_OF_RUNNING_LINE_SHOW / 2;
-	if (lineBegin < textProcessor->textSegmentBeginLine)
-		lineBegin = textProcessor->textSegmentBeginLine;
-	int lineEnd = lineCurrent + (NUMBER_OF_RUNNING_LINE_SHOW + 1) / 2;
-	if (lineEnd > textProcessor->lineCount)
-		lineEnd = textProcessor->lineCount;
+	int currentLine = *pc.memoryPtr + textProcessor->textSegmentBeginLine + 1;
+	int beginLine = *pc.memoryPtr + textProcessor->textSegmentBeginLine - NUMBER_OF_RUNNING_LINE_SHOW / 2;
+	if (beginLine <= textProcessor->textSegmentBeginLine)
+		beginLine = textProcessor->textSegmentBeginLine + 1;
+	int endLine = *pc.memoryPtr + textProcessor->textSegmentBeginLine + (NUMBER_OF_RUNNING_LINE_SHOW + 1) / 2;
 
-	int i = 0, c = 0;
-	while (c < lineBegin) {
-		if (textProcessor->sourceCode[i] == '\n') ++c;
-		++i;
+	for (int i = beginLine; textProcessor->src[i] && i <= endLine; ++i) {
+		if (i == currentLine)
+			std::cout << "-> ";
+		else
+			std::cout << "   ";
+		std::cout << std::to_string(i + 1) << ":\t\t" << textProcessor->src[i] << '\n';
 	}
-	int lineIndex = lineBegin;
-	if (lineIndex == lineCurrent)
-		std::cout << "-> " << std::to_string(lineIndex) << ":\t\t";
-	else
-		std::cout << "   " << std::to_string(lineIndex) << ":\t\t";
 
-	while (lineIndex < lineEnd) {
-		std::cout << textProcessor->sourceCode[i];
-		if (textProcessor->sourceCode[i] == '\n') {
-			++lineIndex;
-			if (lineIndex < lineEnd)
-				if (lineIndex == lineCurrent)
-					std::cout << "-> " << std::to_string(lineIndex) << ":\t\t";
-				else
-					std::cout << "   " << std::to_string(lineIndex) << ":\t\t";
-		}
-		++i;
-	}
 	printWall("");
 }
 
@@ -133,7 +109,7 @@ void UIManager::run() {
 
 	textProcessor->readSourceFile();
 	textProcessor->parseSourceToInstruction(processor->instructionList, processor->instructionListSize);
-
+	processor->prepare();
 	printSoureCode();
 	do {
 		std::string input;

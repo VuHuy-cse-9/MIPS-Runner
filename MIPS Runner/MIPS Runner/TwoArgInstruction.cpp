@@ -90,11 +90,11 @@ void TwoArgInstruction::move(InstructionOperand& rs, InstructionOperand& rt) {
 }
 
 void TwoArgInstruction::sw(InstructionOperand& rs, InstructionOperand& rt) {
-	*(rt.memoryPtr + rt.offset) = *rs.memoryPtr;
+	*(int*)((char*)(*rt.memoryPtr) + rt.offset) = *rs.memoryPtr;
 }
 
 void TwoArgInstruction::lw(InstructionOperand& rs, InstructionOperand& rt) {
-	*(rs.memoryPtr) = *(rt.memoryPtr + rt.offset);
+	*(rs.memoryPtr) = *(int*)((char*)(*rt.memoryPtr) + rt.offset);
 }
 
 void TwoArgInstruction::la(InstructionOperand& rs, InstructionOperand& rt) {
@@ -125,11 +125,12 @@ void TwoArgInstruction::clts(InstructionOperand& rs, InstructionOperand& rt) {
 }
 
 void TwoArgInstruction::ls(InstructionOperand& rs, InstructionOperand& rt) {
-	*((float*)rs.memoryPtr) = *((float*)(rt.memoryPtr + rt.offset));
+	*((float*)rs.memoryPtr) = *(float*)((char*)(*rt.memoryPtr) + rt.offset);
 }
 
+
 void TwoArgInstruction::ss(InstructionOperand& rs, InstructionOperand& rt) {
-	 *((float*)(rt.memoryPtr + rt.offset)) = *((float*)rs.memoryPtr);
+	*(float*)((char*)(*rt.memoryPtr) + rt.offset) = *((float*)rs.memoryPtr);
 }
 
 void TwoArgInstruction::movs(InstructionOperand& rs, InstructionOperand& rt) {

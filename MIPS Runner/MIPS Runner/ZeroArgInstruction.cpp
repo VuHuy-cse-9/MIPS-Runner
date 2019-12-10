@@ -47,7 +47,7 @@ void ZeroArgInstruction::syscall(InstructionOperand& address) {
 	case 4:
 		// PRINT_STRING
 
-		std::cout << (char*)a0.memoryPtr;
+		std::cout << (char*)(*a0.memoryPtr);
 		break;
 	case 5:
 		// READ_INT

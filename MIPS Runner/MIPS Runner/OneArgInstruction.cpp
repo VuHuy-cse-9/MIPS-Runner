@@ -12,8 +12,8 @@ OneArgInstruction::OneArgInstruction(TokenList& tokenList)
 	
 	if (!function)
 		throw std::string("cannot resolve \"") + std::string(tokenList[0]) + std::string("\"");
-	if (!address.signatureIs("Ii") && !address.signatureIs("Li"))
-		throw std::string("\"") + std::string(tokenList[1]) + std::string("\" have to be an instruction label or an integer");
+	if (!address.signatureIs("Ii") && !address.signatureIs("Li") && !address.signatureIs("Rb"))
+		throw std::string("\"") + std::string(tokenList[1]) + std::string("\" have to be an instruction label or an integer or a register");
 }
 
 void OneArgInstruction::execute() {

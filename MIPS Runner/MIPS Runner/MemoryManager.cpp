@@ -25,7 +25,7 @@ MemoryManager::MemoryManager() {
 	for (int i = 0; i < REGISTER_MEMORY_SIZE; ++i)
 		registerMemory[i] = 0;
 
-	this->floating_pointRegisterMemory = new double[REGISTER_MEMORY_SIZE];
+	this->floating_pointRegisterMemory = new float[REGISTER_MEMORY_SIZE];
 	for (int i = 0; i < REGISTER_MEMORY_SIZE; ++i)
 		floating_pointRegisterMemory[i] = 0.00;
 }
@@ -59,7 +59,7 @@ int* MemoryManager::getRegister(const char* _name) {
 }
 
 //TODO:Function for float
-double* MemoryManager::getFloatingPointRegister(const char* _name) {
+float* MemoryManager::getFloatingPointRegister(const char* _name) {
 	for (int i = 0; i < FLOATINGPOINTREGISTER_MEMORY_SIZE; ++i)
 		if (strcmp(_name, FLOATING_POINT_BASIC_NAME[i]) == 0 )
 			return this->floating_pointRegisterMemory + i;

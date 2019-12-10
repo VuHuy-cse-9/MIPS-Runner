@@ -31,8 +31,6 @@ protected:
 	static void subs(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void muls(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void divs(InstructionOperand&, InstructionOperand&, InstructionOperand&);
-	//static void abss(InstructionOperand&, InstructionOperand&, InstructionOperand&);
-	//static void negs(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	
 public:
 	ThreeArgInstruction(TokenList&);

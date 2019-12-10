@@ -52,6 +52,20 @@ TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
 	if (strcmp(tokenList[0], "c.le.s") == 0) this->function = cles;
 	//TODO:Compile
 	if (strcmp(tokenList[0], "c.lt.s") == 0) this->function = clts;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "l.s") == 0) this->function = ls;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "s.s") == 0) this->function = ss;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "mov.s") == 0) this->function = movs;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "mfc1") == 0) this->function = mfc1;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "mtc1") == 0) this->function = mtc1;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "cvt.w.s") == 0) this->function = cvtws;
+	//TODO:Compile
+	//if (strcmp(tokenList[0], "cvt.s.w") == 0) this->function = cvtsw;
 	if (!function)
 		throw std::string("cannot resolve \"") + std::string(tokenList[0]) + std::string("\"");
 }
@@ -121,3 +135,31 @@ void TwoArgInstruction::clts(InstructionOperand& rs, InstructionOperand& rt) {
 	*((float*)rs.memoryPtr) < *((float*)rt.memoryPtr) ? *((float*)$32.memoryPtr) = 1 : *((float*)$32.memoryPtr) = 0;
 }
 
+void TwoArgInstruction::ls(InstructionOperand& rs, InstructionOperand& rt) {
+	*((float*)rs.memoryPtr) = *((float*)(rt.memoryPtr + rt.offset));
+}
+
+void TwoArgInstruction::ss(InstructionOperand& rs, InstructionOperand& rt) {
+	 *((float*)(rt.memoryPtr + rt.offset)) = *((float*)rs.memoryPtr);
+}
+
+void TwoArgInstruction::movs(InstructionOperand& rs, InstructionOperand& rt) {
+	*((float*)rs.memoryPtr) = *((float*)rt.memoryPtr);
+}
+
+//rs is a int register -> need compile here
+void TwoArgInstruction::mfc1(InstructionOperand& rs, InstructionOperand& rt) {
+	*(rs.memoryPtr) = *((float*)rt.memoryPtr);
+}
+//rs is a int register -> need compile here
+void TwoArgInstruction::mtc1(InstructionOperand& rs, InstructionOperand& rt) {
+	*((float*)rt.memoryPtr) = *(rs.memoryPtr);
+}
+
+void TwoArgInstruction::cvtws(InstructionOperand& rs, InstructionOperand& rt) {
+	*((float*)rs.memoryPtr) = *(rt.memoryPtr);
+}
+
+//void TwoArgInstruction::cvtsw(InstructionOperand& rs, InstructionOperand& rt) {
+//	*((float*)rt.memoryPtr) = *(rs.memoryPtr);
+//}

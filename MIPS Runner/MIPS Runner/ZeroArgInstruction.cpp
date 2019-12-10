@@ -1,5 +1,14 @@
 #include "ZeroArgInstruction.h"
 
+
+void ZeroArgInstruction::storeToStringMemory() {
+	InstructionOperand a1("$a1");
+	char* buffer = new char[*a1.memoryPtr + 1];
+	std::cin >> buffer;
+	buffer[*a1.memoryPtr] = '\0';
+	MemoryManager::getInstance()->storeString(buffer);
+}
+
 ZeroArgInstruction::ZeroArgInstruction(TokenList& tokenList)  
 	: address(nullptr, 0){
 	if (strcmp(tokenList[0], "syscall") == 0)
@@ -32,11 +41,16 @@ void ZeroArgInstruction::syscall(InstructionOperand& address) {
 		break;
 	case 4:
 		// PRINT_STRING
+
 		std::cout << (char*)a0.memoryPtr;
 		break;
 	case 5:
 		// READ_INT
 		std::cin >> *v0.memoryPtr;
+		break;
+	case 8: 
+		//READ_STRING
+		storeToStringMemory();
 		break;
 	case 10:
 		// EXIT

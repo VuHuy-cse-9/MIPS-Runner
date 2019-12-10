@@ -27,13 +27,14 @@ protected:
 	static void bne(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 
 	//float function
-	/*static void adds(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void adds(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void subs(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void muls(InstructionOperand&, InstructionOperand&, InstructionOperand&);
-	static void divs(InstructionOperand&, InstructionOperand&, InstructionOperand&);*/
+	static void divs(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	
 public:
 	ThreeArgInstruction(TokenList&);
 
 	void execute() override;
 };
+

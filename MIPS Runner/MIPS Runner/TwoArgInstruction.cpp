@@ -43,7 +43,29 @@ TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
 			throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be a register or a variable label");
 		else
 			return;
-
+	if (strcmp(tokenList[0], "abs.s") == 0) this->function = abss;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "neg.s") == 0) this->function = negs;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "c.eq.s") == 0) this->function = ceqs;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "c.le.s") == 0) this->function = cles;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "c.lt.s") == 0) this->function = clts;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "l.s") == 0) this->function = ls;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "s.s") == 0) this->function = ss;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "mov.s") == 0) this->function = movs;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "mfc1") == 0) this->function = mfc1;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "mtc1") == 0) this->function = mtc1;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "cvt.w.s") == 0) this->function = cvtws;
+	//TODO:Compile
+	//if (strcmp(tokenList[0], "cvt.s.w") == 0) this->function = cvtsw;
 	if (!function)
 		throw std::string("cannot resolve \"") + std::string(tokenList[0]) + std::string("\"");
 }
@@ -89,3 +111,55 @@ void TwoArgInstruction::lw(InstructionOperand& rs, InstructionOperand& rt) {
 void TwoArgInstruction::la(InstructionOperand& rs, InstructionOperand& rt) {
 	*(rs.memoryPtr) = (int) rt.memoryPtr;
 }
+
+void TwoArgInstruction::abss(InstructionOperand& rs, InstructionOperand& rt) {
+	*((double*)rs.memoryPtr) = fabs(*((double*)rt.memoryPtr));
+}
+
+void TwoArgInstruction::negs(InstructionOperand& rs, InstructionOperand& rt) {
+	*((double*)rs.memoryPtr) = -1 * *((double*)rt.memoryPtr);
+}
+
+void TwoArgInstruction::ceqs(InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand $32("$32");
+	*((double*)rs.memoryPtr) == *((double*)rt.memoryPtr) ? *((double*)$32.memoryPtr) = 1 : *((double*)$32.memoryPtr) = 0;
+}
+
+void TwoArgInstruction::cles(InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand $32("$32");
+	*((double*)rs.memoryPtr) <= *((double*)rt.memoryPtr) ? *((double*)$32.memoryPtr) = 1 : *((double*)$32.memoryPtr) = 0;
+}
+
+void TwoArgInstruction::clts(InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand $32("$32");
+	*((double*)rs.memoryPtr) < *((double*)rt.memoryPtr) ? *((double*)$32.memoryPtr) = 1 : *((double*)$32.memoryPtr) = 0;
+}
+
+void TwoArgInstruction::ls(InstructionOperand& rs, InstructionOperand& rt) {
+	*((double*)rs.memoryPtr) = *((double*)(rt.memoryPtr + rt.offset));
+}
+
+void TwoArgInstruction::ss(InstructionOperand& rs, InstructionOperand& rt) {
+	 *((double*)(rt.memoryPtr + rt.offset)) = *((double*)rs.memoryPtr);
+}
+
+void TwoArgInstruction::movs(InstructionOperand& rs, InstructionOperand& rt) {
+	*((double*)rs.memoryPtr) = *((double*)rt.memoryPtr);
+}
+
+//rs is a int register -> need compile here
+void TwoArgInstruction::mfc1(InstructionOperand& rs, InstructionOperand& rt) {
+	*(rs.memoryPtr) = *((double*)rt.memoryPtr);
+}
+//rs is a int register -> need compile here
+void TwoArgInstruction::mtc1(InstructionOperand& rs, InstructionOperand& rt) {
+	*((double*)rt.memoryPtr) = *(rs.memoryPtr);
+}
+
+void TwoArgInstruction::cvtws(InstructionOperand& rs, InstructionOperand& rt) {
+	*((double*)rs.memoryPtr) = *(rt.memoryPtr);
+}
+
+//void TwoArgInstruction::cvtsw(InstructionOperand& rs, InstructionOperand& rt) {
+//	*((double*)rt.memoryPtr) = *(rs.memoryPtr);
+//}

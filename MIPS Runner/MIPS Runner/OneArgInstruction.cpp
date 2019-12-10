@@ -7,6 +7,9 @@ OneArgInstruction::OneArgInstruction(TokenList& tokenList)
 	if (strcmp("j", tokenList[0]) == 0) function = j;
 	if (strcmp("jr", tokenList[0]) == 0) function = j;
 	if (strcmp("jal", tokenList[0]) == 0) function = jal;
+	if (strcmp("bc1f", tokenList[0]) == 0) function = bc1f;
+	if (strcmp("bc1t", tokenList[0]) == 0) function = bc1t;
+
 	
 	if (!function)
 		throw std::string("cannot resolve \"") + std::string(tokenList[0]) + std::string("\"");
@@ -29,4 +32,16 @@ void OneArgInstruction::jal(InstructionOperand& address) {
 	InstructionOperand ra("$ra");
 	*(ra.memoryPtr) = *(pc.memoryPtr);
 	*(pc.memoryPtr) = *(address.memoryPtr);
+}
+
+void OneArgInstruction::bc1f(InstructionOperand& address) {
+	InstructionOperand $32("$32");
+	InstructionOperand pc("$pc");
+	if(*((double*)$32.memoryPtr) == 0)*(pc.memoryPtr) = *(address.memoryPtr);
+}
+
+void OneArgInstruction::bc1t(InstructionOperand& address) {
+	InstructionOperand $32("$32");
+	InstructionOperand pc("$pc");
+	if (*((double*)$32.memoryPtr) == 1)*(pc.memoryPtr) = *(address.memoryPtr);
 }

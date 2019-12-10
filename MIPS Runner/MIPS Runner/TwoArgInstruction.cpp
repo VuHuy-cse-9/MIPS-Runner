@@ -113,53 +113,53 @@ void TwoArgInstruction::la(InstructionOperand& rs, InstructionOperand& rt) {
 }
 
 void TwoArgInstruction::abss(InstructionOperand& rs, InstructionOperand& rt) {
-	*((float*)rs.memoryPtr) = fabs(*((float*)rt.memoryPtr));
+	*((double*)rs.memoryPtr) = fabs(*((double*)rt.memoryPtr));
 }
 
 void TwoArgInstruction::negs(InstructionOperand& rs, InstructionOperand& rt) {
-	*((float*)rs.memoryPtr) = -1 * *((float*)rt.memoryPtr);
+	*((double*)rs.memoryPtr) = -1 * *((double*)rt.memoryPtr);
 }
 
 void TwoArgInstruction::ceqs(InstructionOperand& rs, InstructionOperand& rt) {
 	InstructionOperand $32("$32");
-	*((float*)rs.memoryPtr) == *((float*)rt.memoryPtr) ? *((float*)$32.memoryPtr) = 1 : *((float*)$32.memoryPtr) = 0;
+	*((double*)rs.memoryPtr) == *((double*)rt.memoryPtr) ? *((double*)$32.memoryPtr) = 1 : *((double*)$32.memoryPtr) = 0;
 }
 
 void TwoArgInstruction::cles(InstructionOperand& rs, InstructionOperand& rt) {
 	InstructionOperand $32("$32");
-	*((float*)rs.memoryPtr) <= *((float*)rt.memoryPtr) ? *((float*)$32.memoryPtr) = 1 : *((float*)$32.memoryPtr) = 0;
+	*((double*)rs.memoryPtr) <= *((double*)rt.memoryPtr) ? *((double*)$32.memoryPtr) = 1 : *((double*)$32.memoryPtr) = 0;
 }
 
 void TwoArgInstruction::clts(InstructionOperand& rs, InstructionOperand& rt) {
 	InstructionOperand $32("$32");
-	*((float*)rs.memoryPtr) < *((float*)rt.memoryPtr) ? *((float*)$32.memoryPtr) = 1 : *((float*)$32.memoryPtr) = 0;
+	*((double*)rs.memoryPtr) < *((double*)rt.memoryPtr) ? *((double*)$32.memoryPtr) = 1 : *((double*)$32.memoryPtr) = 0;
 }
 
 void TwoArgInstruction::ls(InstructionOperand& rs, InstructionOperand& rt) {
-	*((float*)rs.memoryPtr) = *((float*)(rt.memoryPtr + rt.offset));
+	*((double*)rs.memoryPtr) = *((double*)(rt.memoryPtr + rt.offset));
 }
 
 void TwoArgInstruction::ss(InstructionOperand& rs, InstructionOperand& rt) {
-	 *((float*)(rt.memoryPtr + rt.offset)) = *((float*)rs.memoryPtr);
+	 *((double*)(rt.memoryPtr + rt.offset)) = *((double*)rs.memoryPtr);
 }
 
 void TwoArgInstruction::movs(InstructionOperand& rs, InstructionOperand& rt) {
-	*((float*)rs.memoryPtr) = *((float*)rt.memoryPtr);
+	*((double*)rs.memoryPtr) = *((double*)rt.memoryPtr);
 }
 
 //rs is a int register -> need compile here
 void TwoArgInstruction::mfc1(InstructionOperand& rs, InstructionOperand& rt) {
-	*(rs.memoryPtr) = *((float*)rt.memoryPtr);
+	*(rs.memoryPtr) = *((double*)rt.memoryPtr);
 }
 //rs is a int register -> need compile here
 void TwoArgInstruction::mtc1(InstructionOperand& rs, InstructionOperand& rt) {
-	*((float*)rt.memoryPtr) = *(rs.memoryPtr);
+	*((double*)rt.memoryPtr) = *(rs.memoryPtr);
 }
 
 void TwoArgInstruction::cvtws(InstructionOperand& rs, InstructionOperand& rt) {
-	*((float*)rs.memoryPtr) = *(rt.memoryPtr);
+	*((double*)rs.memoryPtr) = *(rt.memoryPtr);
 }
 
 //void TwoArgInstruction::cvtsw(InstructionOperand& rs, InstructionOperand& rt) {
-//	*((float*)rt.memoryPtr) = *(rs.memoryPtr);
+//	*((double*)rt.memoryPtr) = *(rs.memoryPtr);
 //}

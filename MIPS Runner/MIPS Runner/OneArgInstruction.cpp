@@ -37,11 +37,11 @@ void OneArgInstruction::jal(InstructionOperand& address) {
 void OneArgInstruction::bc1f(InstructionOperand& address) {
 	InstructionOperand $32("$32");
 	InstructionOperand pc("$pc");
-	if(*((float*)$32.memoryPtr) == 0)*(pc.memoryPtr) = *(address.memoryPtr);
+	if(*((double*)$32.memoryPtr) == 0)*(pc.memoryPtr) = *(address.memoryPtr);
 }
 
 void OneArgInstruction::bc1t(InstructionOperand& address) {
 	InstructionOperand $32("$32");
 	InstructionOperand pc("$pc");
-	if (*((float*)$32.memoryPtr) == 1)*(pc.memoryPtr) = *(address.memoryPtr);
+	if (*((double*)$32.memoryPtr) == 1)*(pc.memoryPtr) = *(address.memoryPtr);
 }

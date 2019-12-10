@@ -19,6 +19,7 @@ private:
 	int stackMemoryPointer;
 
 	int* registerMemory;
+	double* floating_pointRegisterMemory;
 
 	static SmartPointer<MemoryManager> instance;
 
@@ -28,7 +29,6 @@ private:
 
 	friend class UIManager;
 public:
-	float* floating_pointRegisterMemory;
 	static const int REGISTER_MEMORY_SIZE;
 	static const int FLOATINGPOINTREGISTER_MEMORY_SIZE;
 	static const char* REGISTER_NAME[];
@@ -47,7 +47,7 @@ public:
 		return returnPointer;
 	}
 	int* getRegister(const char*);
-	float* getFloatingPointRegister(const char*);
+	double* getFloatingPointRegister(const char*);
 	void log();
 	void storeString(char*);
 };

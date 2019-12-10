@@ -1,3 +1,7 @@
 .data
+x: .word 1, 2, 3
 .text
-add.s $f0, $f1, $f2
+j lab
+addi $s0, $0, 1
+lab:
+li $t0, 10

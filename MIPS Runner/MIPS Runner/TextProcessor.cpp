@@ -7,39 +7,21 @@ TextProcessor::TextProcessor() {
 	sourceCodeSize = 0;
 	lineCount = 0;
 	textSegmentBeginLine = 0;
+
+	src = nullptr;
+}
+
+TextProcessor::~TextProcessor() {
+	delete[] sourceCode;
+	for (int i = 0; src[i]; ++i)
+		delete[] src[i];
+	delete[] src;
 }
 
 TextProcessor* TextProcessor::getInstance() {
 	if (!instance)
 		instance = new TextProcessor;
 	return instance;
-}
-
-Instruction* TextProcessor::parseLineToInstruction(char* line) {
-	Instruction* instruction = nullptr;	
-	
-	TokenList tokenList(line);
-
-	int numberOfArgument = tokenList.size() - 1;
-	switch (numberOfArgument) {
-	case 0:
-		instruction = new ZeroArgInstruction(tokenList);
-		break;
-	case 1:
-		instruction = new OneArgInstruction(tokenList);
-		break;
-	case 2:
-		instruction = new TwoArgInstruction(tokenList);
-		break;
-	case 3:
-		instruction = new ThreeArgInstruction(tokenList);
-		break;
-	default:
-		throw std::string("\"") + std::string(line) + std::string("\" have to many arguments");
-		break;
-	}
-
-	return instruction;
 }
 
 bool TextProcessor::isSpacing(char c) {
@@ -64,12 +46,121 @@ char* TextProcessor::lineEnd(char* line) {
 	return line;
 }
 
+int TextProcessor::countLine(const char* source) {
+	if (!*source)
+		return 0;
+
+	int count = 1;
+	for (int i = 0; source[i]; ++i)
+		count += (source[i] == '\n');
+	return count;
+}
+
 void TextProcessor::markComment(char*& line) {
 	for (int i = 0; line[i]; ++i)
 		if (line[i] == '#') {
 			line[i] = '\0';
 			break;
 		}
+}
+
+Instruction* TextProcessor::parseLineToInstruction(char* line) {
+	Instruction* instruction = nullptr;	
+	TokenList tokenList(line);
+	int numberOfArgument = tokenList.size() - 1;
+
+	switch (numberOfArgument) {
+	case 0:
+		instruction = new ZeroArgInstruction(tokenList);
+		break;
+	case 1:
+		instruction = new OneArgInstruction(tokenList);
+		break;
+	case 2:
+		instruction = new TwoArgInstruction(tokenList);
+		break;
+	case 3:
+		instruction = new ThreeArgInstruction(tokenList);
+		break;
+	default:
+		throw std::string("\"") + std::string(line) + std::string("\" have to many arguments");
+		break;
+	}
+
+	return instruction;
+}
+
+char** TextProcessor::processData(char** src) {
+	char** currentLine = src;
+	while (*currentLine) {
+		++currentLine;
+		if (strcmp(*(currentLine - 1), ".data") == 0) break;
+	}
+
+	while (*currentLine) 
+		if (strcmp(*currentLine, ".text") != 0) {
+			try {
+				DataAnalyse execute(*currentLine);
+			}
+			catch (std::string message) {
+				throw std::string("line ") + std::to_string(currentLine - src + 1) + std::string(":\t\t") + message;
+			}
+			++currentLine;
+		}
+		else break;
+
+	return currentLine;
+}
+
+void TextProcessor::processLabel(char** currentLine, Instruction**& instructionList) {
+	int index = -1;
+	while (*currentLine) {
+		TokenList tokenList(*currentLine);
+		++currentLine;
+		++index;
+
+		if (tokenList.size() != 1) continue;
+		if (strcmp(tokenList[0], "syscall") == 0) continue;
+
+		try {
+			Instruction* instruction = new ZeroArgInstruction(tokenList);
+			InstructionOperand pc("$pc");
+			*pc.memoryPtr = (currentLine - src) - textSegmentBeginLine - 2;
+			instruction->execute();
+			instructionList[index] = instruction;
+		}
+		catch (std::string message) {
+			throw std::string("line ") + std::to_string(currentLine - src + 1) + std::string(":\t\t") + message;
+		}
+	}
+}
+
+void TextProcessor::processInstruction(char** currentLine, Instruction**& instructionList, int& instructionListSize) {
+	int index = -1;
+	while (*currentLine) {
+		TokenList tokenList(*currentLine);
+		++currentLine;
+		++index;
+
+		if (tokenList.size() == 1 && strcmp(tokenList[0], "syscall") != 0) continue;
+		try {
+			instructionList[index] = parseLineToInstruction(*(currentLine - 1));
+		}
+		catch (std::string message) {
+			throw std::string("line ") + std::to_string(currentLine - src + 1) + std::string(":\t\t") + message;
+		}
+	}
+	instructionListSize = index + 1;
+}
+
+void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, int& _instructionListSize) {
+	_instructionList = new Instruction * [countLine(sourceCode)];
+	
+	// *currentLine = ".text"
+	char** currentLine = processData(src);
+	textSegmentBeginLine = currentLine - src;
+	processLabel(currentLine + 1, _instructionList);
+	processInstruction(currentLine + 1, _instructionList, _instructionListSize);
 }
 
 bool TextProcessor::extractLabel(char*& destination, char*& source) {
@@ -81,6 +172,7 @@ bool TextProcessor::extractLabel(char*& destination, char*& source) {
 		for (i = 0; source[i]; ++i) {
 			if (source[i] == ':' && !inQuote) {
 				isLabel = true;
+
 				break;
 			}
 
@@ -190,60 +282,26 @@ void TextProcessor::standarize() {
 	
 	delete[] sourceCodeBegin;
 	sourceCode = formatedSourceCode;
-}
 
-void TextProcessor::recognizeDataText(Instruction**& _instructionList, char* line,int& instructionCount) {
-	static int recognizerMode = -1;
-	if (strcmp(line, ".data") == 0) {
-		recognizerMode = 0;
-		return;
-	}
-	if (strcmp(line, ".text") == 0) {
-		recognizerMode = 1;
-		textSegmentBeginLine = lineCount;
-		return;
-	}
-	if (recognizerMode == 0) {
-		DataAnalyse executeData(line);
-	}
-	if (recognizerMode == 1) {
-		_instructionList[instructionCount] = parseLineToInstruction(line);
-		++instructionCount;
+	src = new char* [countLine(sourceCode) + 1];
+	src[0] = nullptr;
+
+	int index = 0;
+	char* beginLine = sourceCode;
+	while (*beginLine) {
+		char* endLine = lineEnd(beginLine);
+
+		src[index] = new char[endLine - beginLine + 1];
+		src[index][endLine - beginLine] = '\0';
+		for (int i = 0; beginLine + i != endLine; ++i)
+			src[index][i] = beginLine[i];
+
+		++index;
+		src[index] = nullptr;
+		beginLine = endLine + 1;
 	}
 }
 
-void TextProcessor::parseSourceToInstruction(Instruction**& _instructionList, int& _instructionListSize) {
-	// Count the number of instructions and allocate memory for them.
-	_instructionListSize = 0;
-	for (int i = 0; i < sourceCodeSize; ++i) 
-		if (sourceCode[i] == '\n') ++_instructionListSize;
-	_instructionList = new Instruction*[_instructionListSize];
-
-	//  Extract line from source code to parse it.
-	char* line = new char[MAX_LINE_LENGTH];
-	int begin = 0;
-	int instructionCount = 0;
-	lineCount = 0;
-	for (int i = 0; i < sourceCodeSize; ++i) 
-		if (sourceCode[i] == '\n') {
-			for (int j = 0; j < i - begin; ++j) 
-				line[j] = sourceCode[begin + j];
-			line[i - begin] = 0;
-			//seperate here
-
-			++lineCount;
-			try {
-				recognizeDataText(_instructionList, line, instructionCount);
-			}
-			catch (std::string message) {
-				throw std::string("line ") + std::to_string(lineCount) + std::string(":\t\t") + message;
-			}
-
-			begin = i + 1;
-		}
-	_instructionListSize = instructionCount;
-	delete[] line;
-}
 
 // TODO: replace constant "source.mips" with dynamic file name.
 void TextProcessor::readSourceFile() {
@@ -267,8 +325,4 @@ void TextProcessor::readSourceFile() {
 	sourceCode[sourceCodeSize] = 0;
 
 	standarize();
-}
-
-TextProcessor::~TextProcessor() {
-	delete[] sourceCode;
 }

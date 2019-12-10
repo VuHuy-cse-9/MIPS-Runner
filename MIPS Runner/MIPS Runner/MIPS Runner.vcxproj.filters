@@ -103,7 +103,19 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="source.mips">
+    <None Include="Dat.asm">
+      <Filter>Test Data</Filter>
+    </None>
+    <None Include="Khanh.asm">
+      <Filter>Test Data</Filter>
+    </None>
+    <None Include="Long.asm">
+      <Filter>Test Data</Filter>
+    </None>
+    <None Include="Soi.asm">
+      <Filter>Test Data</Filter>
+    </None>
+    <None Include="source.asm">
       <Filter>Test Data</Filter>
     </None>
   </ItemGroup>

@@ -43,6 +43,8 @@ char DataAnalyse::parseBackslash(char c) {
 		return '\t';
 	case 'v':
 		return '\v';
+	case '0':
+		return '\0';
 	}
 	return ' ';
 }

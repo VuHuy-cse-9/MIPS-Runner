@@ -19,6 +19,7 @@ public:
 	Instruction** instructionList;
 
 	static Processor* getInstance();
+	void prepare();
 	int run(); 
 	int runNextInstruction();
 	bool programEnded();

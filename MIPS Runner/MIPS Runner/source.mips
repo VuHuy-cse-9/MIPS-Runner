@@ -1,4 +1,0 @@
-.data
-.text
-addi $v0,$zero,8
-syscall

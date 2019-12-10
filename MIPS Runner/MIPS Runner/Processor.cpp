@@ -6,12 +6,17 @@ Processor::Processor()
 	: pc("$pc") {
 	instructionList = nullptr;
 	instructionListSize = 0;
+	*pc.memoryPtr = 0;
 }
 
 Processor* Processor::getInstance() {
 	if (!instance) 
 		instance = new Processor;
 	return instance;
+}
+
+void Processor::prepare() {
+	*pc.memoryPtr = 0;
 }
 
 int Processor::runNextInstruction() {

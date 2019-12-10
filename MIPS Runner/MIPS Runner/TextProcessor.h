@@ -26,19 +26,26 @@ private:
 	int lineCount;
 	int textSegmentBeginLine;
 
+	char** src;
+
 	TextProcessor();
 	TextProcessor(const TextProcessor&) = delete;
 
 	bool isSpacing(char);
 	bool isEmptyLine(const char*);
 	char* lineEnd(char*);
+	int countLine(const char*);
+
 	void markComment(char*&);
 	bool extractLabel(char*&, char*&);
 	bool extractOpCode(char*&, char*&);
 	bool extractArgument(char*&, char*&);
 	void standarize(char*&);
 	void standarize();
-	void recognizeDataText(Instruction**&, char*, int&);
+
+	char** processData(char**);
+	void processLabel(char**, Instruction**&);
+	void processInstruction(char**, Instruction**&, int&);
 	Instruction* parseLineToInstruction(char*);
 
 	static SmartPointer<TextProcessor> instance;

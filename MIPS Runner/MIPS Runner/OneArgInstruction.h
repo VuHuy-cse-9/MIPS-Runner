@@ -13,6 +13,8 @@ private:
 
 	static void j(InstructionOperand&);
 	static void jal(InstructionOperand&);
+	static void bc1f(InstructionOperand&);
+	static void bc1t(InstructionOperand&);
 public:
 
 	OneArgInstruction(TokenList&);

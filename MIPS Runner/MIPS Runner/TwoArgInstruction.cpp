@@ -43,7 +43,15 @@ TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
 			throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be a register or a variable label");
 		else
 			return;
-
+	if (strcmp(tokenList[0], "abs.s") == 0) this->function = abss;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "neg.s") == 0) this->function = negs;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "c.eq.s") == 0) this->function = ceqs;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "c.le.s") == 0) this->function = cles;
+	//TODO:Compile
+	if (strcmp(tokenList[0], "c.lt.s") == 0) this->function = clts;
 	if (!function)
 		throw std::string("cannot resolve \"") + std::string(tokenList[0]) + std::string("\"");
 }
@@ -89,3 +97,27 @@ void TwoArgInstruction::lw(InstructionOperand& rs, InstructionOperand& rt) {
 void TwoArgInstruction::la(InstructionOperand& rs, InstructionOperand& rt) {
 	*(rs.memoryPtr) = (int) rt.memoryPtr;
 }
+
+void TwoArgInstruction::abss(InstructionOperand& rs, InstructionOperand& rt) {
+	*((float*)rs.memoryPtr) = fabs(*((float*)rt.memoryPtr));
+}
+
+void TwoArgInstruction::negs(InstructionOperand& rs, InstructionOperand& rt) {
+	*((float*)rs.memoryPtr) = -1 * *((float*)rt.memoryPtr);
+}
+
+void TwoArgInstruction::ceqs(InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand $32("$32");
+	*((float*)rs.memoryPtr) == *((float*)rt.memoryPtr) ? *((float*)$32.memoryPtr) = 1 : *((float*)$32.memoryPtr) = 0;
+}
+
+void TwoArgInstruction::cles(InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand $32("$32");
+	*((float*)rs.memoryPtr) <= *((float*)rt.memoryPtr) ? *((float*)$32.memoryPtr) = 1 : *((float*)$32.memoryPtr) = 0;
+}
+
+void TwoArgInstruction::clts(InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand $32("$32");
+	*((float*)rs.memoryPtr) < *((float*)rt.memoryPtr) ? *((float*)$32.memoryPtr) = 1 : *((float*)$32.memoryPtr) = 0;
+}
+

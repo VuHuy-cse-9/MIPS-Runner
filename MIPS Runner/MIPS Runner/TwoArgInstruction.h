@@ -3,6 +3,7 @@
 #include "Instruction.h"
 #include "TokenList.h"
 #include "InstructionOperand.h"
+#include <cmath>
 
 // PROBLEM: sw require address of rt.
 class TwoArgInstruction : public Instruction {
@@ -17,6 +18,14 @@ protected:
 	static void sw(InstructionOperand&, InstructionOperand&);
 	static void lw(InstructionOperand&, InstructionOperand&);
 	static void la(InstructionOperand&, InstructionOperand&);
+
+	static void abss(InstructionOperand&, InstructionOperand&);
+	static void negs(InstructionOperand&, InstructionOperand&);
+	static void ceqs(InstructionOperand&, InstructionOperand&);
+	static void cles(InstructionOperand&, InstructionOperand&);
+	static void clts(InstructionOperand&, InstructionOperand&);
+
+	
 public:
 
 	TwoArgInstruction(TokenList&);

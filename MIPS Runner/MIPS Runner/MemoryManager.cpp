@@ -75,7 +75,6 @@ void MemoryManager::log() {
 			std::cout << REGISTER_BASIC_NAME[i] << "\t\t" << REGISTER_NAME[i] << "\t\t" << *(int*)(this->stackMemory + this->stackMemoryPointer) << '\n';
 }
 
-//still bug here
 void MemoryManager::storeString(char* _buffer) {
 	InstructionOperand a0("$a0");
 	char* ptr = (char*)*a0.memoryPtr;

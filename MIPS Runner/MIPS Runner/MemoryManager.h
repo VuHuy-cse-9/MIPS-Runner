@@ -19,7 +19,6 @@ private:
 	int stackMemoryPointer;
 
 	int* registerMemory;
-	float* floating_pointRegisterMemory;
 
 	static SmartPointer<MemoryManager> instance;
 
@@ -29,6 +28,7 @@ private:
 
 	friend class UIManager;
 public:
+	float* floating_pointRegisterMemory;
 	static const int REGISTER_MEMORY_SIZE;
 	static const int FLOATINGPOINTREGISTER_MEMORY_SIZE;
 	static const char* REGISTER_NAME[];

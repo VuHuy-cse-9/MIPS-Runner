@@ -97,9 +97,10 @@ InstructionOperand::InstructionOperand(const char* _token) {
 		return;
 	}
 
+	//this->memoryPtr are keep address memory of float
 	this->memoryPtr = (int*)MemoryManager::getInstance()->getFloatingPointRegister(_token);
 	if (this->memoryPtr) {
-		//TODO:Toan do something to compile
+		//TODO:For compile
 		return;
 	}
 

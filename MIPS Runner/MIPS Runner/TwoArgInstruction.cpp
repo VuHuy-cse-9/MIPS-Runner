@@ -169,7 +169,7 @@ void TwoArgInstruction::cvtws(InstructionOperand& rs, InstructionOperand& rt) {
 //}
 
 void TwoArgInstruction::bgez(InstructionOperand& rs, InstructionOperand& rt) {
-	InstructionOperand pc("pc");
+	InstructionOperand pc("$pc");
 	if (*rs.memoryPtr >= 0)  *pc.memoryPtr = *rt.memoryPtr;
 }
 
@@ -178,7 +178,7 @@ void TwoArgInstruction::Not(InstructionOperand& rs, InstructionOperand& rt) {
 }
 
 void TwoArgInstruction::beqz(InstructionOperand& rs, InstructionOperand& rt) {
-	InstructionOperand pc("pc");
+	InstructionOperand pc("$pc");
 	if (*rs.memoryPtr == 0)  *pc.memoryPtr = *rt.memoryPtr;
 }
 

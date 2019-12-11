@@ -51,17 +51,14 @@ void ZeroArgInstruction::syscall(InstructionOperand& address) {
 		break;
 	case 5:
 		// READ_INT
-		std::cout << "Input interger: ";
 		std::cin >> *v0.memoryPtr;
 		break;
 	case 6:
 		//READ_FLOAT
-		std::cout << "Input real number: ";
 		std::cin >> *((float*)f0.memoryPtr);
 		break;
 	case 8: 
 		//READ_STRING
-		std::cout << "Input string: ";
 		storeToStringMemory();
 		break;
 	case 10:

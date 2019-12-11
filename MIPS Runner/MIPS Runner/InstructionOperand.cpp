@@ -1,6 +1,18 @@
 #include "InstructionOperand.h"
+#include <sstream>
 
 int InstructionOperand::toInt(const char* _token, bool& success) {
+	int size = strlen(_token);
+	if (size > 2 && _token[0] == '0' && _token[1] == 'x') {
+		std::stringstream ss;
+		ss << std::hex << _token;
+		unsigned int value;
+		ss >> value;
+		success = true;
+		return value;
+	}
+
+
 	int begin = 0;
 	int sign = 1;
 	if (_token[0] == '-') {
@@ -10,12 +22,8 @@ int InstructionOperand::toInt(const char* _token, bool& success) {
 
 	success = false;
 	for (int i = begin; _token[i]; ++i)
-		if (_token[i] < '0' || _token[i] > '9' && _token[i] != 'x') return 0;
+		if (_token[i] < '0' || _token[i] > '9') return 0;
 	success = true;
-
-	for (int i = 0; _token[i]; ++i) {
-		if (_token[i] == 'x') begin = i + 1;
-	}
 
 	int result = 0;
 	for (int i = begin; _token[i]; ++i) {

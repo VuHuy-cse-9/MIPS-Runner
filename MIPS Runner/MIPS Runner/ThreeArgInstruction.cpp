@@ -85,19 +85,19 @@ void ThreeArgInstruction::subu(InstructionOperand& rd, InstructionOperand& rs, I
 }
 
 void ThreeArgInstruction::And(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
-	*(rs.memoryPtr) = *(rs.memoryPtr) & *(rt.memoryPtr);
+	*((unsigned int*)rs.memoryPtr) = *((unsigned int*)rs.memoryPtr) & *((unsigned int*)rt.memoryPtr);
 }
 
 void ThreeArgInstruction::Or(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
-	*(rd.memoryPtr) = *(rs.memoryPtr) | *(rt.memoryPtr);
+	*((unsigned int*)rd.memoryPtr) = *((unsigned int*) rs.memoryPtr) | *((unsigned int*)rt.memoryPtr);
 }
 
 void ThreeArgInstruction::sll(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
-	*(rd.memoryPtr) = *(rs.memoryPtr) << *(rt.memoryPtr);
+	*((unsigned int*)rd.memoryPtr) = *((unsigned int*)rs.memoryPtr) << *((unsigned int*)rt.memoryPtr);
 }
 
 void ThreeArgInstruction::srl(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
-	*(rd.memoryPtr) = *(rs.memoryPtr) >> *(rt.memoryPtr);
+	*((unsigned int*)rd.memoryPtr) = *((unsigned int*)rs.memoryPtr) >> *((unsigned int*)rt.memoryPtr);
 }
 
 void ThreeArgInstruction::mul(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {

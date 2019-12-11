@@ -153,11 +153,11 @@ void TwoArgInstruction::movs(InstructionOperand& rs, InstructionOperand& rt) {
 
 //rs is a int register -> need compile here
 void TwoArgInstruction::mfc1(InstructionOperand& rs, InstructionOperand& rt) {
-	*(rs.memoryPtr) = *((float*)rt.memoryPtr);
+	*((float*)rs.memoryPtr) = *((float*)rt.memoryPtr);
 }
 //rs is a int register -> need compile here
 void TwoArgInstruction::mtc1(InstructionOperand& rs, InstructionOperand& rt) {
-	*((float*)rt.memoryPtr) = *(rs.memoryPtr);
+	*((float*)rt.memoryPtr) = *((float*)rs.memoryPtr);
 }
 
 void TwoArgInstruction::cvtws(InstructionOperand& rs, InstructionOperand& rt) {

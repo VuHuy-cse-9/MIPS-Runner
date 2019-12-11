@@ -14,6 +14,7 @@ class InstructionOperand
 {
 private:
 	bool haveToDeleteMemory;
+	int HexToDec(const char*, bool&);
 	int toInt(const char*, bool&);
 	double toDouble(const char*, bool&);
 	void parseRegisterWithOffSet(const char*);

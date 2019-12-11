@@ -7,6 +7,7 @@ TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
 
 	function = nullptr;
 	if (strcmp(tokenList[0], "abs.s") == 0) this->function = abss;
+	if (strcmp(tokenList[0], "abs") == 0) this->function = abss;
 	if (strcmp(tokenList[0], "neg.s") == 0) this->function = negs;
 	if (strcmp(tokenList[0], "c.eq.s") == 0) this->function = ceqs;
 	if (strcmp(tokenList[0], "c.le.s") == 0) this->function = cles;
@@ -40,8 +41,8 @@ TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
 
 	if (strcmp(tokenList[0], "sw") == 0) this->function = sw;
 	if (strcmp(tokenList[0], "lw") == 0) this->function = lw;
-	if (strcmp(tokenList[0], "l.s") == 0) this->function = ls;
-	if (strcmp(tokenList[0], "s.s") == 0) this->function = ss;
+	if (strcmp(tokenList[0], "lwc1") == 0) this->function = lwc1;
+	if (strcmp(tokenList[0], "swc1") == 0) this->function = swc1;
 	if (function)
 		if (!rt.signatureIs("Rw") && !rt.signatureIs("Lv"))
 			throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be an eclosed register \"offset(register name)\"");
@@ -138,13 +139,19 @@ void TwoArgInstruction::clts(InstructionOperand& rs, InstructionOperand& rt) {
 	*((float*)rs.memoryPtr) < *((float*)rt.memoryPtr) ? *((float*)$32.memoryPtr) = 1 : *((float*)$32.memoryPtr) = 0;
 }
 
-void TwoArgInstruction::ls(InstructionOperand& rs, InstructionOperand& rt) {
-	*((float*)rs.memoryPtr) = *(float*)((char*)(*rt.memoryPtr) + rt.offset);
+void TwoArgInstruction::lwc1(InstructionOperand& rs, InstructionOperand& rt) {
+	if (rt.signatureIs("Rb")) 
+		*((int*)rs.memoryPtr) = *(int*)((char*)(*rt.memoryPtr) + rt.offset);
+	else
+		*(int*)(rs.memoryPtr) = *(int*)(rt.memoryPtr);
 }
 
 
-void TwoArgInstruction::ss(InstructionOperand& rs, InstructionOperand& rt) {
-	*(float*)((char*)(*rt.memoryPtr) + rt.offset) = *((float*)rs.memoryPtr);
+void TwoArgInstruction::swc1(InstructionOperand& rs, InstructionOperand& rt) {
+	if (rt.signatureIs("Rw"))
+		*(int*)((char*)(*rt.memoryPtr) + rt.offset) = *((int*)rs.memoryPtr);
+	else
+		*(int*)(rt.memoryPtr) = *(int*)(rs.memoryPtr);
 }
 
 void TwoArgInstruction::movs(InstructionOperand& rs, InstructionOperand& rt) {

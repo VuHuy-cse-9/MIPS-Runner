@@ -14,14 +14,11 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& tokenList)
 	if (strcmp(tokenList[0], "addu") == 0) this->function = addu;
 	if (strcmp(tokenList[0], "subu") == 0) this->function = subu;
 	if (strcmp(tokenList[0], "slt") == 0) this->function = slt;
-	if (strcmp(tokenList[0], "or") == 0) this->function = Or;
-	if (strcmp(tokenList[0], "and") == 0) this->function = And;
 
 	if (strcmp(tokenList[0], "add.s") == 0) this->function = adds;
 	if (strcmp(tokenList[0], "sub.s") == 0) this->function = subs;
 	if (strcmp(tokenList[0], "mul.s") == 0) this->function = muls;
 	if (strcmp(tokenList[0], "div.s") == 0) this->function = divs;
-	if (strcmp(tokenList[0], "xor") == 0) this->function = Xor;
 
 	if (function)
 		if (!rt.signatureIs("Rb"))
@@ -59,6 +56,11 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& tokenList)
 			throw std::string("\"") + std::string(tokenList[3]) + std::string("\" have to be an instruction label or an integer");
 		else
 			return;
+
+	if (strcmp(tokenList[0], "and") == 0) this->function = And;
+	if (strcmp(tokenList[0], "or") == 0) this->function = Or;
+	if (strcmp(tokenList[0], "xor") == 0) this->function = Xor;
+
 	if (!function)
 		throw std::string("cannot resolve \"") + std::string(tokenList[0]) + std::string("\"");
 } 

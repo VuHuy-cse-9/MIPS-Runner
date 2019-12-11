@@ -114,7 +114,7 @@ LoopB2:	slt	$s5,$s0,$s4		#So sanh s5 co nho hon 23 bit khong ?
 	j	LoopB2
 A_BF_B:	bne	$t5,$t6,A_K_B
 	addi	$s4,$0,-1		# Exponent A = Exponent B => Ket qua phep (-) = 0 
-###### BUOC 3: Chuan hoa cac truong fraction v� exponent cua ket qua phep (+),(-)
+###### BUOC 3: Chuan hoa cac truong fraction và exponent cua ket qua phep (+),(-)
 IEEE:		
 	# Ket qua cua phep (+)
 	sll	$s6,$s6,31		# Chuyen bit Sign cua phep (+) vao dung vi tri

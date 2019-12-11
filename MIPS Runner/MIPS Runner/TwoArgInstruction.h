@@ -28,8 +28,8 @@ protected:
 	static void cles(InstructionOperand&, InstructionOperand&);
 	static void clts(InstructionOperand&, InstructionOperand&);
 
-	static void ls(InstructionOperand&, InstructionOperand&);
-	static void ss(InstructionOperand&, InstructionOperand&);
+	static void lwc1(InstructionOperand&, InstructionOperand&);
+	static void swc1(InstructionOperand&, InstructionOperand&);
 
 	static void movs(InstructionOperand&, InstructionOperand&);
 	static void mfc1(InstructionOperand&, InstructionOperand&);

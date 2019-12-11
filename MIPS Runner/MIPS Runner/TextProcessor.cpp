@@ -305,7 +305,7 @@ void TextProcessor::standarize() {
 
 // TODO: replace constant "source.mips" with dynamic file name.
 void TextProcessor::readSourceFile() {
-	std::ifstream inputFile("source.txt");
+	std::ifstream inputFile("source.asm");
 	
 	inputFile.seekg(0, inputFile.end);
 	sourceCodeSize = inputFile.tellg();

@@ -43,6 +43,7 @@ ThreeArgInstruction::ThreeArgInstruction(TokenList& tokenList)
 		else
 			return;
 
+	if (strcmp(tokenList[0], "bge") == 0) this->function = bge;
 	if (strcmp(tokenList[0], "beq") == 0) this->function = beq;
 	if (strcmp(tokenList[0], "bne") == 0) this->function = bne;
 
@@ -98,6 +99,11 @@ void ThreeArgInstruction::mul(InstructionOperand& rd, InstructionOperand& rs, In
 
 void ThreeArgInstruction::slt(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
 	*(rd.memoryPtr) = *(rs.memoryPtr) < *(rt.memoryPtr);
+}
+
+void ThreeArgInstruction::bge(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand pc("$pc");
+	if (*(rd.memoryPtr) >= *(rt.memoryPtr)) *pc.memoryPtr = *rt.memoryPtr;
 }
 
 void ThreeArgInstruction::beq(InstructionOperand& rd, InstructionOperand& rs, InstructionOperand& rt) {

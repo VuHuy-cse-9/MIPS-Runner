@@ -25,6 +25,7 @@ protected:
 	static void slt(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void beq(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void bne(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void bge(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 
 	//float function
 	static void adds(InstructionOperand&, InstructionOperand&, InstructionOperand&);

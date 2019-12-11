@@ -35,7 +35,12 @@ void UIManager::printRegisterData() {
 	for (int i = 0; i < MemoryManager::REGISTER_MEMORY_SIZE; ++i) {
 		std::cout << MemoryManager::REGISTER_BASIC_NAME[i] << '\t';
 		std::cout << MemoryManager::REGISTER_NAME[i] << '\t';
-		std::cout << *memoryManager->getRegister(MemoryManager::REGISTER_NAME[i]) << '\n';
+		if (i < MemoryManager::FLOATINGPOINTREGISTER_MEMORY_SIZE) {
+			std::cout << std::left << std::setw(15) << *memoryManager->getRegister(MemoryManager::REGISTER_NAME[i]);
+			std::cout << MemoryManager::FLOATING_POINT_BASIC_NAME[i] << '\t';
+			std::cout << *memoryManager->getFloatingPointRegister(MemoryManager::FLOATING_POINT_BASIC_NAME[i]) << '\n';
+		}
+		else std::cout << MemoryManager::REGISTER_NAME[i] << '\n';
 	}
 
 	printWall("");

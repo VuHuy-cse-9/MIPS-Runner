@@ -39,25 +39,29 @@ void ZeroArgInstruction::syscall(InstructionOperand& address) {
 	switch (*v0.memoryPtr) {
 	case 1:
 		// PRINT_INT
-		std::cout << *a0.memoryPtr;
+		std::cout << *a0.memoryPtr << '\n';
 		break;
 	case 2:
 		//PRINT_FLOAT
-		std::cout << *((float*)f12.memoryPtr);
+		std::cout << *((float*)f12.memoryPtr) << '\n';
+		break;
 	case 4:
 		// PRINT_STRING
-
-		std::cout << (char*)(*a0.memoryPtr);
+		std::cout << (char*)(*a0.memoryPtr) << '\n';
 		break;
 	case 5:
 		// READ_INT
+		std::cout << "Input interger: ";
 		std::cin >> *v0.memoryPtr;
 		break;
 	case 6:
 		//READ_FLOAT
+		std::cout << "Input real number: ";
 		std::cin >> *((float*)f0.memoryPtr);
+		break;
 	case 8: 
 		//READ_STRING
+		std::cout << "Input string: ";
 		storeToStringMemory();
 		break;
 	case 10:
@@ -65,7 +69,7 @@ void ZeroArgInstruction::syscall(InstructionOperand& address) {
 		throw 0;
 	case 11:
 		// PRINT_CHAR
-		std::cout << *(char*)(a0.memoryPtr);
+		std::cout << *(char*)(a0.memoryPtr) << '\n';
 		break;
 	case 12:
 		// READ_CHAR

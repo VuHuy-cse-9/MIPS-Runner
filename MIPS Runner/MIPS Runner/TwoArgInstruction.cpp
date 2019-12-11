@@ -51,7 +51,7 @@ TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
 	if (strcmp(tokenList[0], "move") == 0) this->function = move;
 	if (strcmp(tokenList[0], "mov.s") == 0) this->function = movs;
 	if (function)
-		if (!rt.signatureIs("Rb") || !rt.signatureIs("Lv"))
+		if (!rt.signatureIs("Rb") && !rt.signatureIs("Lv"))
 			throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be a register or a variable label");
 		else
 			return;
@@ -59,7 +59,7 @@ TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
 	if (strcmp(tokenList[0], "bgez") == 0) this->function = bgez;
 	if (strcmp(tokenList[0], "beqz") == 0) this->function = beqz;
 	if (function)
-		if (!rt.signatureIs("Li"))
+		if (!rt.signatureIs("Li") && !rt.signatureIs("Ii"))
 			throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be a label instruction or immediate interger");
 
 	//if (strcmp(tokenList[0], "cvt.s.w") == 0) this->function = cvtsw;

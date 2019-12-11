@@ -16,6 +16,7 @@ TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
 	if (strcmp(tokenList[0], "cvt.w.s") == 0) this->function = cvtws;
 	if (strcmp(tokenList[0], "mult") == 0) this->function = mult;
 	if (strcmp(tokenList[0], "div") == 0) this->function = div;
+	if (strcmp(tokenList[0], "not") == 0) this->function = Not;
 	if (function)
 		if (!rt.signatureIs("Rb"))
 			throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be a register");
@@ -50,10 +51,17 @@ TwoArgInstruction::TwoArgInstruction(TokenList& tokenList) :
 	if (strcmp(tokenList[0], "move") == 0) this->function = move;
 	if (strcmp(tokenList[0], "mov.s") == 0) this->function = movs;
 	if (function)
-		if (!rt.signatureIs("Rb") || rt.signatureIs("Lv"))
+		if (!rt.signatureIs("Rb") || !rt.signatureIs("Lv"))
 			throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be a register or a variable label");
 		else
 			return;
+
+	if (strcmp(tokenList[0], "bgez") == 0) this->function = bgez;
+	if (strcmp(tokenList[0], "beqz") == 0) this->function = beqz;
+	if (function)
+		if (!rt.signatureIs("Li"))
+			throw std::string("\"") + std::string(tokenList[2]) + std::string("\" have to be a label instruction or immediate interger");
+
 	//if (strcmp(tokenList[0], "cvt.s.w") == 0) this->function = cvtsw;
 	if (!function)
 		throw std::string("cannot resolve \"") + std::string(tokenList[0]) + std::string("\"");
@@ -90,11 +98,17 @@ void TwoArgInstruction::move(InstructionOperand& rs, InstructionOperand& rt) {
 }
 
 void TwoArgInstruction::sw(InstructionOperand& rs, InstructionOperand& rt) {
-	*(int*)((char*)(*rt.memoryPtr) + rt.offset) = *rs.memoryPtr;
+	if (rt.signatureIs("Rw"))
+		*(int*)((char*)(*rt.memoryPtr) + rt.offset) = *rs.memoryPtr;
+	if (rt.signatureIs("Lv"))
+		*rt.memoryPtr = *rs.memoryPtr;
 }
 
 void TwoArgInstruction::lw(InstructionOperand& rs, InstructionOperand& rt) {
-	*(rs.memoryPtr) = *(int*)((char*)(*rt.memoryPtr) + rt.offset);
+	if (rt.signatureIs("Rw"))
+		*(rs.memoryPtr) = *(int*)((char*)(*rt.memoryPtr) + rt.offset);
+	if (rt.signatureIs("Lv"))
+		*rs.memoryPtr = *rt.memoryPtr;
 }
 
 void TwoArgInstruction::la(InstructionOperand& rs, InstructionOperand& rt) {
@@ -153,3 +167,23 @@ void TwoArgInstruction::cvtws(InstructionOperand& rs, InstructionOperand& rt) {
 //void TwoArgInstruction::cvtsw(InstructionOperand& rs, InstructionOperand& rt) {
 //	*((float*)rt.memoryPtr) = *(rs.memoryPtr);
 //}
+
+void TwoArgInstruction::bgez(InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand pc("pc");
+	if (*rs.memoryPtr >= 0)  *pc.memoryPtr = *rt.memoryPtr;
+}
+
+void TwoArgInstruction::Not(InstructionOperand& rs, InstructionOperand& rt) {
+	*rs.memoryPtr = ~*rt.memoryPtr;
+}
+
+void TwoArgInstruction::beqz(InstructionOperand& rs, InstructionOperand& rt) {
+	InstructionOperand pc("pc");
+	if (*rs.memoryPtr == 0)  *pc.memoryPtr = *rt.memoryPtr;
+}
+
+
+
+
+
+

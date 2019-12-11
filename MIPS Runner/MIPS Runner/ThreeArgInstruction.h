@@ -26,6 +26,13 @@ protected:
 	static void beq(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void bne(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 	static void bge(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void ori(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void sra(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void Xor(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void blt(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+
+	static void bgt(InstructionOperand&, InstructionOperand&, InstructionOperand&);
+	static void ble(InstructionOperand&, InstructionOperand&, InstructionOperand&);
 
 	//float function
 	static void adds(InstructionOperand&, InstructionOperand&, InstructionOperand&);

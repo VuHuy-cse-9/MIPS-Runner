@@ -18,6 +18,9 @@ protected:
 	static void sw(InstructionOperand&, InstructionOperand&);
 	static void lw(InstructionOperand&, InstructionOperand&);
 	static void la(InstructionOperand&, InstructionOperand&);
+	static void bgez(InstructionOperand&, InstructionOperand&);
+	static void beqz(InstructionOperand&, InstructionOperand&);
+	static void Not(InstructionOperand&, InstructionOperand&);
 
 	static void abss(InstructionOperand&, InstructionOperand&);
 	static void negs(InstructionOperand&, InstructionOperand&);

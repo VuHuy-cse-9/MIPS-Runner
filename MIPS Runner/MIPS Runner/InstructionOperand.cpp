@@ -10,8 +10,12 @@ int InstructionOperand::toInt(const char* _token, bool& success) {
 
 	success = false;
 	for (int i = begin; _token[i]; ++i)
-		if (_token[i] < '0' || _token[i] > '9') return 0;
+		if (_token[i] < '0' || _token[i] > '9' && _token[i] != 'x') return 0;
 	success = true;
+
+	for (int i = 0; _token[i]; ++i) {
+		if (_token[i] == 'x') begin = i + 1;
+	}
 
 	int result = 0;
 	for (int i = begin; _token[i]; ++i) {

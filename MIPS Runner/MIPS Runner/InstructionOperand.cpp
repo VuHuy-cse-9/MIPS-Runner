@@ -60,7 +60,7 @@ double InstructionOperand::toDouble(const char* _token, bool& success) {
 }
 
 //TODO:need to update ($s3)
-void InstructionOperand::parseRegisterWithOffSet(const char* _token) {
+void InstructionOperand::parseRegisterWithOffSet(const char* _token) {			
 	bool isOffset = true;
 	int beginToken = 0;
 	for (int i = 0; i < strlen(_token); ++i) {

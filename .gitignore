@@ -4,3 +4,13 @@ MIPS Runner/MIPS Runner/Debug/
 MIPS Runner/.vs/
 MIPS Runner/MIPS Runner/x64/
 MIPS Runner/x64/
+Report/*.png
+Report/*.jpg
+Report/*.aux
+Report/*.synctex(busy)
+Report/*.bak
+Report/*.tex
+Report/*.log
+
+
+

@@ -9,7 +9,6 @@ Report/*.jpg
 Report/*.aux
 Report/*.synctex(busy)
 Report/*.bak
-Report/*.tex
 Report/*.log
 
 

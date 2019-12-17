@@ -176,7 +176,7 @@ main:
 	la	$a0, prompt4
 	li	$v0, 4
 	syscall
-	li	$v0, $s0
+	li	$v0, 2
 	syscall
 	j END
 	
@@ -198,8 +198,3 @@ main:
 	jr	$ra
 	
 	END:
-	
-	
-		
-		
-	 

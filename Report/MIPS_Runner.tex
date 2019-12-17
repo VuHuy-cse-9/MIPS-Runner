@@ -1,0 +1,272 @@
+\documentclass[10pt]{article}
+\usepackage[top = 1in, bottom = 1in, left = 1in, right = 1in]{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+
+% Header
+\pagestyle{fancy}
+\rhead{TickLab}
+\lhead{MIPS Runner}
+
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+\begin{Large}
+\begin{center}\textbf{TICKLAB}\end{center}
+\begin{center}
+\textbf{Documentary}
+\includegraphics[scale = 0.4]{tickLabLogo1.png}
+\end{center}
+\end{Large}
+
+\begin{flushleft}
+\begin{itemize}
+\begin{Large}
+\rule[10pt]{\textwidth}{1pt}
+\begin{Huge}
+\textbf{MIPS RUNNER}
+\end{Huge}
+\rule{\textwidth}{1pt}
+
+\vspace{1cm}
+\item[] \textbf{Developer: }
+	\begin{itemize}
+	\item[] Nguyen Thanh Toan.
+	\item[] Vu Nguyen Minh Huy. 
+	\end{itemize}
+\item[]\textbf{Instructor:}
+\begin{enumerate}
+\item[]	Huynh Hoang Kha.
+\end{enumerate}
+
+\end{Large}
+\end{itemize}
+\end{flushleft}
+
+\begin{center}
+\begin{Large}December 15th 2019 \end{Large}
+\end{center}
+\end{titlepage}
+\newpage
+
+% Table of contents
+\begin{Large}
+\tableofcontents
+\end{Large}
+\newpage
+
+% Contents
+
+\begin{large}
+\section{Idea}\label{idea}
+	\subsection{Initial Idea}
+    	\paragraph{} 
+    	    Assembly is a low-level programming language that affects registers directly. The execution of an assembly program will affect the operating status of the computer. This leads to the need for a virtual machine to simulate assembly program behavior. The popular virtual machine is the Java virtual machine.
+    	\paragraph{}
+    	    MIPS-Setting low-level machine language on C ++ that can translate and show users running each command.
+	\subsection{Main idea}
+        \begin{itemize}
+        	\item[]
+        	    Write a compile program to check for code syntax errors.
+        	\item[]
+        	    Identify and save labels to perform address jump commands.
+        	\item[]
+        	    Simulate components with 32 bit memory cells, store values.
+        	\item[]
+        	    After compile, put the register data register on the screen and each command (10 sentences) for the user to manipulate to run each command line.
+        \end{itemize}
+        
+\section{Research and development process}\label{R&D}
+	\subsection{Knowledge for research:}
+    	\subsubsection{Document}
+        	\begin{itemize}
+            	\item[] Computer organization and design 5th edition.
+            	\item[] Mr Dat's report.
+            	% TODO: add all reference links.
+            	\item[]Web documents.
+    	    \end{itemize}
+	    \subsubsection{Instructor}
+	        Huynh Hoang Kha.
+	    \subsubsection{The process of inquiry}
+            Some noticeable things:
+            \begin{itemize}
+                \item[-]
+                    Register.
+                \item[-]
+                    Instruction.
+                \item[-]
+                    The way computer executes variables.
+                \item[-]
+                    Initialize variable - load value into memory -Store in register - executes.
+                \item[-]
+                    How the computer processes loops by saving the address of the statement with a label.
+	        \end{itemize}
+	    \subsubsection{Figure}
+            \begin{flushleft}
+                \includegraphics[scale=0.3]{sodo.png}
+            \end{flushleft}
+    \subsection{Processing}
+    	\subsubsection{First outline}
+    	    \begin{itemize}
+            	\item[]
+            	    Read the code file from a text file.
+            	\item[]
+            	    Split into lines in the textProcessor file.
+            	\item[]
+            	    Split each line into tokens in the tokenList file.
+            	\item[]
+            	    Identify the tokens (Instruction, label) in the InstructionOperand file separately the data envelope (.data) and the commandtext area: will be processed separately to store variable labels.
+            	\item[]
+            	    Instruction is divided into 4 types:
+            	\begin{itemize}
+                	\item[-]
+                	    ThreeArgInstruction(three argument instruction).
+                	\item[-]
+                	    TwoArgInstruction(two argument instruction).
+                	\item[-]
+                	    OneArgInstruction(one argument instruction).
+                	\item[-]
+                	    ZeroArgInstruction(zero argument instruction).
+            	\end{itemize}
+            	\item[]
+            	    Each type of instruction has corresponding instructions which execute those instructions.
+            	\item[]
+            	    Register:
+            	\begin{itemize}
+                	\item[-]
+                	    Registers are stored in the memoryManager class.
+                	\item[-]
+                	    Simulate registers into two array functions of 35 elements and 31 elements (floating-point register) to store values.
+                	\item[-]
+                	    Particularly register value \$pc, is the order of lines commands are processed in the textProcessor class.
+            	\end{itemize}
+            	\item[]
+            	    Difficulty:
+            	\begin{itemize}
+                	\item[-]
+                	    To recognize token, when handling each line, tokens that do not recognize it is a immediate value or register values.
+                	\item[-]
+                	    The idea is only suitable when the labels are declared before the jump or jal command to the labels.
+                	\item[-]
+                	    Before processing the line must have a compile.
+                \end{itemize}
+            \end{itemize}
+        \subsubsection{Final idea}
+            \begin{itemize}
+            	\item[]
+            	    Right from the textProcessor file, identify the tokens as Immediate value, register, label, variable label.
+            	\item[]
+            	    Run the program before once to save the labels.
+            	\item[]
+            	    Add compile feature.
+            \end{itemize}
+\end{large}
+
+\begin{large}
+\section{Product}\label{product}
+    \subsection{Principle of operation}
+        \begin{itemize}
+            \item[]
+                Read a text file (source.asm) from textProcessor class. Then separate these sourecode line by line, save these lines to src (char **) to save each char * corresponding to 1 statement.
+            \item[]
+                Parse sourceCode into Instruction:
+                \begin{itemize}
+                    \item[-]
+                        Partition to declare data (.data) and write code (.text).
+                    \item[-]
+                        Identify the label.
+                    \item[-]
+                        Identify Instruction:
+                \end{itemize}
+            \item[]
+                Use the register pc to save the order of the current statement in the char** array.
+            \item[]
+                Use tokenList to split elements in the line into tokens, saved in token* array .
+            \item[]
+                Counts the number of elements in tokenList * to identify which Instruction type (Three, Two, One or Zero instruction) is.
+            \item[]
+                Compile:If the number of arguments in tokenList is more than 3, compile error.
+            
+            \item[]
+                Processing Instruction: e.g ThreeArgInstruction:
+                \begin{itemize}
+                    \item[-]
+                        Simulate 3 variables rd, rs, rt in class InstructionOperand.
+                    \item[-]
+                        This Instruction Operand class is responsible for assigning identification 7 symbols:
+                        \begin{itemize}
+                            \item[+]Variable label.
+                            \item[+]Label.
+                            \item[+]Register.
+                            \item[+]Floating-point register.
+                            \item[+]Integer.
+                            \item[+]Float.
+                            \item[+]Address.
+                        \end{itemize}
+                    \item[-]
+                        Identify the Instruction in ThreeArgInstruction:
+                        \begin{itemize}
+                            \item[+]
+                                Use the variables rs, rt, rd to access memory if it is a register (include memoryManager into InstructionOperand, use the pointer to access array to store Register data).
+                            \item[+]
+                                Compile: If in that Instruction, the identifiers of rs, rt cannot be exceeded (e.g. addi requires rt as immediate value = integer), an error will be displayed.
+                            \item[+]
+                                If it is immediate value, simulate a new variable different from the register memory cell.
+                        \end{itemize}
+                    \item[-]
+                        Identify the Instruction in OneArgInstruction: the labels have been saved the original address, when jumping, just change pc (saving the current location).
+                \end{itemize}
+            \item[]
+                Export values to the screen using UImanager class.
+        \end{itemize}
+    \subsection{Demonstration}
+        \begin{center}
+            \includegraphics[scale=0.35]{assembly.png}
+            Assembly
+            \includegraphics[scale=0.35]{sourceCodeImage.png}
+            Put Assembly on display
+            \includegraphics[scale=0.15]{compile.jpg}
+            Compile error
+            \includegraphics[scale=0.35]{runline.png}
+            \begin{itemize}
+                \item[]
+                    press 'n' to execute next line.
+                \item[]
+                    press 'u' to show line are executing (not executing).
+            \end{itemize}
+            \includegraphics[scale=0.35]{register.png}
+            press 'r' to show register memory.
+            \includegraphics[scale=0.35]{memory.png}
+            press 'v' to show variable memory.
+        \end{center}
+
+\section{Conclusion}\label{conclusion}
+    \begin{large}
+    \subsection{Summary}
+        \item[-] Completed most of comments of assembly.
+        \item[-]Comprehended how to write an assembly.
+        \item[-]Understand how a computer operated, organised and designed.
+    \subsection{Evaluating working processing:}.
+        \item[-]Applying Git for operating project.
+        \item[-]To aware the function of pare coding.
+        \item[-]Frequent Interaction for planning idea,evaluating progress.
+        \item[-]Comprehended the worthy value of using class,enhanced ability of. applying object oriented programming.
+    \subsection{Lesson after project:}
+        \item[-]Drawing an sufficient picture clearly before starting to code.
+        \item[-]Practicing enhancing ability of algorithm for dealing with problems fast,adaptive for fixing after.
+    \end{large}
+    
+\end{large}
+
+\begin{thebibliography}{}
+    \bibitem{} Computer Organization and Design, Fifth Edition: The Hardware/Software Interface (The Morgan Kaufmann Series in Computer Architecture and Design).
+
+\end{thebibliography}
+    
+\begin{center}\begin{Large}
+    This is the end of the report.
+\end{Large} \end{center}
+
+\end{document}

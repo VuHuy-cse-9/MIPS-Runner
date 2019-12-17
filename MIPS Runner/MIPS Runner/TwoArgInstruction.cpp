@@ -146,7 +146,6 @@ void TwoArgInstruction::lwc1(InstructionOperand& rs, InstructionOperand& rt) {
 		*(int*)(rs.memoryPtr) = *(int*)(rt.memoryPtr);
 }
 
-
 void TwoArgInstruction::swc1(InstructionOperand& rs, InstructionOperand& rt) {
 	if (rt.signatureIs("Rw"))
 		*(int*)((char*)(*rt.memoryPtr) + rt.offset) = *((int*)rs.memoryPtr);
